@@ -96,10 +96,10 @@ body::after{
 }
 .dockbtn:hover{border-color:var(--accent-line);background:rgba(15,22,23,.85)}
 
-.dockbtn .dk{font-size:13.5px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+.dockbtn .dk{display:flex;align-items:baseline;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
 .dockbtn .dk s{
-  display:block;text-decoration:none;font-family:var(--mono);font-size:9px;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;margin-top:1px;
+  text-decoration:none;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;
 }
 .dockbtn .bars{display:flex;flex-direction:column;gap:3px;margin-left:2px}
 .dockbtn .bars i{display:block;width:13px;height:1.5px;background:var(--ink-3);border-radius:1px;transition:background .16s,transform .26s cubic-bezier(.2,.8,.2,1),opacity .2s}
@@ -691,7 +691,9 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 }
 @media (max-width:860px){
   .ph-total{margin-left:0;width:100%}
-  .ph-edit select{min-width:92px}
+  .ph-edit select{min-width:96px;flex:0 0 auto}
+  .ph-days{width:64px;min-height:38px}
+  .ph-memo-in{flex:1 1 100%;min-height:38px}
 }
 
 .ph-wrap{max-width:900px;border:1px solid var(--rule);border-radius:var(--r);box-shadow:var(--shadow-s);overflow:hidden;margin-bottom:6px}
@@ -1677,7 +1679,8 @@ function linkTerms(root){
       if(!p) return NodeFilter.FILTER_REJECT;
       var tag=p.tagName;
       if(tag==='SCRIPT'||tag==='STYLE'||tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||tag==='OPTION') return NodeFilter.FILTER_REJECT;
-      if(p.closest('.term,.termpop,.gl-item,.no-term,.crumb,.micro,.tab,.room-tab,.dockbtn,.rail,label.fl,.vsum,.acc-head,.phase-sw,.plan-dday,.ph-day,h1,h2,.v-head p')) return NodeFilter.FILTER_REJECT;
+      if(p.closest('button,summary')) return NodeFilter.FILTER_REJECT;
+      if(p.closest('.term,.termpop,.gl-item,.no-term,.crumb,.micro,.tab,.room-tab,.dockbtn,.rail,label.fl,.vsum,.acc-head,.phase-sw,.size-sw,.size-note,.ph-edit,.ph-actions,.plan-dday,.ph-day,.plan-fold,.nc-when,h1,h2,.v-head p')) return NodeFilter.FILTER_REJECT;
       return NodeFilter.FILTER_ACCEPT;
     }
   });
