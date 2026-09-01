@@ -1,0 +1,2544 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="인테리어를 처음 맡기는 사람을 위한 진행판. 업체 고르는 기준부터 견적서 읽는 법, 22일 공정, 준공 하자 점검까지 실제 공사 기록에서 뽑은 순서와 판단 기준.">
+<meta name="theme-color" content="#06090A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="갈 것인가 수라의 길로">
+<meta property="og:description" content="인테리어를 처음 맡기는 사람의 순서와 판단 기준. 업체 선정부터 준공 하자 점검까지.">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2306090A'/%3E%3Cpath d='M6 20 L16 9 L26 20' fill='none' stroke='%2300E676' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M11 20v4h10v-4' fill='none' stroke='%2300E676' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>:root{color-scheme:dark}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>갈 것인가 수라의 길로</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --paper:#06090A; --panel:#111719; --panel-2:#18201F; --field:#0A0F10;
+  --ink:#F1F4F2; --ink-2:#99A29F; --ink-3:#5D6563;
+  --rule:#1E2726; --rule-soft:#161D1C;
+  --accent:#00E676; --accent-ink:#3DF08F; --accent-face:#00E676; --accent-on:#04170D;
+  --accent-soft:rgba(0,230,118,.11); --accent-line:rgba(0,230,118,.30);
+  --accent-2:#7FF0BB;
+  --green:#00E676; --green-soft:rgba(0,230,118,.11); --green-line:rgba(0,230,118,.30);
+  --amber:#E0B265; --amber-soft:rgba(224,178,101,.12); --amber-line:rgba(224,178,101,.32);
+  --red:#FF7A66; --red-soft:rgba(255,122,102,.11); --red-line:rgba(255,122,102,.30);
+  --glow:rgba(0,230,118,.34);
+  --shadow-s:0 1px 2px rgba(0,0,0,.5),0 4px 12px -8px rgba(0,0,0,.7);
+  --shadow-m:0 2px 6px rgba(0,0,0,.5),0 16px 34px -18px rgba(0,0,0,.85);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans KR","Pretendard","Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --rail:0px;
+  --r:2px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;color:var(--ink);
+  background:
+    radial-gradient(ellipse 120% 62% at 4% -10%, rgba(0,230,118,.045), transparent 54%),
+    var(--paper);
+  background-attachment:fixed;
+  font-family:var(--sans);font-size:14.5px;line-height:1.7;
+  word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ── 블러 아우라 ─────────────────── */
+.aura{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.aura i{position:absolute;display:block;border-radius:50%;filter:blur(130px)}
+.aura.hero-aura i:nth-child(1){left:-2%;top:-215%;width:46%;height:270%;background:#00E676;opacity:.42}
+.aura.hero-aura i:nth-child(2){left:38%;top:-205%;width:32%;height:250%;background:#00D6B0;opacity:.20}
+.aura.hero-aura i:nth-child(3){left:-16%;top:-170%;width:26%;height:210%;background:#4CFFB0;opacity:.13}
+.aura.hero-aura i:nth-child(4){left:66%;top:-198%;width:24%;height:230%;background:#0091FF;opacity:.07}
+.aura.band-aura i:nth-child(1){left:-4%;top:-250%;width:40%;height:300%;background:#00E676;opacity:.24}
+.aura.band-aura i:nth-child(2){left:32%;top:-240%;width:26%;height:280%;background:#00D6B0;opacity:.10}
+
+/* 미세 그레인 — 그라데이션 밴딩을 지운다 */
+body::after{
+  content:"";position:fixed;inset:0;z-index:80;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── 레일 ─────────────────────── */
+.rail{
+  position:fixed;left:0;top:0;bottom:0;width:262px;z-index:60;
+  background:rgba(9,13,14,.88);border-right:1px solid var(--rule);
+  backdrop-filter:blur(26px) saturate(1.3);-webkit-backdrop-filter:blur(26px) saturate(1.3);
+  display:flex;flex-direction:column;overflow-y:auto;
+  left:-280px;transition:left .38s cubic-bezier(.22,.9,.24,1);box-shadow:none;
+}
+.rail.open{left:0;box-shadow:24px 0 60px -30px rgba(0,0,0,.9)}
+.scrim{
+  position:fixed;inset:0;z-index:55;background:rgba(2,4,4,.5);
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+}
+.scrim.on{opacity:1;pointer-events:auto}
+
+/* 좌상단 플로팅 dock 버튼 */
+.dockbtn{
+  position:fixed;left:20px;top:18px;z-index:62;
+  display:flex;align-items:center;gap:10px;
+  background:rgba(11,16,17,.7);border:1px solid var(--rule);border-radius:var(--r);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  padding:8px 13px 8px 10px;cursor:pointer;color:var(--ink);
+  transition:border-color .16s,background .16s,opacity .3s ease,transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.dockbtn:hover{border-color:var(--accent-line);background:rgba(15,22,23,.85)}
+
+.dockbtn .dk{font-size:13.5px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+.dockbtn .dk s{
+  display:block;text-decoration:none;font-family:var(--mono);font-size:9px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;margin-top:1px;
+}
+.dockbtn .bars{display:flex;flex-direction:column;gap:3px;margin-left:2px}
+.dockbtn .bars i{display:block;width:13px;height:1.5px;background:var(--ink-3);border-radius:1px;transition:background .16s,transform .26s cubic-bezier(.2,.8,.2,1),opacity .2s}
+.dockbtn.open{border-color:var(--accent-line);background:rgba(15,22,23,.9)}
+.dockbtn.open .bars i{background:var(--accent)}
+.dockbtn.open .bars i:nth-child(1){transform:translateY(4.5px) rotate(45deg)}
+.dockbtn.open .bars i:nth-child(2){opacity:0}
+.dockbtn.open .bars i:nth-child(3){transform:translateY(-4.5px) rotate(-45deg)}
+.dockbtn:hover .bars i{background:var(--accent)}
+body.home-view .dockbtn{opacity:0;pointer-events:none}
+body.dock-open .dockbtn{opacity:0;pointer-events:none;transform:translateX(-10px)}
+body.home-view.intro-done .dockbtn{opacity:1;pointer-events:auto}
+.rail-top{padding:20px 18px 16px;border-bottom:1px solid var(--rule-soft);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.rail-close{background:none;border:0;color:var(--ink-3);cursor:pointer;padding:4px;line-height:0;margin:-2px -4px 0 0}
+.rail-close:hover{color:var(--accent)}
+.brand{display:flex;align-items:center;gap:9px;margin-bottom:3px;background:none;border:0;padding:0;cursor:pointer;color:inherit;text-align:left;width:100%}
+.brand:hover b{color:var(--accent-ink)}
+.brand b{transition:color .12s}
+.brand svg{flex:none}
+.brand b{font-size:15px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
+.brand-sub{font-size:12px;color:var(--ink-3);line-height:1.5}
+.rail-nav{padding:12px 10px;flex:1}
+.nav-stage{margin-bottom:14px}
+.nav-stage:last-child{margin-bottom:0}
+.stage-lab{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);padding:0 10px 5px;
+}
+.stage-lab i{font-style:normal;font-weight:600;color:var(--accent);opacity:.7}
+.stage-lab s{flex:1;height:1px;background:var(--rule-soft);text-decoration:none}
+.nav-btn{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  background:none;border:0;padding:8px 10px;border-radius:var(--r);cursor:pointer;
+  color:var(--ink-2);font-size:14px;transition:background .12s,color .12s;
+}
+.nav-btn:hover{background:var(--panel-2);color:var(--ink)}
+.nav-btn.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.nav-btn svg{flex:none;opacity:.8}
+.nav-btn .n-lab{flex:1;min-width:0}
+.dot{
+  flex:none;width:11px;height:11px;border-radius:50%;
+  border:1.5px solid var(--rule);background:transparent;position:relative;
+}
+.dot[data-s="part"]{border-color:var(--accent-line)}
+.dot[data-s="part"]::after{
+  content:"";position:absolute;inset:1px;border-radius:50%;
+  background:conic-gradient(var(--accent) 0 var(--p,50%), transparent var(--p,50%) 100%);
+}
+.dot[data-s="done"]{border-color:var(--green);background:var(--green)}
+.dot[data-s="done"]::after{
+  content:"";position:absolute;left:2.6px;top:.6px;width:2.6px;height:5.4px;
+  border:solid var(--panel);border-width:0 1.5px 1.5px 0;transform:rotate(43deg);
+}
+.rail-foot{padding:12px 16px 18px;border-top:1px solid var(--rule-soft)}
+.rail-foot p{margin:0;font-size:11.5px;line-height:1.6;color:var(--ink-3)}
+.mini-btn{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-3);
+  background:none;border:1px solid var(--rule);border-radius:var(--r);
+  padding:4px 9px;cursor:pointer;margin-top:9px;transition:color .12s,border-color .12s;
+}
+.mini-btn:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ── 본문 ─────────────────────── */
+.main{margin-left:0;min-height:100vh;padding:0 0 140px}
+.view{max-width:none;margin:0}
+.view[hidden]{display:none!important}
+
+.vband{
+  padding:92px 40px 0;position:relative;overflow:hidden;border-bottom:0;
+  background:linear-gradient(180deg, rgba(6,9,10,.28) 0%, rgba(6,9,10,.72) 52%, var(--paper) 100%);
+}
+.vband::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,
+    rgba(0,230,118,.9) 0%, rgba(0,230,118,.28) 22%, rgba(0,230,118,.06) 46%, transparent 68%);
+}
+.vband-in{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.crumb{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:20px;display:flex;align-items:center;gap:9px;
+}
+.crumb b{color:var(--accent);font-weight:600}
+.crumb svg{opacity:.45}
+.v-head{margin-bottom:0}
+.v-head h1{
+  font-size:clamp(31px,4.3vw,48px);font-weight:600;letter-spacing:-.036em;
+  line-height:1.13;margin:0 0 16px;text-wrap:balance;color:#fff;max-width:16em;
+}
+.v-head p{margin:0 0 40px;color:var(--ink-2);font-size:15.5px;max-width:680px;line-height:1.75}
+
+.vsum{
+  display:flex;align-items:center;gap:16px;padding:15px 20px;margin:0 0 -1px;
+  background:rgba(17,23,25,.66);border:1px solid var(--rule);border-bottom:0;
+  backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);
+  font-size:14px;line-height:1.55;
+}
+.vsum[data-s="part"]{
+  background:linear-gradient(100deg, rgba(0,230,118,.15) 0%, rgba(0,230,118,.03) 44%, transparent 68%), var(--panel);
+  border-color:rgba(0,230,118,.22);box-shadow:inset 2px 0 0 var(--accent);
+}
+.vsum[data-s="done"]{
+  background:linear-gradient(100deg, rgba(0,230,118,.26) 0%, rgba(0,230,118,.07) 38%, transparent 64%), rgba(17,23,25,.66);
+  border-color:rgba(0,230,118,.36);
+  box-shadow:inset 2px 0 0 var(--accent), 0 0 44px -22px rgba(0,230,118,.75);
+}
+.vsum .vs-t{flex:1;min-width:0;color:var(--ink-2)}
+.vsum .vs-t b{color:var(--ink);font-weight:600}
+.vsum[data-s="done"] .vs-t{color:var(--ink-2)}
+.vsum[data-s="done"] .vs-t b{color:#fff}
+.vsum .vs-n{
+  font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;flex:none;letter-spacing:.02em;
+}
+.vsum[data-s="part"] .vs-n{color:var(--accent)}
+.vsum[data-s="done"] .vs-n{color:var(--accent)}
+
+.vbody{max-width:1260px;margin:0 auto;padding:44px 40px 0}
+.vbody > .note,.vbody > .hint,.vbody > p{max-width:860px}
+h2.sub{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);margin:52px 0 16px;display:flex;align-items:center;gap:12px;
+}
+h2.sub::after{content:"";flex:1;height:1px;background:var(--rule)}
+.hint{font-size:13.5px;color:var(--ink-3);margin:-2px 0 18px;line-height:1.7}
+
+/* ── 공통 부품 ─────────────────── */
+.panel{background:linear-gradient(180deg,#151D1E,#0F1516);border:1px solid var(--rule);border-radius:var(--r);padding:20px 22px;margin-bottom:16px}
+.panel > :first-child{margin-top:0}
+.panel > :last-child{margin-bottom:0}
+.note{border-left:2px solid var(--accent);background:var(--accent-soft);padding:14px 18px;border-radius:0 var(--r) var(--r) 0;margin:20px 0;font-size:13.5px;line-height:1.72;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.note.calm{border-left-color:var(--ink-3);background:var(--panel-2)}
+.note.warn{border-left-color:var(--amber);background:var(--amber-soft)}
+.note.stop{border-left-color:var(--red);background:var(--red-soft)}
+.note b{font-weight:600}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#0FDB80 0%,#00C266 48%,#00A557 100%);color:var(--accent-on);border:0;border-radius:var(--r);
+  padding:10px 18px;font-size:13.5px;font-weight:600;cursor:pointer;transition:filter .14s,box-shadow .14s;box-shadow:0 0 0 0 rgba(0,230,118,0);
+}
+.btn:hover{filter:brightness(1.1);box-shadow:0 0 26px -8px rgba(0,230,118,.55)}
+.btn.ghost{background:none;color:var(--ink-2);border:1px solid var(--rule);font-weight:500}
+.btn.ghost:hover{color:var(--accent);border-color:var(--accent);filter:none}
+.btn.sm{padding:5px 11px;font-size:12.5px}
+label.fl{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+input[type=text],input[type=date],select,textarea{
+  width:100%;background:var(--field);border:1px solid var(--rule);border-radius:var(--r);
+  padding:10px 13px;font-size:14px;line-height:1.6;transition:border-color .12s;
+}
+textarea{resize:vertical;min-height:64px}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
+input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
+.row{display:grid;gap:12px;margin-bottom:12px}
+.row.c2{grid-template-columns:1fr 1fr}
+@media (max-width:640px){.row.c2{grid-template-columns:1fr}}
+
+.ck{display:flex;gap:10px;align-items:flex-start;padding:7px 9px;border-radius:var(--r);cursor:pointer;font-size:14px;line-height:1.6;transition:background .12s}
+.ck:hover{background:var(--panel-2)}
+.ck input{
+  appearance:none;-webkit-appearance:none;flex:none;width:16px;height:16px;margin:4px 0 0;
+  border:1.5px solid var(--ink-3);border-radius:var(--r);background:var(--field);cursor:pointer;position:relative;
+  transition:background .12s,border-color .12s;
+}
+.ck input:checked{background:var(--accent);border-color:var(--accent)}
+.ck input:checked::after{content:"";position:absolute;left:4.6px;top:1.4px;width:3.6px;height:8.2px;border:solid var(--panel);border-width:0 1.9px 1.9px 0;transform:rotate(43deg)}
+.ck input:checked + .ckt{color:var(--ink-3)}
+.ck input:checked + .ckt b{text-decoration:line-through;text-decoration-color:var(--rule)}
+.ckt b{font-weight:600;display:block}
+.ckt em{font-style:normal;color:var(--ink-2);font-size:13px;display:block;line-height:1.55;margin-top:1px}
+.ck input:checked + .ckt em{color:var(--ink-3)}
+
+/* ── 로고 ─────────────────────── */
+
+
+/* ── 대문 (스크롤 인트로) ─────────── */
+.main.home-mode{padding:0}
+.home{max-width:none}
+.hsec{position:relative;padding:0 44px;overflow:hidden}
+.hin{width:100%;max-width:1280px;margin:0 auto;position:relative;z-index:2}
+
+/* 모서리 크로스 마커 */
+.xm{position:absolute;width:13px;height:13px;color:var(--ink-3);opacity:.5;z-index:3;pointer-events:none}
+.xm::before,.xm::after{content:"";position:absolute;background:currentColor}
+.xm::before{left:6px;top:0;width:1px;height:13px}
+.xm::after{top:6px;left:0;height:1px;width:13px}
+.xm.tl{left:16px;top:16px}.xm.tr{right:16px;top:16px}
+.xm.bl{left:16px;bottom:16px}.xm.br{right:16px;bottom:16px}
+
+/* 마이크로 라벨 */
+.micro{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);line-height:1.9;
+}
+.micro.on{color:var(--accent)}
+
+/* 1. 히어로 */
+.h1sec{min-height:100svh;display:flex;flex-direction:column;justify-content:center;background:#020304;gap:clamp(28px,5vh,64px);padding-top:26px;padding-bottom:30px;position:relative}
+
+.h1mid{padding:0}
+.giant{
+  font-size:clamp(36px,8.4vw,182px);font-weight:700;line-height:1.02;
+  letter-spacing:-.058em;color:#fff;margin:0;
+}
+.giant span{display:block;overflow:hidden;padding:.08em 0 .16em;margin-bottom:-.14em}
+.giant i{display:block;font-style:normal;transform:translateY(116%);transition:transform 1.15s cubic-bezier(.16,.84,.24,1) .42s}
+.home.ready .giant i{transform:translateY(0)}
+.home.ready .giant span:nth-child(2) i{transition-delay:.55s}
+.h1bot{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.h1lead{font-size:15px;color:var(--ink-2);line-height:1.8;max-width:44ch;margin:0}
+.scrollcue{display:flex;align-items:center;gap:9px;color:var(--ink-3)}
+.scrollcue s{display:block;width:52px;height:1px;background:currentColor;text-decoration:none;position:relative;overflow:hidden}
+.scrollcue s::after{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-100%);animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%{transform:translateX(-100%)}55%{transform:translateX(100%)}100%{transform:translateX(100%)}}
+
+/* 오버추어 */
+.blobs{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  opacity:0;transform:scale(1.22);
+  transition:opacity 1.8s ease, transform 2.6s cubic-bezier(.16,.84,.24,1);
+}
+.home.ready .blobs{opacity:1;transform:none}
+.h1sec .xm{opacity:0;transition:opacity .9s ease 1.05s}
+.home.ready .h1sec .xm{opacity:.5}
+.h1bot{opacity:0;transform:translateY(18px);
+  transition:opacity 1s ease 1.25s, transform 1s cubic-bezier(.2,.8,.2,1) 1.25s}
+.home.ready .h1bot{opacity:1;transform:none}
+
+/* 블러 블롭 (패럴랙스) */
+.blob{position:absolute;border-radius:50%;filter:blur(150px);pointer-events:none;z-index:1}
+.b1{left:-14%;top:-58%;width:46%;height:104%;background:#00E676;opacity:.20}
+.b2{left:44%;top:-66%;width:32%;height:96%;background:#00D6B0;opacity:.10}
+.b3{left:16%;top:-24%;width:28%;height:74%;background:#3BFFA8;opacity:.06}
+
+/* 2. 숫자 */
+.h2sec{padding-top:12vh;padding-bottom:12vh;border-top:1px solid var(--rule)}
+.figs{display:grid;grid-template-columns:repeat(4,1fr);gap:34px;margin-top:44px}
+@media (max-width:900px){.figs{grid-template-columns:repeat(2,1fr);gap:30px}}
+.fig{border-top:1px solid var(--rule);padding-top:16px}
+.fig b{
+  display:block;white-space:nowrap;font-family:var(--mono);font-weight:600;
+  font-size:clamp(38px,5.6vw,74px);line-height:1;letter-spacing:-.045em;
+  color:#fff;font-variant-numeric:tabular-nums;
+}
+.fig b em{font-style:normal;color:var(--accent);font-size:.5em;margin-left:.1em;vertical-align:.55em}
+.fig > span{display:block;font-size:13px;color:var(--ink-2);margin-top:11px;line-height:1.55}
+.fig b .cnt{font:inherit;letter-spacing:inherit}
+
+/* 3. 편지 */
+.h3sec{padding-top:12vh;padding-bottom:11vh;border-top:1px solid var(--rule)}
+.h3grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:56px}
+@media (max-width:900px){.h3grid{grid-template-columns:1fr;gap:24px}}
+.h3side{position:sticky;top:34px;align-self:start}
+.letter{font-size:clamp(16px,1.35vw,19px);line-height:1.9;color:var(--ink-2);max-width:30em}
+.letter p{margin:0 0 26px;text-wrap:pretty}
+.letter p:last-child{margin-bottom:0}
+.letter b{color:#fff;font-weight:600}
+.letter .lead{font-size:1.18em;color:var(--ink);line-height:1.75}
+
+/* 4. 화면 카드 */
+.h4sec{padding-top:11vh;padding-bottom:12vh;border-top:1px solid var(--rule)}
+.home-cards{display:grid;grid-template-columns:1fr;margin-top:34px;border-top:1px solid var(--rule)}
+.hcard{
+  display:grid;grid-template-columns:44px 1fr minmax(0,1.1fr) 22px;align-items:center;gap:24px;
+  width:100%;background:none;border:0;border-bottom:1px solid var(--rule);
+  padding:24px 8px;cursor:pointer;color:inherit;text-align:left;position:relative;
+  transition:padding-left .3s cubic-bezier(.2,.8,.2,1),background .3s;
+}
+@media (max-width:760px){.hcard{grid-template-columns:34px 1fr;gap:14px;padding:18px 6px}.hcard .hc-d,.hcard .hc-go{display:none}}
+.hcard::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);
+  transform:scaleY(0);transform-origin:bottom;transition:transform .34s cubic-bezier(.2,.8,.2,1);
+}
+.hcard:hover::before{transform:scaleY(1);transform-origin:top}
+.hcard:hover{padding-left:22px;background:linear-gradient(90deg, rgba(0,230,118,.07), transparent 46%)}
+.hcard .hc-i{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.12em}
+.hcard:hover .hc-i{color:var(--accent)}
+.hcard .hc-nm{font-size:clamp(19px,2vw,27px);font-weight:600;letter-spacing:-.03em;color:#fff;display:flex;align-items:baseline;gap:10px}
+.hcard .hc-nm u{
+  text-decoration:none;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:400;
+}
+.hcard .hc-d{font-size:13.5px;color:var(--ink-2);line-height:1.6}
+.hcard .hc-go{color:var(--ink-3);transition:transform .3s,color .3s}
+.hcard:hover .hc-go{transform:translateX(5px);color:var(--accent)}
+
+/* 5. 맺음 */
+.h5sec{padding-top:11vh;padding-bottom:13vh;border-top:1px solid var(--rule);text-align:center}
+.h5sec .sig{font-size:clamp(24px,3.4vw,44px);font-weight:600;letter-spacing:-.035em;color:#fff;margin:0 0 12px}
+.h5sec .by{font-size:13.5px;color:var(--ink-3);margin:0 0 40px}
+.h5note{
+  max-width:620px;margin:44px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--ink-3);line-height:1.8;
+}
+
+/* 스크롤 진행 라인 */
+.sprog{position:fixed;left:0;right:0;top:0;height:2px;z-index:50;background:transparent}
+.sprog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#00E676,#00C463);box-shadow:0 0 12px rgba(0,230,118,.6)}
+
+/* 등장 */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+
+@media (prefers-reduced-motion:reduce){
+  .giant i{transform:none!important}
+  .rv{opacity:1!important;transform:none!important}
+  .scrollcue s::after{animation:none;transform:translateX(0)}
+}
+@media (max-width:860px){
+  .hsec{padding:0 18px}
+  .h1sec{padding-top:76px}
+  .h1sec{min-height:92svh}
+  .sprog{left:0}
+  .h2sec,.h3sec,.h4sec,.h5sec{padding-top:10vh;padding-bottom:10vh}
+}
+
+/* ── 용어 ─────────────────────── */
+.term{
+  background:none;border:0;padding:0;font:inherit;color:inherit;cursor:help;
+  border-bottom:1px dashed var(--accent-line);
+}
+.term:hover{color:var(--accent-ink);border-bottom-color:var(--accent)}
+.termpop{
+  position:fixed;z-index:70;max-width:330px;
+  background:rgba(14,20,21,.97);border:1px solid var(--accent-line);border-radius:var(--r);
+  box-shadow:0 18px 44px -18px rgba(0,0,0,.9);padding:14px 16px;
+  opacity:0;pointer-events:none;transform:translateY(5px);transition:opacity .16s,transform .16s;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.termpop.on{opacity:1;pointer-events:auto;transform:none}
+.termpop .tp-h{display:flex;align-items:baseline;gap:9px;margin-bottom:7px}
+.termpop .tp-h b{font-size:15px;font-weight:600;color:#fff;letter-spacing:-.02em}
+.termpop .tp-h s{
+  text-decoration:none;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);
+}
+.termpop p{margin:0;font-size:13px;line-height:1.7;color:var(--ink-2)}
+
+.gl-search{max-width:420px;margin-bottom:24px}
+.gl-group{margin-bottom:32px}
+.gl-cat{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;align-items:center;gap:11px;margin-bottom:12px;
+}
+.gl-cat s{flex:1;height:1px;background:var(--rule);text-decoration:none}
+.gl-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.gl-item{background:var(--panel);padding:15px 17px}
+.gl-item b{display:block;font-size:14.5px;font-weight:600;color:#fff;letter-spacing:-.02em;margin-bottom:4px}
+.gl-item span{display:block;font-size:13px;line-height:1.7;color:var(--ink-2)}
+.gl-empty{padding:30px;text-align:center;color:var(--ink-3);font-size:13.5px;border:1px dashed var(--rule)}
+
+/* 요청서 필드에 붙는 용어 칩 */
+.termchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;align-items:center}
+.termchips .tc-lab{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin-right:3px;
+}
+.termchips button{
+  background:rgba(0,230,118,.07);border:1px solid var(--accent-line);border-radius:var(--r);
+  padding:3px 10px;font-size:12px;color:var(--accent-ink);cursor:pointer;transition:all .14s;
+}
+.termchips button:hover{background:rgba(0,230,118,.16);color:var(--accent)}
+.termchips .tc-esc{
+  margin-left:auto;background:none;border:1px dashed var(--rule);color:var(--ink-3);
+  padding:3px 10px;font-size:12px;border-radius:var(--r);cursor:pointer;transition:all .14s;
+}
+.termchips .tc-esc:hover{border-style:solid;border-color:var(--ink-3);color:var(--ink-2);background:var(--panel-2)}
+
+/* ── 단계 스위치 ─────────────────── */
+.phase-sw{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);max-width:520px;margin:0 0 18px}
+.phase-sw button{
+  background:var(--panel);border:0;padding:13px 16px;text-align:left;cursor:pointer;color:var(--ink-3);
+  transition:background .16s,color .16s;
+}
+.phase-sw button:hover{background:var(--panel-2);color:var(--ink-2)}
+.phase-sw button b{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.02em}
+.phase-sw button span{display:block;font-size:12px;margin-top:2px;opacity:.8}
+.phase-sw button.on{
+  background:linear-gradient(100deg, rgba(0,230,118,.16) 0%, rgba(0,230,118,.04) 46%, transparent 72%), var(--panel);
+  color:var(--ink);box-shadow:inset 2px 0 0 var(--accent);
+}
+.phase-sw button.on b{color:#fff}
+
+/* 지금 해야 할 일 */
+.nowcard{
+  border:1px solid var(--accent-line);border-radius:var(--r);padding:20px 22px;margin:18px 0 6px;max-width:900px;
+  background:linear-gradient(120deg, rgba(0,230,118,.10) 0%, rgba(0,230,118,.025) 42%, transparent 70%), var(--panel);
+}
+.nowcard .nc-lab{
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;
+}
+.nowcard h3{font-size:20px;font-weight:600;letter-spacing:-.025em;margin:0 0 5px;color:#fff}
+.nowcard .nc-when{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-bottom:14px;font-variant-numeric:tabular-nums}
+.nowcard ul{margin:0;padding-left:17px}
+.nowcard li{font-size:13.5px;line-height:1.75;color:var(--ink-2);margin-bottom:4px}
+.nowcard li b{color:var(--ink);font-weight:600}
+.nowcard .nc-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.nc-next{
+  margin-top:14px;padding-top:13px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--ink-3);line-height:1.7;
+}
+.nc-next b{color:var(--ink-2);font-weight:600}
+
+/* ── 일정 ─────────────────────── */
+.plan{display:flex;flex-direction:column;margin-top:6px;max-width:920px}
+.plan-item{display:flex}
+.plan-gut{flex:none;width:96px;padding:15px 14px 15px 0;text-align:right}
+.plan-dday{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.plan-date{font-family:var(--mono);font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.plan-spine{flex:none;width:26px;position:relative}
+.plan-spine::before{content:"";position:absolute;left:11px;top:0;bottom:0;width:1.5px;background:var(--rule)}
+.plan-item:first-child .plan-spine::before{top:22px}
+.plan-item:last-child .plan-spine::before{bottom:calc(100% - 22px)}
+.plan-dot{position:absolute;left:6px;top:17px;width:11px;height:11px;border-radius:50%;background:var(--panel);border:2px solid var(--rule);z-index:1}
+.plan-body{flex:1;min-width:0;padding:14px 0 16px;border-bottom:1px solid var(--rule-soft)}
+.plan-item:last-child .plan-body{border-bottom:0}
+.plan-head{display:flex;align-items:flex-start;gap:10px;cursor:pointer;width:100%;background:none;border:0;padding:0;text-align:left;color:inherit}
+.plan-head:hover .plan-name{color:var(--accent-ink)}
+.plan-name{font-size:16px;font-weight:600;letter-spacing:-.012em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;transition:color .12s}
+.plan-desc{font-size:13.5px;color:var(--ink-2);line-height:1.6;margin-top:2px}
+.plan-chev{flex:none;color:var(--ink-3);margin-top:5px;transition:transform .18s}
+.plan-item.open .plan-chev{transform:rotate(180deg)}
+.plan-detail{margin-top:10px;padding:12px 14px;background:var(--panel);border:1px solid var(--rule-soft);border-radius:var(--r);box-shadow:var(--shadow-s)}
+.plan-item:not(.open) .plan-detail{display:none}
+.plan-detail ul{margin:0;padding-left:17px}
+.plan-detail li{font-size:13.5px;line-height:1.65;color:var(--ink-2);margin-bottom:3px}
+.plan-detail li:last-child{margin-bottom:0}
+.plan-detail li b{color:var(--ink);font-weight:600}
+.plan-go{
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--accent);
+  background:none;border:0;padding:9px 0 0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;
+}
+.plan-go:hover{text-decoration:underline}
+.plan-item[data-st="past"] .plan-body{opacity:.5}
+.plan-item[data-st="past"] .plan-dot{background:var(--rule);border-color:var(--rule)}
+.plan-item[data-st="now"] .plan-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 5px rgba(0,230,118,.16)}
+.plan-item[data-st="now"] .plan-body{
+  background:linear-gradient(98deg, rgba(0,230,118,.13) 0%, rgba(0,230,118,.035) 38%, transparent 64%);
+  box-shadow:inset 2px 0 0 var(--accent);padding-left:18px;padding-right:16px;margin-left:-6px;
+}
+.plan-item[data-st="now"] .plan-name{color:#fff}
+.plan-item[data-st="now"] .plan-dday{color:var(--accent)}
+.pill{
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 7px;border-radius:3px;background:var(--accent-soft);color:var(--accent-ink);
+  border:1px solid var(--accent-line);flex:none;
+}
+.pill.g{background:var(--green-soft);color:var(--green);border-color:var(--green-line)}
+.pill.a{background:var(--amber-soft);color:var(--amber);border-color:var(--amber-line)}
+.pill.r{background:var(--red-soft);color:var(--red);border-color:var(--red-line)}
+
+/* ── 요청서 ───────────────────── */
+.acc{max-width:860px;border:1px solid var(--rule);border-radius:var(--r);background:linear-gradient(180deg,#141B1C,#0F1516);margin-bottom:10px;overflow:hidden}
+.acc-head{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:13px 16px;cursor:pointer;text-align:left;font-size:14.5px;font-weight:600;letter-spacing:-.012em}
+.acc-head:hover{background:var(--panel-2)}
+.acc-head .chev{transition:transform .18s ease;flex:none;color:var(--ink-3)}
+.acc.open .acc-head .chev{transform:rotate(90deg)}
+.acc-head .fill{flex:1}
+.acc-head .cnt{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.acc-head .cnt.full{color:var(--green)}
+.acc-body{padding:2px 16px 16px;border-top:1px solid var(--rule-soft)}
+.acc:not(.open) .acc-body{display:none}
+.fgroup{margin:14px 0 0}
+.preview{
+  max-width:860px;background:var(--field);border:1px solid var(--rule);border-radius:var(--r);padding:16px 18px;
+  font-size:13px;line-height:1.75;white-space:pre-wrap;max-height:420px;overflow-y:auto;color:var(--ink-2);
+}
+.preview:empty::before{content:"위 항목을 채우면 여기에 업체에 보낼 요청서가 만들어집니다.";color:var(--ink-3)}
+.sticky-act{position:sticky;bottom:0;background:linear-gradient(transparent,rgba(6,9,10,.82) 34%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:20px 0 8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;max-width:860px}
+
+/* ── 업체 ─────────────────────── */
+.vend{max-width:900px;background:linear-gradient(180deg,#141B1C,#0F1516);border:1px solid var(--rule);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.vend-top{display:flex;gap:9px;align-items:center;padding:11px 13px;flex-wrap:wrap}
+.vend.open .vend-top{border-bottom:1px solid var(--rule-soft)}
+.vend-exp{background:none;border:0;color:var(--ink-3);cursor:pointer;padding:3px;line-height:0;flex:none}
+.vend-exp svg{transition:transform .18s}
+.vend.open .vend-exp svg{transform:rotate(90deg)}
+.vend-top input[type=text]{flex:1;min-width:120px;border:1px solid transparent;background:none;font-weight:600;font-size:15px;padding:4px 7px}
+.vend-top input[type=text]:hover{border-color:var(--rule-soft)}
+.vend-top input[type=text]:focus{background:var(--field);border-color:var(--accent)}
+.vend-top select{width:auto;padding:4px 9px;font-size:12.5px}
+.vend-score{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;flex:none;white-space:nowrap}
+.vend-score.good{color:var(--green)}
+.vend-score.bad{color:var(--red)}
+.icon-btn{background:none;border:0;color:var(--ink-3);cursor:pointer;padding:5px;border-radius:var(--r);line-height:0;flex:none}
+.icon-btn:hover{color:var(--accent);background:var(--panel-2)}
+.vend-body{padding:8px 8px 14px}
+.vend:not(.open) .vend-body{display:none}
+.vend-flags{display:flex;flex-wrap:wrap;gap:5px;padding:0 13px 11px}
+.vend:not(.open) .vend-flags{padding-bottom:11px}
+.vend-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media (max-width:700px){.vend-grid{grid-template-columns:1fr}}
+.vend-memo{padding:6px 7px 0}
+
+/* ── 견적 ─────────────────────── */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--rule);margin-bottom:18px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:11px 16px;cursor:pointer;font-size:14.5px;color:var(--ink-3);transition:color .12s,border-color .12s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--accent-ink);border-bottom-color:var(--accent);font-weight:600}
+.tab .tn{font-family:var(--mono);font-size:10.5px;opacity:.8;font-variant-numeric:tabular-nums}
+.grid-ck{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:0}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th,.tbl td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule-soft)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);background:var(--panel-2)}
+.tbl td.u{font-family:var(--mono);font-weight:600;color:var(--accent-ink);white-space:nowrap}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--panel);box-shadow:var(--shadow-s)}
+
+/* ── 공사 ─────────────────────── */
+.ph-wrap{max-width:900px;border:1px solid var(--rule);border-radius:var(--r);box-shadow:var(--shadow-s);overflow:hidden;margin-bottom:6px}
+.ph{display:flex;align-items:stretch;border-bottom:1px solid var(--rule-soft);background:var(--panel)}
+.ph:last-child{border-bottom:0}
+.ph-ck{flex:none;display:flex;align-items:flex-start;padding:12px 0 12px 13px}
+.ph-ck input{appearance:none;-webkit-appearance:none;width:15px;height:15px;margin:3px 0 0;border:1.5px solid var(--ink-3);border-radius:var(--r);background:var(--field);cursor:pointer;position:relative}
+.ph-ck input:checked{background:var(--green);border-color:var(--green)}
+.ph-ck input:checked::after{content:"";position:absolute;left:4.2px;top:1.2px;width:3.4px;height:7.8px;border:solid var(--panel);border-width:0 1.8px 1.8px 0;transform:rotate(43deg)}
+.ph-day{flex:none;width:70px;padding:12px 10px;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;line-height:1.5}
+.ph-bar{flex:none;width:3px;background:var(--rule);margin-right:12px;border-radius:0}
+.ph[data-g="prep"] .ph-bar{background:linear-gradient(180deg,#454E4B,#252C2B)}
+.ph[data-g="rough"] .ph-bar{background:linear-gradient(180deg,#7A837F,#454E4B)}
+.ph[data-g="finish"] .ph-bar{background:linear-gradient(180deg,#4CFFA6,#00B85C)}
+.ph[data-g="fit"] .ph-bar{background:linear-gradient(180deg,#BFF7DD,#5FD9A4)}
+.ph[data-g="issue"] .ph-bar{background:linear-gradient(180deg,#F0C784,#B98A3C)}
+.ph-main{flex:1;min-width:0;padding:11px 14px 12px 0}
+.ph-name{font-size:15px;font-weight:600;letter-spacing:-.012em;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ph-memo{font-size:13px;color:var(--ink-2);margin-top:1px;line-height:1.55}
+.ph[data-g="issue"] .ph-memo{color:var(--amber)}
+.ph-owner{font-size:13px;line-height:1.62;color:var(--ink-2);margin-top:8px;padding:9px 12px;background:var(--accent-soft);border-radius:var(--r);border:1px solid var(--accent-line)}
+.ph-toggle{background:none;border:0;color:var(--ink-3);cursor:pointer;padding:4px;line-height:0;align-self:flex-start;margin:9px 8px 0 0}
+.ph-toggle:hover{color:var(--accent)}
+.ph-toggle svg{transition:transform .18s}
+.ph.open .ph-toggle svg{transform:rotate(180deg)}
+.ph:not(.open) .ph-owner{display:none}
+.ph.done{background:linear-gradient(96deg, rgba(0,230,118,.13) 0%, rgba(0,230,118,.03) 34%, transparent 58%)}
+.ph.done .ph-name,.ph.done .ph-memo{opacity:.5}
+.legend{display:flex;flex-wrap:wrap;gap:5px 15px;margin:0 0 14px;font-family:var(--mono);font-size:10.5px;color:var(--ink-2);letter-spacing:.04em}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:3px;border-radius:2px}
+
+/* ── 하자 ─────────────────────── */
+.room-tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.room-tab{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);padding:7px 14px;font-size:13px;cursor:pointer;color:var(--ink-2);transition:all .12s;display:flex;align-items:center;gap:6px}
+.room-tab:hover{border-color:var(--ink-3);color:var(--ink)}
+.room-tab.on{background:linear-gradient(135deg,#0FDB80,#00AF5C);border-color:rgba(0,230,118,.5);color:#04170D;font-weight:600;box-shadow:0 0 24px -12px rgba(0,230,118,.7)}
+.room-tab .rc{font-family:var(--mono);font-size:10.5px;opacity:.75;font-variant-numeric:tabular-nums}
+.quick{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 14px}
+.quick button{background:var(--panel-2);border:1px dashed var(--rule);border-radius:var(--r);padding:5px 10px;font-size:12.5px;color:var(--ink-2);cursor:pointer;transition:all .12s}
+.quick button:hover{border-style:solid;border-color:var(--accent);color:var(--accent)}
+.punch-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--panel);border:1px solid var(--rule-soft);border-radius:var(--r);margin-bottom:5px;box-shadow:var(--shadow-s)}
+.punch-st{flex:none;font-family:var(--mono);font-size:10px;letter-spacing:.05em;padding:3px 8px;border-radius:3px;cursor:pointer;border:1px solid var(--red-line);background:var(--red-soft);color:var(--red);white-space:nowrap}
+.punch-st[data-st="mine"]{background:var(--amber-soft);color:var(--amber);border-color:var(--amber-line)}
+.punch-st[data-st="done"]{background:var(--green-soft);color:var(--green);border-color:var(--green-line)}
+.punch-txt{flex:1;min-width:0;font-size:14px;line-height:1.55;padding-top:1px}
+.punch-item[data-st="done"] .punch-txt{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.punch-room{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);flex:none;padding-top:3px}
+.empty{padding:26px 20px;text-align:center;color:var(--ink-3);font-size:13.5px;border:1px dashed var(--rule);border-radius:var(--r);line-height:1.65;white-space:pre-line}
+.add-row{display:flex;gap:8px;margin-bottom:18px;max-width:640px}
+.add-row input{flex:1}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:var(--r);font-size:13.5px;box-shadow:var(--shadow-m);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:860px){
+  .rail{width:min(86vw,300px)}
+  .dockbtn{left:14px;top:12px;padding:7px 11px 7px 9px}
+  .hsec{padding:0 18px}
+  .h1sec{padding-top:76px}
+  .vband{padding:76px 18px 0}
+  .v-head h1{max-width:none}
+  .v-head p{margin-bottom:26px}
+  .vbody{padding:28px 18px 0}
+  .vsum{padding:13px 15px;gap:10px}
+  .plan-gut{width:74px;padding-right:10px}
+  h2.sub{margin:38px 0 14px}
+}
+</style>
+
+<button class="dockbtn" id="dockBtn" type="button" aria-label="화면 목록 열기" aria-expanded="false">
+  <span class="bars"><i></i><i></i><i></i></span>
+  <span class="dk"><span id="dockName">여는 글</span><s id="dockStage">시작</s></span>
+</button>
+<div class="scrim" id="scrim"></div>
+
+<nav class="rail" id="rail">
+  <div class="rail-top">
+    <div>
+      <button class="brand" id="goHome" type="button"><b>갈 것인가 수라의 길로</b></button>
+      <div class="brand-sub">처음 맡기는 사람의 순서와 기준</div>
+    </div>
+    <button class="rail-close" id="railClose" type="button" aria-label="닫기">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+    </button>
+  </div>
+  <div class="rail-nav" id="nav"></div>
+  <div class="rail-foot">
+    <p>입력한 내용은 이 브라우저에만 저장됩니다. 서버로 가지 않습니다.</p>
+    <button class="mini-btn" id="resetAll">전체 초기화</button>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══ 대문 ══════════════════ -->
+<section class="view home" id="v-home">
+
+  <!-- 1. 히어로 -->
+  <div class="hsec h1sec">
+    <span class="xm tl"></span><span class="xm tr"></span>
+    <span class="xm bl"></span><span class="xm br"></span>
+    <div class="blobs">
+      <div class="blob b1 px" data-speed="0.14"></div>
+      <div class="blob b2 px" data-speed="0.26"></div>
+      <div class="blob b3 px" data-speed="0.40"></div>
+    </div>
+
+    <div class="hin h1mid px" data-speed="0.16">
+      <h1 class="giant">
+        <span><i>덜 고생하셨으면</i></span>
+        <span><i>해서 만들었습니다</i></span>
+      </h1>
+    </div>
+
+    <div class="hin h1bot">
+      <p class="h1lead">인테리어를 처음 맡길 때 어려운 건 취향이 아니라 순서와 판단 기준입니다.
+      제가 한 번 겪으며 적어 둔 것을 그대로 정리했습니다.</p>
+      <div class="scrollcue micro"><span>스크롤</span><s></s></div>
+    </div>
+  </div>
+
+  <!-- 2. 숫자 -->
+  <div class="hsec h2sec">
+    <div class="hin">
+      <div class="micro rv">제가 겪은 것</div>
+      <div class="figs">
+        <div class="fig rv"><b><span class="cnt" data-to="10">0</span></b><span>견적을 요청한 업체</span></div>
+        <div class="fig rv d1"><b><span class="cnt" data-to="4">0</span></b><span>직접 만난 업체</span></div>
+        <div class="fig rv d2"><b><span class="cnt" data-to="22">0</span></b><span>공사한 날</span></div>
+        <div class="fig rv d3"><b><span class="cnt" data-to="30">0</span><em>+</em></b><span>준공일에 찾은 하자</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 편지 -->
+  <div class="hsec h3sec">
+    <div class="hin h3grid">
+      <div class="h3side micro rv">여는 글</div>
+      <div class="letter">
+        <p class="lead rv">집 계약하신 것 축하드립니다.</p>
+
+        <p class="rv">인테리어는 시작하기 전이 제일 막막합니다. 저도 그랬습니다.
+        업체를 어디서 찾는지, 견적서에 적힌 <b>&ldquo;일식&rdquo;</b>이 무슨 뜻인지, 계약서에 뭐가 들어 있어야 하는지
+        아무도 먼저 알려주지 않습니다. 검색하면 광고가 먼저 나오고, 카페 글은 저마다 다른 말을 합니다.</p>
+
+        <p class="rv">저는 지난봄에 24평 집을 전부 고쳤습니다.
+        그동안 노션에 계속 적었습니다. 무엇을 물어봐야 할지 몰라서 적었고,
+        어제 들은 말과 오늘 들은 말이 달라서 적었고, 나중에 따질 일이 생길까 봐 적었습니다.</p>
+
+        <p class="rv">공사는 대체로 잘 끝났습니다. 그래도 가구 업체가 오기로 한 날 나타나지 않아 하루가 밀렸고,
+        준공하는 날 집을 돌면서 찾은 하자가 서른 건이 넘었습니다.
+        나중에 알고 보니 그게 이상한 일이 아니라 원래 그렇더라고요.
+        <b>미리 알고 있으면 당황하지 않습니다.</b></p>
+
+        <p class="rv">제가 크게 손해 보지 않은 건 운이 좋아서가 아니라,
+        <b>같은 요청서를 모든 업체에 똑같이 보냈기 때문</b>이라고 생각합니다.
+        조건이 다르면 돌아온 견적을 비교할 수가 없습니다.
+        한 곳은 샷시를 빼고 계산하고 다른 곳은 넣고 계산하는데, 총액만 보면 앞엣것이 싸 보이니까요.
+        다른 건 다 잊으셔도 이거 하나는 가져가시면 좋겠습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 화면 -->
+  <div class="hsec h4sec">
+    <div class="hin">
+      <div class="micro rv">여섯 개의 화면</div>
+      <div class="home-cards" id="homeCards"></div>
+    </div>
+  </div>
+
+  <!-- 5. 맺음 -->
+  <div class="hsec h5sec">
+    <span class="xm bl"></span><span class="xm br"></span>
+    <div class="hin">
+      <p class="sig rv">덜 고생하시길 바랍니다.</p>
+      <p class="by rv d1">먼저 겪어 본 사람 드림</p>
+      <div class="rv d2"><button class="btn" id="startBtn">일정 화면부터 시작하기
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>
+      </button></div>
+      <div class="h5note rv d3">
+        적은 내용은 이 브라우저에만 남습니다. 누구에게도 전송되지 않으니 편하게 눌러 보세요.
+        순서대로 따라가셔도 되고, 지금 필요한 화면만 여셔도 됩니다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 용어 ══════════════════ -->
+<section class="view" id="v-glossary" hidden>
+  <header class="vband"><div class="aura band-aura"><i></i><i></i></div><div class="vband-in">
+  <div class="crumb"><span>참고</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>용어</b></div>
+  <div class="v-head">
+    <h1>업체가 쓰는 말</h1>
+    <p>견적서와 상담에서 설명 없이 튀어나오는 말들입니다. 다른 화면에서도 점선이 그어진 낱말을 누르면 뜻이 뜹니다.</p>
+  </div>
+  <div class="vsum" id="sum-glossary"></div>
+  </div></header>
+  <div class="vbody">
+    <div class="gl-search">
+      <input type="text" id="glQ" placeholder="용어 검색 — 젠다이, 문선, 졸리컷…">
+    </div>
+    <div id="glList"></div>
+  </div>
+</section>
+
+<!-- ══ 일정 ══════════════════ -->
+<section class="view" id="v-plan">
+  <header class="vband"><div class="aura band-aura"><i></i><i></i></div><div class="vband-in">
+  <div class="crumb"><span>준비</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>일정</b></div>
+  <div class="v-head">
+    <h1 id="planTitle">언제부터 움직여야 하는지</h1>
+    <p id="planLead">입주하고 싶은 날을 넣으면 거꾸로 계산합니다. 좋은 업체일수록 일정이 먼저 차기 때문에, 이 역산이 실제로는 가장 급한 일입니다.</p>
+  </div>
+  <div class="vsum" id="sum-plan"></div>
+  </div></header>
+  <div class="vbody">
+  <div class="phase-sw" id="phaseSw">
+    <button type="button" data-ph="before"><b>계약 전</b><span>업체를 고르는 중</span></button>
+    <button type="button" data-ph="after"><b>계약 후</b><span>공사 일정이 잡힘</span></button>
+  </div>
+
+  <div class="panel" id="dateBox">
+    <div class="row c2" style="margin-bottom:0;align-items:end">
+      <div>
+        <label class="fl" for="moveIn" id="dateLabel">입주 희망일</label>
+        <input type="date" id="moveIn">
+      </div>
+      <div id="planSummary" style="font-size:13.5px;color:var(--ink-2);line-height:1.6;padding-bottom:8px"></div>
+    </div>
+  </div>
+
+  <div id="nowBox"></div>
+
+  <h2 class="sub" id="planHead">전체 일정</h2>
+  <p class="hint">각 단계를 누르면 그때 무엇을 하는지 펼쳐집니다.</p>
+  <div class="plan" id="planList"></div>
+
+  <div class="note">
+    <b>기간은 24평 전체 공사 한 건을 기준으로 잡았습니다.</b>
+    부분 공사면 짧아지고, 확장이나 배관 교체가 들어가면 길어집니다.
+    업체마다 예약이 차 있는 정도가 달라서 상담 단계는 특히 여유를 두는 편이 낫습니다.
+  </div>
+  </div>
+</section>
+
+<!-- ══ 요청서 ════════════════ -->
+<section class="view" id="v-brief" hidden>
+  <header class="vband"><div class="aura band-aura"><i></i><i></i></div><div class="vband-in">
+  <div class="crumb"><span>준비</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>요청서</b></div>
+  <div class="v-head">
+    <h1>모든 업체에 같은 조건을 줍니다</h1>
+    <p>"24평인데 견적 좀 주세요"로는 돌아온 숫자를 비교할 수 없습니다. 한 곳은 샷시를 빼고 계산하고 다른 곳은 넣고 계산하니까요. 아래를 채우면 그대로 보낼 수 있는 요청서가 만들어집니다.</p>
+  </div>
+  <div class="vsum" id="sum-brief"></div>
+  </div></header>
+  <div class="vbody">
+<div class="note calm">
+    <b>이걸 쓰는 과정 자체가 더 중요합니다.</b>
+    채우려면 같이 살 사람과 앉아서 전부 정해야 합니다.
+    공사 중에 정하면 공정이 멈추고 돈이 붙습니다. 지금 상의하는 게 제일 쌉니다.
+    <br><br>
+    모르는 항목은 비워 두지 말고 <b>모르겠어요</b> 버튼을 누르세요.
+    업체에 추천을 요청하는 문구가 들어갑니다. 빈칸으로 두면 업체마다 다르게 해석해서 견적을 비교할 수 없게 됩니다.
+  </div>
+
+  <div id="briefForm"></div>
+
+  <h2 class="sub">보낼 내용</h2>
+  <div class="preview" id="briefOut"></div>
+  <div class="sticky-act">
+    <button class="btn" id="copyBrief">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.4"/><path d="M10.5 5.5v-2a1.4 1.4 0 0 0-1.4-1.4H3.9a1.4 1.4 0 0 0-1.4 1.4v5.2a1.4 1.4 0 0 0 1.4 1.4h1.6"/></svg>
+      요청서 복사
+    </button>
+    <span style="font-size:12.5px;color:var(--ink-3)" id="briefCount"></span>
+  </div>
+  </div>
+</section>
+
+<!-- ══ 업체 ══════════════════ -->
+<section class="view" id="v-vendors" hidden>
+  <header class="vband"><div class="aura band-aura"><i></i><i></i></div><div class="vband-in">
+  <div class="crumb"><span>고르기</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>업체</b></div>
+  <div class="v-head">
+    <h1>후보를 늘리고, 기준으로 줄입니다</h1>
+    <p>열 곳 남짓에 같은 요청서를 보내고 네 곳과 만난 뒤 한 곳과 계약했습니다. 플랫폼 자동매칭, 플랫폼에서 직접 선택, 업체 홈페이지, 지인 소개는 각각 다른 성격의 업체가 걸리니 경로를 섞는 편이 낫습니다.</p>
+  </div>
+  <div class="vsum" id="sum-vendors"></div>
+  </div></header>
+  <div class="vbody">
+<div class="add-row">
+    <input type="text" id="vendName" placeholder="업체 이름을 적고 추가">
+    <button class="btn" id="addVend">추가</button>
+  </div>
+
+  <div id="vendList"></div>
+
+  <h2 class="sub">거를 만한 신호</h2>
+  <div class="panel" style="padding:14px 18px"><div id="flagRef"></div></div>
+
+  <div class="note">
+    <b>면허는 1분이면 확인됩니다.</b>
+    공사예정금액 1,500만 원 이상인 전문공사는 실내건축공사업 등록 업체만 시공할 수 있습니다.
+    <a href="https://www.kiscon.net/gongsi/ksc_dft.asp" target="_blank" rel="noopener" style="color:var(--accent-ink)">건설산업지식정보시스템(KISCON)</a>에서
+    상호로 검색하면 보유 면허, 등록일, 행정처분 이력, 폐업 여부가 나옵니다.
+  </div>
+  </div>
+</section>
+
+<!-- ══ 견적·계약 ═════════════ -->
+<section class="view" id="v-quote" hidden>
+  <header class="vband"><div class="aura band-aura"><i></i><i></i></div><div class="vband-in">
+  <div class="crumb"><span>고르기</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>견적과 계약</b></div>
+  <div class="v-head">
+    <h1>총액만 보면 반드시 집니다</h1>
+    <p>견적은 보통 집계표, 내역서, 원가계산서로 옵니다. 집계표 한 장만 주는 곳에는 내역서를 요청하세요. 금액을 판단하는 기준부터 잡고 시작합니다.</p>
+  </div>
+  <div class="vsum" id="sum-quote"></div>
+  </div></header>
+  <div class="vbody">
+<div class="tabs" id="qTabs"></div>
+
+  <div id="qt-q1">
+    <p class="hint">빠진 공정이 있으면 그만큼 총액이 낮아 보입니다. 받은 집계표와 하나씩 대조하세요.</p>
+    <div class="panel" style="padding:10px"><div class="grid-ck" id="ckAgg"></div></div>
+  </div>
+
+  <div id="qt-q2" hidden>
+    <p class="hint">내역서는 항목마다 규격·수량·단가를 편 문서입니다. 여기가 부실하면 나중에 따질 근거가 없습니다.</p>
+    <div class="panel" style="padding:10px"><div id="ckDetail"></div></div>
+    <h2 class="sub">단위 읽는 법</h2>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>단위</th><th>뜻</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="u">㎡</td><td>면적</td><td>도배·타일·바닥처럼 넓이로 계산하는 공정</td></tr>
+          <tr><td class="u">인</td><td>인력</td><td>사람 수 &times; 일수. 인건비 항목</td></tr>
+          <tr><td class="u">대</td><td>장비 수</td><td>장비 임대</td></tr>
+          <tr><td class="u">식</td><td>여러 가지를 합친 묶음</td><td>이게 많으면 더 풀어 달라고 요청합니다</td></tr>
+          <tr><td class="u">차</td><td>폐기물 차량</td><td>철거 물량이 늘면 여기가 늘어납니다</td></tr>
+          <tr><td class="u">EA</td><td>개수</td><td>조명·도기·손잡이 같은 낱개 품목</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="qt-q3" hidden>
+    <p class="hint">최초 견적에 안 들어갔다가 나중에 붙는 항목들입니다. 업체마다 무엇을 빼놓았는지가 달라서, 이걸 더한 금액으로 다시 줄을 세워야 순위가 제대로 나옵니다. 실제로 이 보정을 하니 순서가 바뀌었습니다.</p>
+    <div class="panel" style="padding:10px"><div id="ckMiss"></div></div>
+  </div>
+
+  <div id="qt-q0" hidden>
+    <p class="hint">금액은 조건에 따라 배로 갈려서 여기에 적지 않았습니다. 대신 받은 견적이 비싼지 판단하는 방법을 적어 둡니다.</p>
+
+    <h2 class="sub">예산을 먼저 정하고, 요청서에 밝힙니다</h2>
+    <div class="panel">
+      <p style="margin:0;font-size:14px;line-height:1.8;color:var(--ink-2)">예산을 숨기면 업체마다 제멋대로 자재 등급을 잡아 옵니다.
+      한 곳은 국산 보급형으로, 다른 곳은 수입 타일로 계산해 놓으면 총액이 달라도 비교가 되지 않습니다.
+      <b style="color:var(--ink)">"이 범위 안에서 최선을 제안해 주세요"</b>라고 적으면 같은 예산 안에서 무엇을 포기하고 무엇을 살렸는지가 드러나고,
+      그게 곧 그 업체의 판단력입니다.</p>
+    </div>
+
+    <h2 class="sub">평당 얼마로 비교하지 않습니다</h2>
+    <div class="panel">
+      <p style="margin:0;font-size:14px;line-height:1.8;color:var(--ink-2)">같은 24평이라도 확장을 하느냐, 욕실이 하나냐 둘이냐, 샷시를 바꾸느냐에 따라 공사량이 두 배로 갈립니다.
+      평당 단가는 광고에서 쓰는 말이지 비교 기준이 아닙니다.
+      비교는 <b style="color:var(--ink)">같은 요청서로 받은 총액에 누락 항목을 더한 값</b>으로 합니다.</p>
+    </div>
+
+    <h2 class="sub">예산이 넘칠 때 깎는 순서</h2>
+    <div class="panel" style="padding:10px"><div id="ckBudget"></div></div>
+
+    <h2 class="sub">체크할 것</h2>
+    <div class="panel" style="padding:10px"><div id="ckMoney"></div></div>
+
+    <div class="note warn">
+      <b>예비비를 따로 떼어 둡니다.</b>
+      철거하고 나면 그때 드러나는 것들이 있습니다. 배관 부식, 곰팡이, 벽체 균열, 예상보다 많은 폐기물 같은 것들입니다.
+      총액의 10~15%를 따로 잡아 두면 공사 중에 추가 요청을 받아도 흔들리지 않습니다.
+      예비비가 없으면 그때부터 자재를 깎기 시작하는데, 그게 가장 나쁜 순서입니다.
+    </div>
+  </div>
+
+  <div id="qt-q4" hidden>
+    <p class="hint">분쟁은 대부분 계약서에 안 적은 것에서 생깁니다.</p>
+    <div class="panel" style="padding:10px"><div id="ckContract"></div></div>
+    <div class="note">
+      <b>잔금은 하자를 확인한 뒤에 냅니다.</b>
+      공정별로 나누되 마지막 잔금은 준공 후 하자 목록을 만들고 보수를 확인한 다음 지급하는 편이 안전합니다.
+      공정거래위원회의 실내건축·창호 공사 표준계약서와 대조해 빠진 조항이 있는지 보세요.
+    </div>
+    <div class="note warn">
+      <b>아파트는 단지 절차가 따로 있습니다.</b>
+      창틀·문틀 교체, 천장·벽·바닥 마감재 교체, 배관 교체는 관리사무소 동의가 필요하고,
+      구조를 건드리면 관할 구청의 허가나 신고 대상입니다. 공사 시간대 제한, 입주민 동의서, 엘리베이터 보양과 사용료는
+      단지 관리규약마다 다릅니다. 업체가 대신 처리해 주더라도 계약 전에 관리사무소에 직접 물어보세요.
+      내력벽은 철거할 수 없습니다.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ══ 공사 ══════════════════ -->
+<section class="view" id="v-build" hidden>
+  <header class="vband"><div class="aura band-aura"><i></i><i></i></div><div class="vband-in">
+  <div class="crumb"><span>공사</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>공정</b></div>
+  <div class="v-head">
+    <h1>22일 동안 이런 순서로 흘러갑니다</h1>
+    <p>24평 전체 공사 한 건의 실제 기록입니다. 각 줄을 열면 그날 집주인이 챙겨야 할 것이 나옵니다.</p>
+  </div>
+  <div class="vsum" id="sum-build"></div>
+  </div></header>
+  <div class="vbody">
+<div class="legend">
+    <span><i style="background:var(--ink-3)"></i>준비</span>
+    <span><i style="background:var(--ink-2)"></i>철거·설비</span>
+    <span><i style="background:var(--accent)"></i>마감 골격</span>
+    <span><i style="background:var(--accent-2)"></i>마무리</span>
+    <span><i style="background:var(--amber)"></i>이슈</span>
+  </div>
+
+  <div id="phaseList"></div>
+
+  <div class="note warn">
+    <b>노쇼는 실제로 일어납니다.</b>
+    가구 업체가 오기로 한 날 오지 않아 하루가 밀렸습니다.
+    공정 하나가 밀리면 뒤가 연달아 밀리기 때문에, 마지막 공정과 이사 사이에 여유를 두어야 합니다.
+    타일 뒤에 예비일을 하루 잡아 둔 것도 같은 이유입니다.
+  </div>
+  </div>
+</section>
+
+<!-- ══ 하자 ══════════════════ -->
+<section class="view" id="v-punch" hidden>
+  <header class="vband"><div class="aura band-aura"><i></i><i></i></div><div class="vband-in">
+  <div class="crumb"><span>마무리</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>하자 점검</b></div>
+  <div class="v-head">
+    <h1>인수인계 날, 이 화면을 들고 집을 돕니다</h1>
+    <p>준공청소가 끝난 빈 집이 하자가 가장 잘 보이는 순간입니다. 짐이 들어오면 벽과 바닥이 가려져 못 찾습니다. 낮에, 조명을 다 켜고, 한 방씩 천천히 보세요.</p>
+  </div>
+  <div class="vsum" id="sum-punch"></div>
+  </div></header>
+  <div class="vbody">
+<div class="room-tabs" id="roomTabs"></div>
+  <div class="quick" id="quickAdd"></div>
+
+  <div class="add-row">
+    <input type="text" id="punchInput" placeholder="발견한 것을 적고 추가">
+    <button class="btn" id="addPunch">추가</button>
+  </div>
+
+  <div id="punchList"></div>
+
+  <div class="sticky-act">
+    <button class="btn ghost sm" id="copyPunch">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.4"/><path d="M10.5 5.5v-2a1.4 1.4 0 0 0-1.4-1.4H3.9a1.4 1.4 0 0 0-1.4 1.4v5.2a1.4 1.4 0 0 0 1.4 1.4h1.6"/></svg>
+      업체에 보낼 목록 복사
+    </button>
+  </div>
+
+  <div class="note">
+    <b>상태를 세 갈래로 나눠 두면 서로 헷갈리지 않습니다.</b>
+    처리 필요, 내가 직접, 완료. 뱃지를 누르면 상태가 바뀝니다.
+    완료된 것은 지우지 말고 남겨 두세요. 무엇을 어떻게 고쳤는지가 기록으로 남습니다.
+  </div>
+
+  <div class="note calm">
+    <b>준공에서 입주까지 열흘쯤 비워 두세요.</b>
+    그 사이에 A/S 보수와 새집증후군 시공을 넣습니다.
+    준공 다음 날 이사하면 하자를 찾아도 짐 때문에 고칠 수가 없습니다.
+    실제로 콘센트 교체 한 건은 이삿짐 때문에 포기하고 예비 부품만 받아 뒀습니다.
+  </div>
+
+  <h2 class="sub">A/S 기간은 법으로 정해져 있습니다</h2>
+  <div class="panel">
+    <p style="margin:0;font-size:13.5px;line-height:1.7;color:var(--ink-2)">
+      건설산업기본법 시행령의 공사 종류별 하자담보책임기간에 따르면
+      <b style="color:var(--ink)">실내건축은 1년, 냉난방 설비는 2년, 방수와 지붕은 3년</b>입니다.
+      계약서의 A/S 기간이 이보다 짧으면 근거를 들어 조정을 요청할 수 있습니다.
+      보수를 요청할 때는 사진과 날짜를 함께 남기세요.
+      협의가 안 되면 한국소비자원 피해 구제나 대한상사중재원 조정을 이용할 수 있고,
+      계약서·내역서·공정표·사진·대화 기록이 그대로 근거가 됩니다.
+    </p>
+  </div>
+  </div>
+</section>
+
+</main>
+
+<div class="sprog" id="sprog"><i></i></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+var STAGES=[
+  {id:'prep', n:1, label:'준비',   views:['plan','brief']},
+  {id:'pick', n:2, label:'고르기', views:['vendors','quote']},
+  {id:'work', n:3, label:'공사',   views:['build']},
+  {id:'wrap', n:4, label:'마무리', views:['punch']}
+];
+var VIEWS={
+  home:   {label:'여는 글',    icon:'M3 11.5 12 4l9 7.5M5.5 10v9.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V10M9.5 20.5V14h5v6.5', desc:'왜 만들었는지, 무엇이 담겼는지'},
+  plan:   {label:'일정',      icon:'M8 2v3M16 2v3M3.5 8.5h17M4.5 4.5h15a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-14a1 1 0 0 1 1-1z', desc:'입주일을 넣으면 언제부터 움직여야 하는지 거꾸로 계산합니다'},
+  brief:  {label:'요청서',    icon:'M6 2.5h8l4.5 4.5v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1zM14 2.5V7h4.5M8.5 12h7M8.5 16h5', desc:'채우면 모든 업체에 똑같이 보낼 요청서가 만들어집니다'},
+  vendors:{label:'업체',      icon:'M3.5 20.5v-11l6-4 6 4M15.5 20.5v-8l5-3v11M3.5 20.5h17M8 20.5v-4.5h3v4.5', desc:'후보를 모아 두고 여덟 가지 기준으로 거릅니다'},
+  quote:  {label:'견적과 계약',icon:'M6.5 2.5h11a1 1 0 0 1 1 1v17a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1zM9 6.5h6M9 11h2M13 11h2M9 15h2M13 15h2', desc:'집계표에 빠진 공정과 나중에 붙는 항목을 대조합니다'},
+  build:  {label:'공정',      icon:'M13.5 5.5 18 10l-8 8-4.5-4.5zM16 3l5 5M4 15l5 5M2.5 21.5h6', desc:'22일이 어떻게 흘러가고 그날 무엇을 챙겨야 하는지'},
+  glossary:{label:'용어', icon:'M5 4.5h11a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5zM5 4.5a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2M8.5 9h6M8.5 13h4', desc:'업체가 쓰는 말을 한 줄로 풀어 둔 사전'},
+  punch:  {label:'하자 점검', icon:'M4.5 12.5 9 17l10.5-10.5M4.5 20.5h15', desc:'인수인계 날 집을 돌며 그 자리에서 기록합니다'}
+};
+
+var PLAN = [
+  {k:'p1', d:110, n:'요청서 작성 시작', v:'brief', t:'무엇을 어디까지 고칠지 합의해서 문서로 정리합니다.',
+   det:['<b>방식부터 정합니다</b> — 업체 한 곳이 전부 맡는 턴키로 갈지, 공정별로 직접 구해 맡기는 반셀프로 갈지. 이 진행판은 턴키 기준입니다. 첫 집이고 직장을 다닌다면 대개 턴키가 현실적입니다.',
+        '<b>예산 범위를 먼저 잡습니다</b> — 요청서에 범위를 밝혀야 업체가 같은 조건에서 제안합니다. 총액의 10~15%는 예비비로 남겨 둡니다.',
+        '<b>금액을 가장 크게 가르는 셋</b> — 확장을 어디까지 할지, 바닥을 철거할지, 욕실을 몇 개 손볼지.',
+        '취향보다 <b>용도</b>를 먼저 적습니다. 각 방을 무엇으로 쓸지 정해야 콘센트와 조명 계획이 나옵니다.',
+        '참고 사진을 모으되, 업체에는 사진과 함께 <b>글로 된 조건</b>을 줍니다. 사진만 주면 해석이 갈립니다.']},
+  {k:'p2', d:96,  n:'업체에 요청서 발송', v:'vendors', t:'경로를 섞어 열 곳 남짓에 같은 요청서를 보냅니다.',
+   det:['<b>경로를 섞습니다</b> — 플랫폼 자동매칭, 플랫폼에서 직접 선택, 업체 홈페이지, 지인 소개.',
+        '한 자리 수로 시작하면 비교가 안 됩니다. <b>열 곳 안팎</b>에 보내고 답이 오는 걸 봅니다.',
+        '보낸 날짜를 적어 둡니다. <b>회신까지 걸린 시간</b>이 그 업체의 속도입니다.']},
+  {k:'p3', d:86,  n:'대면 상담', v:'vendors', t:'가견적을 받고 후보를 좁혀 직접 만납니다. 답변 속도와 성의를 여기서 봅니다.',
+   det:['현장에서 만나는 편이 좋습니다. <b>같은 단지 시공 경험</b>이 있으면 구조를 이미 알아 변수가 줄어듭니다.',
+        '가견적 수정을 한 번 요청해 봅니다. <b>고쳐 달라는 요청에 답하는 속도</b>가 공사 중 태도를 예고합니다.',
+        '사무실이 실제로 있는지, 면허가 있는지 이 단계에서 확인합니다.']},
+  {k:'p4', d:72,  n:'견적 비교 마무리', v:'quote', t:'누락된 항목을 더한 금액으로 다시 줄을 세웁니다.',
+   det:['집계표에 <b>14개 공사 항목</b>이 다 있는지 대조합니다. 빠진 게 있으면 그만큼 싸 보일 뿐입니다.',
+        '소화기, 인터폰·도어락, 엘리베이터 사용료처럼 <b>나중에 붙는 항목</b>을 더해 총액을 보정합니다.',
+        '부가세 포함인지 별도인지 반드시 맞춰 놓고 비교합니다.']},
+  {k:'p5', d:62,  n:'계약', v:'quote', t:'계약서 항목을 확인하고 공정표를 받습니다. 착수금 비율을 봅니다.',
+   det:['<b>지체상금 기준</b>이 없으면 공사가 늦어져도 대응할 수단이 없습니다.',
+        '계약금 → 중도금 → 잔금 순서가 정상입니다. <b>착수금을 과하게 요구하면</b> 다시 생각합니다.',
+        '관리사무소 신고와 동의를 누가 언제 처리하는지 계약서에 적어 둡니다.']},
+  {k:'p6', d:48,  n:'공사 시작', v:'build', t:'현장미팅과 실측으로 시작합니다. 제작 기간이 긴 품목은 이날 발주합니다.',
+   det:['첫날 <b>에어컨과 샷시를 실측</b>하고 중문처럼 제작이 오래 걸리는 품목을 발주합니다.',
+        '이 시점에 <b>가전과 가구 치수</b>가 정해져 있어야 목공이 제대로 들어갑니다.',
+        '공정마다 사진을 남깁니다. 벽 안에 무엇이 지나가는지 나중에 확인할 유일한 기록입니다.']},
+  {k:'p7', d:17,  n:'준공 · 인수인계', v:'punch', t:'빈 집을 돌며 하자를 찾아 목록을 만드는 날입니다.',
+   det:['짐이 들어오기 전이 <b>하자가 가장 잘 보이는 순간</b>입니다.',
+        '공간별로 나눠 기록하고, 처리 주체를 나눠 적습니다.',
+        '<b>잔금은 보수를 확인한 뒤에</b> 내는 편이 안전합니다.']},
+  {k:'p8', d:7,   n:'A/S · 새집증후군 시공', v:'punch', t:'짐이 들어오기 전에 보수를 끝냅니다.',
+   det:['보수 요청은 <b>사진과 날짜</b>를 함께 남깁니다.',
+        '실내건축의 하자담보책임기간은 <b>1년</b>입니다. 입주 후에 발견한 것도 요청할 수 있습니다.']},
+  {k:'p9', d:0,   n:'입주', v:null, t:'', det:[]}
+];
+
+var BRIEF = [
+  {g:'기본 정보', fs:[
+    {k:'when',  l:'공사 가능일',   ph:'잔금일 이후 집이 비는 날. 예) 3월 13일부터'},
+    {k:'movein',l:'입주 예정일',   ph:'아직 없으면 "공사 완료 후 예정"이라고 적습니다'},
+    {k:'region',l:'지역',          ph:'예) 경기도 ○○시 ○○구'},
+    {k:'year',  l:'준공연도',      ph:'예) 2003년. 연식에 따라 배관·전기 상태가 달라집니다'},
+    {k:'size',  l:'평수와 타입',   ph:'예) 24평 (59㎡ C타입)'},
+    {k:'rooms', l:'각 방 용도',    ph:'예) 안방=부부 침실 / 중간방=드레스룸 겸 서재 / 입구방=아이방', ta:1}
+  ]},
+  {g:'구조', fs:[
+    {k:'expand',l:'확장 위치와 남길 곳', ph:'예) 거실 확장하되 안방쪽 발코니는 터닝도어로 유지 / 입구방 확장 / 주방은 냉장고 자리까지만 확장하고 나머지는 세탁실로', ta:1},
+    {k:'insul', l:'단열재',        ph:'예) 아이소핑크. 천장·벽·바닥 단열과 방수 꼼꼼히 요청'},
+    {k:'floorway',l:'바닥 방식',   ph:'예) 바닥 철거 후 엑셀 배관 재시공 희망 (홈 파기 아님). 비용이 크게 갈리는 갈림길입니다', ta:1}
+  ]},
+  {g:'마감', fs:[
+    {k:'paper', l:'도배',          ph:'예) ○○ 실크벽지, 친환경 도배풀 사용'},
+    {k:'ceil',  l:'천장과 조명',   ph:'예) 기존 우물 철거 후 평천장 / 각 방 메인등은 사각 LED / 현관·주방·욕실·거실 벽면은 다운라이트', ta:1},
+    {k:'floor', l:'바닥재',        ph:'예) 2.2t 장판, 바닥 샌딩 필요'},
+    {k:'window',l:'샷시',          ph:'예) 현재 단창. 확장으로 전체 교체 필요. A사 희망하나 B사도 가능, 둘 중 가성비 좋은 쪽으로'},
+    {k:'carp',  l:'목공',          ph:'예) 문 5개 전체 교체, 12㎜ 문선, 걸레받이 4전, 평몰딩 화이트, 시트지 품번 ○○ (톤만 참고)', ta:1},
+    {k:'entry', l:'현관',          ph:'예) 3연동 중문에 모루유리 느낌 / 신발장 하단을 띄워 신발 보관 / 포세린 타일 600각', ta:1}
+  ]},
+  {g:'설비', fs:[
+    {k:'bath',  l:'욕실',          ph:'욕실마다 따로. 예) 공용욕실=전체 철거+방수+세라믹 타일, 유리 샤워부스, 일자 젠다이, 천장 SMC, 도기 브랜드, 환풍기 모델 / 안방욕실=…', ta:1},
+    {k:'kitchen',l:'주방',         ph:'예) 일자형 + 냉장고장 / 포세린 800각 / 침니형 후드 / 인조대리석 24t 상판 / 식기세척기·인덕션 설치 예정', ta:1},
+    {k:'balcony',l:'발코니와 세탁실',ph:'예) 터닝도어, 포세린 타일, 벽면은 실리카 페인트'},
+    {k:'aircon',l:'냉방',          ph:'예) 시스템 에어컨 4실(거실·안방·방2). 거실은 확장부에 설치. 실외기 거치대 교체 필요 여부 확인, 다배관', ta:1}
+  ]},
+  {g:'무드와 기타', fs:[
+    {k:'mood',  l:'원하는 톤',     ph:'예) 웜화이트 또는 아이보리 + 중간 채도의 우드톤(바닥·문선·문). 참고 사진 별도 첨부', ta:1},
+    {k:'etc',   l:'그 밖에 전할 것', ph:'예) 반려동물 있음, 층간소음 민감, 특정 요일 공사 불가 등', ta:1}
+  ]}
+];
+
+var VCHECKS = [
+  {k:'office', l:'사무실이 실제로 있다',       d:'주소만 있고 찾아갈 곳이 없으면 문제가 생겼을 때 붙잡을 데가 없습니다'},
+  {k:'lic',    l:'건설업 면허를 확인했다',     d:'1,500만 원 이상 공사는 실내건축공사업 등록 업체여야 합니다'},
+  {k:'contract',l:'계약서 작성을 미루지 않는다',d:'구두로 하자거나 나중에 쓰자고 하면 그 자체가 신호입니다'},
+  {k:'sched',  l:'공정표를 준다',              d:'어느 날 무슨 공정이 오는지 표로 줄 수 있어야 관리되는 업체입니다'},
+  {k:'deposit',l:'착수금이 과하지 않다',       d:'계약금 → 중도금 → 잔금 순서가 정상입니다'},
+  {k:'case',   l:'같은 단지나 평형 경험이 있다',d:'구조를 알면 실측 오차와 변수가 줄어듭니다'},
+  {k:'meet',   l:'대면 상담에 응한다',         d:'견적만 던지고 만나지 않으려는 곳은 후보에서 뺐습니다'},
+  {k:'resp',   l:'답변이 빠르고 성의 있다',    d:'계약 전이 가장 친절할 때입니다. 지금 느리면 공사 중에는 더합니다'}
+];
+
+var FLAG_REF = [
+  ['가견적 수정 요청에 답이 없음','조건을 고쳐 다시 달라고 했는데 응답이 없었습니다. 계약 전에 이러면 공사 중에는 더합니다.'],
+  ['가견적 자체가 오지 않음','지인을 통해 연결된 곳에서도 그랬습니다. 관계와 실행력은 별개입니다.'],
+  ['자재 등급에 비해 금액이 높음','같은 요청서로 받았기 때문에 자재가 특별히 비싼 게 아니라는 걸 알 수 있었습니다.'],
+  ['일정이 맞지 않음','석 달 안쪽 시공만 상담하는 곳이었습니다. 좋아 보여도 일정이 안 맞으면 후보가 아닙니다.']
+];
+
+var AGG = ['가설공사','철거공사','벽체공사','천장공사','타일공사','금속공사','전기공사','도배공사','설비공사','방수공사','욕실공사','마루공사','에어컨공사','창호공사'];
+
+var DETAIL = [
+  {k:'d1', l:'규격·수량·단위가 다 적혀 있다', d:'"일식"으로 뭉뚱그린 항목이 많으면 나중에 뭘 얼마나 했는지 따질 수 없습니다'},
+  {k:'d2', l:'자재비와 노무비가 분리되어 있다', d:'합쳐 놓으면 어디서 남기는지 보이지 않고 자재만 바꿔 조정하기도 어렵습니다'},
+  {k:'d3', l:'일반관리비와 이윤이 명시되어 있다', d:'기재해 달라고 요청합니다. 숨기지 않는 업체가 신뢰가 갑니다'},
+  {k:'d4', l:'자재의 브랜드와 모델명이 적혀 있다', d:'"고급 타일" 같은 표현은 다른 물건이 들어와도 따질 근거가 없습니다'},
+  {k:'d5', l:'부가세 포함인지 별도인지 확인했다', d:'10% 차이라 비교가 뒤집힙니다'}
+];
+
+var MISS = [
+  {k:'m1', l:'소화기', d:'준공 무렵에 따로 청구되는 경우가 있었습니다'},
+  {k:'m2', l:'인터폰과 도어락', d:'교체 대상인데 견적에서 빠져 있는지 봅니다'},
+  {k:'m3', l:'엘리베이터 사용료와 보양', d:'단지에 따라 별도로 부과됩니다'},
+  {k:'m4', l:'입주 청소와 준공 청소', d:'둘 중 하나만 들어 있는 경우가 있습니다'},
+  {k:'m5', l:'폐기물 추가 반출', d:'철거하다 물량이 늘면 붙습니다. 기준을 미리 물어보세요'},
+  {k:'m6', l:'조명 기구 구입비', d:'설치비만 있고 기구값은 별도인 경우가 흔합니다'},
+  {k:'m7', l:'에어컨 본체와 설치', d:'선배관만 견적에 있고 본체는 직접 사는 구조인지 확인합니다'},
+  {k:'m8', l:'싱크볼·수전 등 직접 구매 품목', d:'누가 사는지 명확히 나눠 적습니다'}
+];
+
+var CONTRACT = [
+  {k:'c1', l:'공사 위치와 주소', d:''},
+  {k:'c2', l:'공사 시작일과 준공일', d:'공사가 끝나는 날을 날짜로 못 박습니다'},
+  {k:'c3', l:'A/S 기간', d:'실내건축의 하자담보책임기간은 1년입니다. 그보다 짧으면 조정을 요구합니다'},
+  {k:'c4', l:'지체상금 기준', d:'늦어지면 하루에 계약금액의 몇 %인지. 없으면 지연에 대응할 수단이 없습니다'},
+  {k:'c5', l:'공사대금과 지급 시기', d:'계약금·중도금·잔금을 각각 얼마씩 언제 내는지'},
+  {k:'c6', l:'추가공사 절차', d:'서면 합의 없이는 추가금을 청구할 수 없도록 정해 둡니다'},
+  {k:'c7', l:'공정표 첨부', d:'계약서와 함께 받아 둡니다. 지연을 따질 기준이 됩니다'},
+  {k:'c8', l:'관리사무소 신고와 동의 처리 주체', d:'업체가 대신 하더라도 누가 언제 하는지 적어 둡니다'}
+];
+
+var BUDGET=[
+  {k:'b1', l:'먼저 줄일 것 — 자재 등급', d:'타일·벽지·조명·손잡이처럼 나중에 바꿀 수 있는 것부터 낮춥니다. 살면서 마음에 안 들면 그때 교체하면 됩니다'},
+  {k:'b2', l:'먼저 줄일 것 — 가구와 조명 개수', d:'붙박이장과 다운라이트 개수를 줄입니다. 나중에 추가하기 어렵지 않습니다'},
+  {k:'b3', l:'나중에 줄일 것 — 확장과 샷시', d:'지금 안 하면 나중에 하기 어렵습니다. 확장은 바닥·단열·창호를 한꺼번에 뜯어야 하고, 샷시는 재설치 비용이 큽니다'},
+  {k:'b4', l:'줄이면 안 되는 것 — 방수', d:'타일 아래 숨어 있어 물이 새면 욕실을 다시 뜯습니다. 아랫집 피해까지 생깁니다'},
+  {k:'b5', l:'줄이면 안 되는 것 — 단열', d:'확장한 곳의 단열을 아끼면 겨울에 결로와 곰팡이가 생깁니다. 벽을 다시 뜯어야 고칩니다'},
+  {k:'b6', l:'줄이면 안 되는 것 — 전기 용량과 배선', d:'벽이 막히면 되돌릴 수 없습니다. 콘센트는 지금 넉넉히 넣는 게 가장 쌉니다'}
+];
+var MONEY=[
+  {k:'y1', l:'부가세 포함인지 별도인지 맞췄다', d:'10% 차이라 이걸 안 맞추면 순위가 뒤집힙니다'},
+  {k:'y2', l:'대금을 계약금·중도금·잔금으로 나눴다', d:'한 번에 큰 금액을 보내지 않습니다'},
+  {k:'y3', l:'잔금을 충분히 남겼다', d:'준공 후 하자를 확인하고 낼 몫이 남아 있어야 보수 요청에 힘이 실립니다'},
+  {k:'y4', l:'추가공사는 서면 합의 후에만 청구되도록 정했다', d:'구두로 진행하면 준공 때 금액이 늘어 있습니다'},
+  {k:'y5', l:'직접 살 품목과 업체가 살 품목을 나눠 적었다', d:'조명·도기·수전은 직접 사면 쌀 수 있지만, 하자가 나면 책임이 갈립니다. 설치일 전 도착이 조건입니다'},
+  {k:'y6', l:'예비비를 따로 잡아 뒀다', d:'총액의 10~15%. 철거 후 드러나는 것에 대비합니다'}
+];
+var QTABS=[{id:'q0',l:'예산 기준',src:'budget'},{id:'q1',l:'집계표 항목',src:'agg'},{id:'q2',l:'내역서 확인',src:'detail'},{id:'q3',l:'누락되는 항목',src:'miss'},{id:'q4',l:'계약서',src:'contract'}];
+
+var PHASES = [
+ {d:1, w:'목', g:'prep',   n:'현장미팅', m:'에어컨·샷시 실측, 중문 발주', o:'제작 기간이 긴 품목을 이날 발주합니다. 중문 유리 종류와 샷시 색을 미리 정해 가세요.'},
+ {d:2, w:'금', g:'rough',  n:'철거', m:'마루 철거', o:'철거 범위가 견적과 같은지 확인합니다. 드러난 배관과 벽체 상태를 사진으로 남겨 두세요.'},
+ {d:3, w:'월', g:'rough',  n:'철거 · 설비', m:'', o:'배관 교체 범위를 현장에서 다시 확인합니다.'},
+ {d:4, w:'화', g:'rough',  n:'철거 · 설비', m:'', o:''},
+ {d:5, w:'수', g:'rough',  n:'샷시', m:'전체 교체', o:'설치 후 개폐가 부드러운지, 실리콘 마감이 고른지 봅니다.'},
+ {d:6, w:'목', g:'rough',  n:'전기', m:'배선', o:'콘센트와 스위치 위치를 최종 확정하는 날입니다. 가구와 가전 배치를 그려 가서 현장에서 맞춰 보세요. 벽이 막히면 되돌리기 어렵습니다.'},
+ {d:7, w:'금', g:'rough',  n:'에어컨 선배관', m:'', o:'실외기 자리와 거치대 교체 여부를 확인합니다.'},
+ {d:8, w:'월', g:'finish', n:'목공 1일차', m:'', o:'이 시점에 가전과 가구 치수가 확정되어 있어야 합니다. 냉장고 폭, 식기세척기 높이, 인덕션 타공 치수, TV 크기, 로봇청소기 스테이션 자리까지.'},
+ {d:9, w:'화', g:'finish', n:'목공 2일차', m:'', o:''},
+ {d:10,w:'수', g:'finish', n:'목공 3일차', m:'', o:'문선 폭과 걸레받이 높이가 요청서대로인지 봅니다.'},
+ {d:11,w:'목', g:'finish', n:'타일 1일차', m:'중문 설치', o:''},
+ {d:12,w:'금', g:'finish', n:'타일 2일차', m:'', o:''},
+ {d:13,w:'월', g:'finish', n:'타일 3일차', m:'', o:'타일 옆면(졸리컷) 마감을 어떻게 하는지 미리 물어보세요. 준공 때 자주 나오는 지적입니다.'},
+ {d:14,w:'화', g:'finish', n:'필름', m:'타일 예비일 겸함', o:'예비일을 공정표에 미리 넣어 두면 하루 밀려도 전체가 밀리지 않습니다.'},
+ {d:15,w:'수', g:'fit',    n:'설비 · 기구 세팅', m:'발코니 벽면 도장', o:''},
+ {d:16,w:'목', g:'fit',    n:'도배 초배', m:'오전에 가구 미팅', o:'주방 가구 실측과 최종 확인이 이날 붙습니다. 도배가 끝나면 수정이 어렵습니다.'},
+ {d:17,w:'금', g:'fit',    n:'도배 정배', m:'욕실 수건장 설치', o:''},
+ {d:18,w:'월', g:'fit',    n:'조명 · 에어컨 설치', m:'', o:''},
+ {d:19,w:'화', g:'fit',    n:'장판 · 유리 파티션', m:'직접 산 자재 현장 도착 마감', o:'싱크볼과 수전처럼 직접 구매한 품목이 이날까지 현장에 도착해야 합니다. 달력에 적어 두세요.'},
+ {d:20,w:'수', g:'issue',  n:'가구', m:'업체 노쇼로 하루 밀림', o:'실제로 이런 일이 생깁니다. 마지막 공정과 이사 사이에 여유를 두세요.'},
+ {d:21,w:'목', g:'fit',    n:'가구', m:'하루 밀려 진행', o:''},
+ {d:22,w:'금', g:'fit',    n:'줄눈 · 준공청소 · 본마감', m:'', o:''},
+ {d:23,w:'토', g:'prep',   n:'소화기 설치 · 인수인계', m:'', o:'조명을 다 켜고 한 방씩 돌면서 하자를 찾습니다. 하자 점검 화면을 열어 그 자리에서 기록하세요.'}
+];
+
+var ROOMS = {
+  '거실':['벽지 터짐·구멍','몰딩·걸레받이 마감','스위치·콘센트 스크래치','샷시 손잡이 스크래치','중문 프레임 스크래치','천장 우물 안쪽 마감'],
+  '안방':['문틀 필름 돌출','천장지 찢어짐','벽지 모서리 터짐','샷시 손잡이 스크래치','콘센트 접지 단자 말림'],
+  '드레스룸':['외벽 모서리 벽지 터짐','선반 수평','조명 위치','점검구 마감'],
+  '작은방':['문틀 필름 돌출','방문 파임','걸레받이 벽지 뜯어짐','샷시 손잡이 스크래치'],
+  '욕실':['줄눈 탈락','문틀 필름 돌출','스위치 스크래치','온도조절기 수평','환풍기 작동','배수와 수압','실리콘 마감'],
+  '주방':['상부장 경첩 헐거움','하부장 내부 가림판 없음','몰딩 필름 긁힘','수전 누수','식기세척기 설치 간섭','인덕션 타공 마감'],
+  '현관':['타일 옆면 마감','신발장 수평·경첩','중문 개폐','도어락 작동'],
+  '발코니·세탁실':['타일 옆면 마감','건조대 설치','배수 구배','터닝도어 개폐','페인트 마감']
+};
+
+
+var TERMS={
+ '턴키':{c:'방식',d:'설계·시공·자재 구매까지 업체 한 곳이 전부 맡는 방식. 손이 덜 가지만 비용은 높습니다. 이 진행판은 턴키를 기준으로 씌어 있습니다.'},
+ '반셀프':{c:'방식',d:'도배·타일처럼 공정별로 직접 업체를 구해 맡기는 방식. 싸지만 일정 조율과 하자 책임을 본인이 집니다.'},
+ '공정':{c:'방식',d:'철거·전기·목공처럼 순서대로 들어오는 공사 단위. 앞 공정이 밀리면 뒤가 연달아 밀립니다.'},
+ '준공':{c:'방식',d:'공사를 마치는 것. 준공일에 집을 돌며 하자를 찾습니다.'},
+ '인수인계':{c:'방식',d:'준공 후 업체에게 집을 넘겨받는 절차. 이날 하자 목록을 만들고 사용법을 듣습니다.'},
+
+ 't':{c:'단위',d:'두께(thickness). 2.2t 장판은 두께 2.2㎜입니다. 두꺼울수록 푹신하고 소음이 덜합니다.'},
+ '각':{c:'단위',d:'타일 한 장의 정사각형 크기. 600각은 600×600㎜입니다. 클수록 줄눈이 적어 넓어 보입니다.'},
+ '전':{c:'단위',d:'걸레받이 높이 단위. 1전이 약 3㎝라 4전이면 12㎝쯤 됩니다.'},
+ '평':{c:'단위',d:'약 3.3㎡. 24평은 전용면적 59㎡ 안팎입니다.'},
+
+ '확장':{c:'구조',d:'발코니와 실내 사이의 벽·창을 없애 방이나 거실을 넓히는 공사. 단열과 창호 교체가 따라붙어 비용이 크게 늘어납니다.'},
+ '터닝도어':{c:'구조',d:'발코니를 남길 때 실내와의 사이에 다는 접이식 유리문. 열면 트이고 닫으면 단열됩니다.'},
+ '아이소핑크':{c:'구조',d:'분홍색 스티로폼 단열재의 상표명. 확장한 바닥과 벽에 깔아 결로와 추위를 막습니다.'},
+ '내력벽':{c:'구조',d:'건물 하중을 받치는 벽. 법으로 철거가 금지됩니다. 도면이나 관리사무소에서 확인합니다.'},
+ '가벽':{c:'구조',d:'하중을 받지 않는 칸막이 벽. 세우거나 옮길 수 있습니다.'},
+ '우물천장':{c:'구조',d:'가운데가 사각으로 파인 천장. 오래된 집에 많고, 요즘은 철거해 평평하게 만드는 경우가 많습니다.'},
+ '평천장':{c:'구조',d:'굴곡 없이 평평한 천장. 천장이 높아 보입니다.'},
+ '발코니':{c:'구조',d:'거실이나 방 바깥에 붙은 공간. 확장하거나 세탁실로 쓰거나 그대로 둡니다.'},
+
+ '엑셀 배관':{c:'바닥',d:'바닥 난방용 온수 파이프. 철거하고 새로 깔면 난방이 고르지만 비용과 기간이 늘어납니다.'},
+ '홈 파기':{c:'바닥',d:'기존 바닥을 살리고 홈만 파서 배관을 바꾸는 방식. 싸고 빠르지만 바닥 수평이 덜 잡힙니다.'},
+ '샌딩':{c:'바닥',d:'바닥을 갈아 평평하게 만드는 작업. 이걸 건너뛰면 장판 밑 요철이 그대로 드러납니다.'},
+ '장판':{c:'바닥',d:'바닥에 까는 시트. 마루보다 싸고 물에 강하며 발이 덜 시립니다.'},
+ '마루':{c:'바닥',d:'나무 무늬 바닥재. 강마루·강화마루 등이 있고 장판보다 비쌉니다.'},
+
+ '문선':{c:'목공',d:'문틀 둘레를 감싸는 테두리. 폭이 좁을수록(9~12㎜) 깔끔하고 요즘 스타일입니다.'},
+ '걸레받이':{c:'목공',d:'벽 아래 바닥과 만나는 자리에 대는 띠. 청소기 부딪힘과 벽지 오염을 막습니다.'},
+ '몰딩':{c:'목공',d:'천장과 벽이 만나는 모서리에 대는 마감재. 평몰딩은 납작해서 깔끔합니다.'},
+ '필름':{c:'목공',d:'문·문틀·몰딩에 붙이는 시트지. 교체하지 않고 감싸서 새것처럼 만듭니다. 들뜨거나 돌출되는 하자가 잦습니다.'},
+ '목공':{c:'목공',d:'문·문틀·몰딩·가벽처럼 나무로 하는 공사. 가전·가구 치수가 확정되어 있어야 합니다.'},
+
+ '포세린':{c:'타일',d:'물을 거의 먹지 않는 단단한 타일. 현관·주방·발코니에 많이 씁니다.'},
+ '졸리컷':{c:'타일',d:'타일 모서리를 45도로 갈아 맞대는 마감. 타일 옆면이 안 보여 깔끔합니다. 안 하면 옆면이 그대로 드러납니다.'},
+ '줄눈':{c:'타일',d:'타일 사이를 메우는 재료. 곰팡이가 잘 생겨 탄성줄눈으로 시공하기도 합니다.'},
+ '젠다이':{c:'욕실',d:'욕실 벽에 만드는 선반 턱. 샴푸 같은 것을 올려 둡니다. 일자로 길게 빼는 형태가 흔합니다.'},
+ 'SMC':{c:'욕실',d:'욕실 천장에 쓰는 플라스틱 판. 습기에 강하고 물때가 덜 낍니다.'},
+ '방수':{c:'욕실',d:'욕실 바닥과 벽에 물이 새지 않게 하는 공정. 타일 아래 숨어 나중에 다시 못 하니 이때 꼼꼼해야 합니다.'},
+ '도기':{c:'욕실',d:'변기·세면대 같은 위생도기. 브랜드와 모델명을 견적서에 적어 달라고 하세요.'},
+ '샤워부스':{c:'욕실',d:'샤워 공간을 유리로 막아 물이 튀지 않게 하는 것.'},
+
+ '침니형':{c:'주방',d:'굴뚝처럼 벽에 붙어 위로 뻗은 주방 후드 형태.'},
+ '인조대리석':{c:'주방',d:'주방 상판에 많이 쓰는 재질. 24t는 두께 24㎜입니다.'},
+ '타공':{c:'주방',d:'인덕션이나 싱크볼을 앉히려고 상판에 뚫는 구멍. 제품 치수가 정확해야 합니다.'},
+ '냉장고장':{c:'주방',d:'냉장고를 감싸 붙박이처럼 보이게 하는 가구. 냉장고 치수가 먼저 정해져야 합니다.'},
+
+ '샷시':{c:'창호',d:'창틀과 창문 전체를 부르는 말. 표준어는 새시입니다. 확장하면 대부분 교체합니다.'},
+ '단창':{c:'창호',d:'유리와 창이 한 겹인 창. 단열과 방음이 약합니다.'},
+ '이중창':{c:'창호',d:'창이 두 겹인 창. 단열과 방음에 유리하고 값이 비쌉니다.'},
+ '중문':{c:'창호',d:'현관과 거실 사이에 다는 문. 단열·냄새 차단·프라이버시에 도움이 됩니다.'},
+ '3연동':{c:'창호',d:'문짝 세 개가 겹치며 한쪽으로 열리는 방식. 좁은 현관에 유리합니다.'},
+ '모루유리':{c:'창호',d:'표면에 무늬가 있어 빛은 통과시키되 안이 흐릿하게 보이는 유리.'},
+
+ '선배관':{c:'설비',d:'벽을 막기 전에 미리 넣어 두는 배관. 에어컨 배관이 대표적이라 벽이 막히면 되돌릴 수 없습니다.'},
+ '다배관':{c:'설비',d:'실외기 한 대에 실내기 여러 대를 각각의 배관으로 연결하는 방식.'},
+ '접지':{c:'설비',d:'감전을 막기 위해 전기를 땅으로 흘려보내는 선. 콘센트 교체 때 확인합니다.'},
+ '분전반':{c:'설비',d:'현관 근처에 있는 차단기 상자.'},
+
+ '초배':{c:'도배',d:'벽지를 바르기 전 밑작업. 벽면을 고르게 만들어 줍니다.'},
+ '정배':{c:'도배',d:'실제 벽지를 바르는 작업. 초배 다음 날 하는 경우가 많습니다.'},
+ '실크벽지':{c:'도배',d:'표면에 코팅이 있어 물걸레로 닦이는 벽지. 합지보다 비쌉니다.'},
+ '합지':{c:'도배',d:'종이로만 된 벽지. 싸지만 오염에 약하고 잘 찢어집니다.'},
+
+ '가설공사':{c:'견적',d:'공사 준비 작업. 바닥·엘리베이터 보양, 임시 전기와 조명, 자재 운반 등이 들어갑니다.'},
+ '벽체공사':{c:'견적',d:'벽을 세우거나 헐고 미장하는 공사.'},
+ '금속공사':{c:'견적',d:'금속 자재를 다루는 공사. 난간, 유리 파티션 프레임, 환기구 등입니다.'},
+ '설비공사':{c:'견적',d:'급수·배수·난방 배관 공사. 눈에 안 보이지만 하자가 나면 가장 아픕니다.'},
+ '집계표':{c:'견적',d:'공사 항목별 합계만 모은 표. 여기만 주는 곳에는 내역서를 요청하세요.'},
+ '내역서':{c:'견적',d:'항목마다 규격·수량·단가를 편 상세 문서. 이게 부실하면 나중에 따질 근거가 없습니다.'},
+ '원가계산서':{c:'견적',d:'자재비·노무비·경비와 이윤을 나눠 적은 문서.'},
+ '지체상금':{c:'계약',d:'공사가 약속한 날보다 늦어질 때 업체가 물어주는 돈. 계약서에 하루당 비율로 정해 둡니다.'},
+ '하자담보책임기간':{c:'계약',d:'하자를 무상으로 고쳐 주어야 하는 법정 기간. 실내건축 1년, 냉난방 2년, 방수·지붕 3년입니다.'},
+ '착수금':{c:'계약',d:'공사 시작 전에 내는 첫 대금. 과도하게 요구하면 위험 신호입니다.'},
+ '잔금일':{c:'계약',d:'집값의 마지막 대금을 치르고 소유권과 열쇠를 받는 날. 이날 전에는 남의 집이라 공사를 시작할 수 없어서, 모든 일정의 출발점이 됩니다.'},
+ '예비비':{c:'계약',d:'철거 후 드러나는 문제에 대비해 따로 떼어 두는 돈. 총액의 10~15%를 잡아 두면 공사 중 추가 요청에 흔들리지 않습니다.'},
+ '보양':{c:'계약',d:'공사 중 바닥·엘리베이터·공용부가 상하지 않게 감싸 두는 것. 단지에서 요구하는 경우가 많습니다.'}
+};
+var TERM_KEYS=Object.keys(TERMS).sort(function(a,b){return b.length-a.length});
+
+/* ─────────── 상태 ─────────── */
+var KEY='interior-board-v2';
+var S={view:'home',phase:'before',moveIn:'',startDate:'',brief:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',acc:{},planOpen:{}};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw); if(p&&typeof p==='object') for(var k in p) S[k]=p[k]; } }catch(e){}
+function persist(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+var $=function(s,r){return (r||document).querySelector(s)};
+function el(t,c,x){var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n}
+function toast(m){var t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show')},1900)}
+function chevron(sz){return '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg>'}
+
+function ckRow(label,desc,checked,onChange){
+  var l=el('label','ck');
+  var i=document.createElement('input'); i.type='checkbox'; i.checked=!!checked;
+  i.addEventListener('change',function(){onChange(i.checked)});
+  var s=el('span','ckt'); s.appendChild(el('b',null,label));
+  if(desc) s.appendChild(el('em',null,desc));
+  l.appendChild(i); l.appendChild(s); return l;
+}
+function chk(k){ return !!S.checks[k] }
+function setChk(k,v){ if(v) S.checks[k]=1; else delete S.checks[k]; persist(); renderNav(); renderQuoteSummary(); }
+
+/* ─────────── 진행 상태 ─────────── */
+function qKeys(src){
+  if(src==='budget') return BUDGET.map(function(b){return b.k}).concat(MONEY.map(function(m){return m.k}));
+  if(src==='agg') return AGG.map(function(_,i){return 'agg'+i});
+  if(src==='detail') return DETAIL.map(function(d){return d.k});
+  if(src==='miss') return MISS.map(function(m){return m.k});
+  return CONTRACT.map(function(c){return c.k});
+}
+function progress(){
+  var bt=0,bd=0;
+  BRIEF.forEach(function(g){g.fs.forEach(function(f){bt++; if((S.brief[f.k]||'').trim()) bd++})});
+  var qAll=[].concat(qKeys('budget'),qKeys('agg'),qKeys('detail'),qKeys('miss'),qKeys('contract'));
+  var qd=qAll.filter(chk).length;
+  var vd=S.vendors.filter(function(v){return VCHECKS.every(function(c){return v.checks&&v.checks[c.k]})}).length;
+  var pOpen=S.punch.filter(function(p){return p.st!=='done'}).length;
+  return {
+    glossary:{r:0},
+    plan:  {r:(S.phase==='after'? (S.startDate?1:0) : (S.moveIn?1:0))},
+    brief: {r:bt?bd/bt:0, d:bd, t:bt},
+    vendors:{r:S.vendors.length? Math.min(1,S.vendors.length/5):0, d:S.vendors.length, ok:vd},
+    quote: {r:qd/qAll.length, d:qd, t:qAll.length},
+    build: {r:Object.keys(S.build).length/PHASES.length, d:Object.keys(S.build).length, t:PHASES.length},
+    punch: {r:S.punch.length? (S.punch.length-pOpen)/S.punch.length : 0, d:S.punch.length, open:pOpen}
+  };
+}
+
+/* ─────────── 네비 ─────────── */
+function renderNav(){
+  var pr=progress(), nav=$('#nav'); nav.innerHTML='';
+  var hg=el('div','nav-stage');
+  var hb=el('button','nav-btn'+(S.view==='home'?' on':'')); hb.type='button';
+  hb.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="'+VIEWS.home.icon+'"/></svg><span class="n-lab"></span>';
+  hb.querySelector('.n-lab').textContent=VIEWS.home.label;
+  hb.addEventListener('click',function(){ go('home') });
+  hg.appendChild(hb);
+  var gb=el('button','nav-btn'+(S.view==='glossary'?' on':'')); gb.type='button';
+  gb.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="'+VIEWS.glossary.icon+'"/></svg><span class="n-lab"></span>';
+  gb.querySelector('.n-lab').textContent=VIEWS.glossary.label;
+  gb.addEventListener('click',function(){ go('glossary') });
+  hg.appendChild(gb);
+  nav.appendChild(hg);
+  STAGES.forEach(function(st){
+    var g=el('div','nav-stage');
+    var lab=el('div','stage-lab');
+    lab.innerHTML='<i></i><span></span><s></s>';
+    lab.querySelector('i').textContent=st.n;
+    lab.querySelector('span').textContent=st.label;
+    g.appendChild(lab);
+    st.views.forEach(function(id){
+      var v=VIEWS[id], r=pr[id].r;
+      var b=el('button','nav-btn'+(S.view===id?' on':'')); b.type='button';
+      b.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="'+v.icon+'"/></svg><span class="n-lab"></span><span class="dot"></span>';
+      b.querySelector('.n-lab').textContent=v.label;
+      var dot=b.querySelector('.dot');
+      var s = r>=1?'done':(r>0?'part':'none');
+      dot.setAttribute('data-s',s);
+      if(s==='part') dot.style.setProperty('--p',Math.max(12,Math.round(r*100))+'%');
+      dot.title = s==='done'?'이 화면은 다 채웠습니다':(s==='part'?'채우는 중입니다':'아직 시작하지 않았습니다');
+      b.addEventListener('click',function(){ go(id) });
+      g.appendChild(b);
+    });
+    nav.appendChild(g);
+  });
+}
+function isDockOpen(){ return document.getElementById('rail').classList.contains('open') }
+function setDock(open){
+  var dockOpen=!!open;
+  var railEl=$('#rail');
+  railEl.classList.toggle('open',dockOpen);
+  try{ railEl.inert=!dockOpen }catch(e){}
+  document.body.classList.toggle('dock-open',dockOpen);
+  var sc=$('#scrim');
+  sc.classList.toggle('on',dockOpen);
+  sc.style.pointerEvents='none';
+  if(dockOpen) setTimeout(function(){ if(isDockOpen()) sc.style.pointerEvents='auto' },260);
+  $('#dockBtn').setAttribute('aria-expanded',String(dockOpen));
+  $('#dockBtn').classList.toggle('open',dockOpen);
+  $('#dockBtn').setAttribute('aria-label', dockOpen? '화면 목록 닫기':'화면 목록 열기');
+}
+function syncDockBtn(id){
+  if(id!=='home') document.body.classList.add('intro-done');
+  var v=VIEWS[id]; if(!v) return;
+  $('#dockName').textContent = (id==='home')? '수라의 길로' : v.label;
+  var st='시작';
+  STAGES.forEach(function(x){ if(x.views.indexOf(id)>-1) st=x.n+'. '+x.label });
+  $('#dockStage').textContent = (id==='home')? '갈 것인가' : st;
+  document.body.classList.toggle('home-view', id==='home');
+}
+
+function go(id){
+  S.view=id; persist();
+  setDock(false);
+  syncDockBtn(id);
+  document.querySelector('.main').classList.toggle('home-mode', id==='home');
+  var sp=$('#sprog'); if(sp) sp.style.display = (id==='home')?'block':'none';
+  Object.keys(VIEWS).forEach(function(v){ $('#v-'+v).hidden = (v!==id) });
+  renderNav();
+  window.scrollTo({top:0,behavior:'auto'});
+  if(id==='home'){ $('#v-home').classList.remove('ready'); initIntro(); }
+  if(id==='glossary') renderGlossary();
+  linkTerms($('#v-'+id));
+}
+function setSum(id,state,text,num){
+  var w=$('#sum-'+id); w.innerHTML=''; w.setAttribute('data-s',state);
+  var t=el('div','vs-t'); t.innerHTML=text; w.appendChild(t);
+  if(num){ w.appendChild(el('div','vs-n',num)) }
+}
+
+
+/* ─────────── 용어 ─────────── */
+/* 한 글자 단위(t·각·전·평)는 숫자에 붙었을 때만 잡는다. 그러지 않으면 '각 방 용도'가 걸린다. */
+var UNIT_KEYS={'t':1,'각':1,'전':1,'평':1};
+var TERM_WORDS=TERM_KEYS.filter(function(k){ return !UNIT_KEYS[k] });
+var UNIT_RE=/(\d+(?:\.\d+)?)\s?(t|각|전|평)(?![가-힣A-Za-z0-9])/g;
+
+function termBtn(label,key){
+  var b=document.createElement('button');
+  b.type='button'; b.className='term'; b.textContent=label;
+  b.setAttribute('data-term',key);
+  b.setAttribute('aria-label',label+' 뜻 보기');
+  return b;
+}
+var seenTerms=null;
+function splitNode(node){
+  var text=node.nodeValue;
+  if(!text || text.length<1) return;
+  var hits=[];
+  for(var i=0;i<TERM_WORDS.length;i++){
+    var w=TERM_WORDS[i], from=0, at;
+    while((at=text.indexOf(w,from))>-1){
+      hits.push({s:at,e:at+w.length,k:w}); from=at+w.length;
+    }
+  }
+  UNIT_RE.lastIndex=0;
+  var m;
+  while((m=UNIT_RE.exec(text))){
+    hits.push({s:m.index,e:m.index+m[0].length,k:m[2]});
+  }
+  if(!hits.length) return;
+  hits.sort(function(a,b){ return a.s-b.s || (b.e-b.s)-(a.e-a.s) });
+  var picked=[], last=-1;
+  hits.forEach(function(h){
+    if(h.s<last) return;
+    if(seenTerms){ if(seenTerms[h.k]) return; seenTerms[h.k]=1 }
+    picked.push(h); last=h.e;
+  });
+  if(!picked.length) return;
+
+  var frag=document.createDocumentFragment(), pos=0;
+  picked.forEach(function(h){
+    if(h.s>pos) frag.appendChild(document.createTextNode(text.slice(pos,h.s)));
+    frag.appendChild(termBtn(text.slice(h.s,h.e),h.k));
+    pos=h.e;
+  });
+  if(pos<text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+  node.parentNode.replaceChild(frag,node);
+}
+function linkTerms(root){
+  if(!root||!document.createTreeWalker) return;
+  var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+    acceptNode:function(n){
+      if(!n.nodeValue||!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      var p=n.parentElement;
+      if(!p) return NodeFilter.FILTER_REJECT;
+      var tag=p.tagName;
+      if(tag==='SCRIPT'||tag==='STYLE'||tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||tag==='OPTION') return NodeFilter.FILTER_REJECT;
+      if(p.closest('.term,.termpop,.gl-item,.no-term,.crumb,.micro,.tab,.room-tab,.dockbtn,.rail,label.fl,.vsum,.acc-head,.phase-sw,.plan-dday,.ph-day,h1,h2,.v-head p')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var list=[], n;
+  while((n=walker.nextNode())) list.push(n);
+  seenTerms={};
+  root.querySelectorAll('.term').forEach(function(b){ seenTerms[b.getAttribute('data-term')]=1 });
+  list.forEach(splitNode);
+  seenTerms=null;
+}
+
+var termPop=null;
+function showTerm(btn){
+  var key=btn.getAttribute('data-term'), t=TERMS[key];
+  if(!t) return;
+  if(!termPop){
+    termPop=el('div','termpop'); termPop.id='termPop';
+    termPop.innerHTML='<div class="tp-h"><b></b><s></s></div><p></p>';
+    document.body.appendChild(termPop);
+  }
+  termPop.querySelector('b').textContent=key;
+  termPop.querySelector('s').textContent=t.c;
+  termPop.querySelector('p').textContent=t.d;
+  termPop.classList.add('on');
+  var r=btn.getBoundingClientRect(), pw=Math.min(330,innerWidth-24);
+  termPop.style.maxWidth=pw+'px';
+  var ph=termPop.offsetHeight;
+  var left=Math.max(12,Math.min(r.left, innerWidth-pw-12));
+  var top=r.bottom+9;
+  if(top+ph>innerHeight-12) top=Math.max(12,r.top-ph-9);
+  termPop.style.left=left+'px'; termPop.style.top=top+'px';
+}
+function hideTerm(){ if(termPop) termPop.classList.remove('on') }
+document.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest? e.target.closest('.term') : null;
+  if(b){ e.stopPropagation(); showTerm(b) } else if(!(e.target.closest&&e.target.closest('.termpop'))) hideTerm();
+});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') hideTerm() });
+window.addEventListener('scroll',hideTerm,{passive:true});
+
+/* 요청서 필드에 그 항목에서 쓰는 말만 칩으로 */
+var FIELD_TERMS={
+  expand:['확장','터닝도어','내력벽','발코니'],
+  insul:['아이소핑크','확장'],
+  floorway:['엑셀 배관','홈 파기','샌딩'],
+  paper:['실크벽지','합지','초배','정배'],
+  ceil:['우물천장','평천장','몰딩'],
+  floor:['장판','마루','샌딩','t'],
+  window:['샷시','단창','이중창'],
+  carp:['문선','걸레받이','몰딩','필름','전'],
+  entry:['중문','3연동','모루유리','포세린','각'],
+  bath:['젠다이','SMC','방수','도기','샤워부스','졸리컷'],
+  kitchen:['포세린','침니형','인조대리석','타공','냉장고장'],
+  balcony:['터닝도어','포세린'],
+  aircon:['선배관','다배관'],
+  size:['평']
+};
+var NO_ESCAPE={when:1,movein:1,region:1,year:1,size:1,rooms:1,mood:1,etc:1};
+function fieldChips(key,inp){
+  var ks=FIELD_TERMS[key];
+  var w=el('div','termchips');
+  if(ks&&ks.length) w.appendChild(el('span','tc-lab','뜻 보기'));
+  (ks||[]).forEach(function(k){
+    if(!TERMS[k]) return;
+    var b=document.createElement('button'); b.type='button'; b.className='term'; b.textContent=k;
+    b.setAttribute('data-term',k); b.style.borderBottom='0';
+    w.appendChild(b);
+  });
+  if(inp && !NO_ESCAPE[key]){
+    var e=document.createElement('button');
+    e.type='button'; e.className='tc-esc'; e.textContent='모르겠어요';
+    e.title='업체에 추천을 요청하는 문구를 넣습니다';
+    e.addEventListener('click',function(){
+      inp.value='정하지 못했습니다. 비슷한 조건에서 많이 하는 선택으로 추천해 주세요.';
+      inp.dispatchEvent(new Event('input'));
+      toast('업체에 추천을 요청하는 문구를 넣었습니다');
+    });
+    w.appendChild(e);
+  }
+  return w.children.length? w : null;
+}
+
+/* 용어 화면 */
+function renderGlossary(){
+  var wrap=$('#glList'); if(!wrap) return;
+  var q=(($('#glQ')||{}).value||'').trim().toLowerCase();
+  wrap.innerHTML='';
+  var cats=[], byCat={};
+  TERM_KEYS.slice().sort(function(a,b){return a.localeCompare(b,'ko')}).forEach(function(k){
+    var t=TERMS[k];
+    if(q && k.toLowerCase().indexOf(q)<0 && t.d.toLowerCase().indexOf(q)<0) return;
+    if(!byCat[t.c]){ byCat[t.c]=[]; cats.push(t.c) }
+    byCat[t.c].push(k);
+  });
+  if(!cats.length){ wrap.appendChild(el('div','gl-empty','찾는 말이 없습니다. 다른 낱말로 검색해 보세요.')); return }
+  var order=['방식','단위','구조','바닥','목공','타일','욕실','주방','창호','설비','도배','견적','계약'];
+  cats.sort(function(a,b){ return order.indexOf(a)-order.indexOf(b) });
+  cats.forEach(function(c){
+    var g=el('div','gl-group');
+    var h=el('div','gl-cat'); h.innerHTML='<span></span><s></s>';
+    h.querySelector('span').textContent=c;
+    g.appendChild(h);
+    var l=el('div','gl-list');
+    byCat[c].forEach(function(k){
+      var it=el('div','gl-item');
+      it.appendChild(el('b',null,k));
+      it.appendChild(el('span',null,TERMS[k].d));
+      l.appendChild(it);
+    });
+    g.appendChild(l); wrap.appendChild(g);
+  });
+  setSum('glossary', q? 'part':'none',
+    q? '검색 결과 <b>'+Object.keys(byCat).reduce(function(a,c){return a+byCat[c].length},0)+'개</b>'
+     : '모두 <b>'+TERM_KEYS.length+'개</b>입니다. 다른 화면에서 점선 낱말을 눌러도 같은 설명이 뜹니다.',
+    TERM_KEYS.length+'개');
+}
+
+/* ─────────── 01 일정 ─────────── */
+function workDate(start,dayNo){
+  if(!start||isNaN(start.getTime())) return null;
+  var d=new Date(start.getTime()), left=Math.max(0,Math.min(400,dayNo-1));
+  while(left>0){ d.setDate(d.getDate()+1); if(d.getDay()!==0&&d.getDay()!==6) left--; }
+  return d;
+}
+function workDayNo(start,today){
+  if(!start||isNaN(start.getTime())||today<=start) return 1;
+  var d=new Date(start.getTime()), n=1, guard=0;
+  while(d<today && guard++<2000){ d.setDate(d.getDate()+1); if(d.getDay()!==0&&d.getDay()!==6) n++; }
+  return n;
+}
+var LAST_DAY = PHASES[PHASES.length-1].d;
+var AFTER = [
+  {k:'a1', day:1,        n:'공사 시작 · 현장미팅', v:'build',
+   t:'에어컨과 샷시를 실측하고, 제작 기간이 긴 품목을 이날 발주합니다.'},
+  {k:'a2', day:6,        n:'전기 배선', v:'build',
+   t:'콘센트와 스위치 위치를 최종 확정하는 날입니다. 벽이 막히면 되돌리기 어렵습니다.'},
+  {k:'a3', day:8,        n:'목공 시작', v:'build',
+   t:'이 시점에 가전과 가구 치수가 전부 확정되어 있어야 합니다.'},
+  {k:'a4', day:16,       n:'도배 · 가구 미팅', v:'build',
+   t:'주방 가구 실측과 최종 확인이 붙습니다. 도배가 끝나면 수정이 어렵습니다.'},
+  {k:'a5', day:19,       n:'직접 산 자재 도착 마감', v:'build',
+   t:'싱크볼·수전처럼 직접 구매한 품목이 이날까지 현장에 있어야 합니다.'},
+  {k:'a6', day:LAST_DAY, n:'준공 · 인수인계', v:'punch',
+   t:'빈 집을 돌며 하자를 찾아 목록을 만드는 날입니다. 잔금은 보수를 확인한 뒤에 냅니다.'},
+  {k:'a7', day:LAST_DAY, off:8,  n:'A/S · 새집증후군 시공', v:'punch',
+   t:'짐이 들어오기 전에 보수를 끝냅니다.'},
+  {k:'a8', day:LAST_DAY, off:12, n:'입주 가능', v:null, t:''}
+];
+function afterDate(start,it){
+  var d=workDate(start,it.day);
+  if(it.off) d=new Date(d.getTime()+it.off*864e5);
+  return d;
+}
+function fmt(dt){ return (dt.getMonth()+1)+'월 '+dt.getDate()+'일 ('+['일','월','화','수','목','금','토'][dt.getDay()]+')' }
+function baseStart(){
+  if(S.phase==='after') return parseDate(S.startDate);
+  var mv=parseDate(S.moveIn);
+  return mv? new Date(mv.getTime()-48*864e5) : null;
+}
+function today0(){ var t=new Date(); t.setHours(0,0,0,0); return t }
+/* 날짜 문자열은 전부 이 함수를 거친다. 형식·유효성·상식 범위를 넘으면 null. */
+function parseDate(v){
+  if(!v || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null;
+  var d=new Date(v+'T00:00:00');
+  if(isNaN(d.getTime())) return null;
+  var y=d.getFullYear();
+  if(y<2000 || y>2100) return null;
+  return d;
+}
+function dateWarn(d){
+  if(!d) return null;
+  var diff=Math.round((d-today0())/864e5);
+  if(S.phase==='before'){
+    if(diff<=0) return '입주 희망일은 오늘 이후로 넣어 주세요.';
+    if(diff<30) return '전체 공사 기준으로는 촉박합니다. 도배·바닥만 하는 부분 공사이거나 업체가 이미 정해진 경우가 아니라면 일정을 다시 보세요.';
+    if(diff<70) return '전체 공사라면 빠듯합니다. 업체 상담 단계를 줄이거나 입주일을 미루는 쪽을 검토하세요.';
+    if(diff>1095) return '3년 넘게 남은 날짜입니다. 맞는지 확인해 주세요.';
+  } else {
+    if(diff<-365) return '1년 넘게 지난 날짜입니다. 착공일이 맞는지 확인해 주세요.';
+    if(diff>365) return '1년 넘게 남은 날짜입니다. 착공일이 맞는지 확인해 주세요.';
+  }
+  return null;
+}
+function showWarn(msg){
+  var box=$('#dateWarn');
+  if(!box){
+    var host=$('#dateBox')||$('#planSummary');
+    if(!host) return;
+    box=el('div'); box.id='dateWarn';
+    box.style.cssText='margin-top:12px;padding:10px 14px;border-left:2px solid var(--amber);background:var(--amber-soft);font-size:13px;line-height:1.6;color:var(--amber)';
+    host.appendChild(box);
+  }
+  box.textContent=msg||'';
+  box.style.display=msg?'block':'none';
+}
+
+function renderPlan(){
+  var isAfter = S.phase==='after';
+  document.querySelectorAll('#phaseSw button').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-ph')===S.phase);
+  });
+  $('#dateLabel').textContent = isAfter? '공사 시작일 (계약서의 착공일)' : '입주 희망일';
+  $('#moveIn').value = isAfter? (S.startDate||'') : (S.moveIn||'');
+  var t=today0(), iso=function(d){var m=d.getMonth()+1,dd=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(dd<10?'0':'')+dd};
+  $('#moveIn').min = iso(new Date(t.getTime()+(isAfter? -365 : 1)*864e5));
+  $('#moveIn').max = iso(new Date(t.getTime()+(isAfter?365:1095)*864e5));
+  var cur=parseDate(isAfter? S.startDate : S.moveIn);
+  var rawv=isAfter? S.startDate : S.moveIn;
+  showWarn(rawv && !cur ? '날짜를 읽을 수 없습니다. 다시 선택해 주세요.' : dateWarn(cur));
+  $('#planHead').textContent = isAfter? '착공일부터의 일정' : '입주일에서 거꾸로 센 일정';
+  $('#planTitle').textContent = isAfter? '오늘 무엇을 챙겨야 하는지' : '언제부터 움직여야 하는지';
+  $('#planLead').textContent = isAfter
+    ? '착공일을 넣으면 공정 순서대로 그날 결정해야 할 것을 짚어 줍니다. 벽이 막히기 전에 정해야 하는 것들이 있습니다.'
+    : '입주하고 싶은 날을 넣으면 거꾸로 계산합니다. 좋은 업체일수록 일정이 먼저 차기 때문에, 지금 급한 일은 업체를 정하는 것입니다.';
+  isAfter? renderPlanAfter() : renderPlanBefore();
+  renderNow();
+  linkTerms($('#v-plan'));
+}
+
+/* 계약 전 — 입주일에서 역산 */
+function renderPlanBefore(){
+  var list=$('#planList'); list.innerHTML='';
+  var base = parseDate(S.moveIn);
+  var today=today0();
+  var nowIdx=-1, nowName='';
+  if(base){
+    for(var i=0;i<PLAN.length;i++){
+      if(new Date(base.getTime()-PLAN[i].d*864e5)>=today){ nowIdx=i; break }
+    }
+    if(nowIdx===-1) nowIdx=PLAN.length-1;
+    nowName=PLAN[nowIdx].n;
+  }
+  PLAN.forEach(function(p,i){
+    var open=!!S.planOpen[p.k];
+    var row=el('div','plan-item'+(open?' open':''));
+    var dt = base? new Date(base.getTime()-p.d*864e5) : null;
+    row.setAttribute('data-st', base? (i<nowIdx?'past':(i===nowIdx?'now':'next')) : 'next');
+
+    var gut=el('div','plan-gut');
+    gut.appendChild(el('div','plan-dday', p.d===0?'입주일':'D-'+p.d));
+    if(dt) gut.appendChild(el('div','plan-date', fmt(dt)));
+    row.appendChild(gut);
+
+    var sp=el('div','plan-spine'); sp.appendChild(el('div','plan-dot')); row.appendChild(sp);
+    row.appendChild(planBody(p, base && i===nowIdx, open));
+    list.appendChild(row);
+  });
+
+  var sum=$('#planSummary');
+  if(base){
+    var start=new Date(base.getTime()-110*864e5);
+    var dleft=Math.round((start-today)/864e5);
+    sum.innerHTML='';
+    var b=el('b',null,'요청서 작성은 '+fmt(start)+'까지 시작'); b.style.color='var(--ink)';
+    sum.appendChild(b); sum.appendChild(document.createElement('br'));
+    sum.appendChild(document.createTextNode(
+      dleft>0? '아직 '+dleft+'일 남았습니다.' :
+      dleft===0? '오늘이 그날입니다.' :
+      '이미 '+Math.abs(dleft)+'일 지났습니다. 일정을 당기거나 입주일을 미루는 쪽을 검토하세요.'));
+    var dtoMove=Math.max(0,Math.round((base-today)/864e5));
+    setSum('plan','done','지금은 <b>'+nowName+'</b> 단계입니다. 입주까지 '+dtoMove+'일 남았습니다.','D-'+dtoMove);
+  } else {
+    sum.textContent='입주하고 싶은 날을 넣으면 아홉 단계의 마감일을 거꾸로 계산합니다.';
+    setSum('plan','none','입주 희망일을 넣으면 <b>언제까지 업체를 정해야 하는지</b> 나옵니다.','');
+  }
+}
+
+/* 계약 후 — 착공일부터 정방향 */
+function renderPlanAfter(){
+  var list=$('#planList'); list.innerHTML='';
+  var start = parseDate(S.startDate);
+  var today=today0();
+  var nowIdx=-1;
+  if(start){
+    for(var i=0;i<AFTER.length;i++){
+      if(afterDate(start,AFTER[i])>=today){ nowIdx=i; break }
+    }
+    if(nowIdx===-1) nowIdx=AFTER.length-1;
+  }
+  AFTER.forEach(function(p,i){
+    var row=el('div','plan-item');
+    var dt = start? afterDate(start,p) : null;
+    row.setAttribute('data-st', start? (i<nowIdx?'past':(i===nowIdx?'now':'next')) : 'next');
+
+    var gut=el('div','plan-gut');
+    var lab = p.k==='a8'? '입주' : (p.off? '준공+'+p.off+'일' : p.day+'일차');
+    gut.appendChild(el('div','plan-dday', lab));
+    if(dt) gut.appendChild(el('div','plan-date', fmt(dt)));
+    row.appendChild(gut);
+
+    var sp=el('div','plan-spine'); sp.appendChild(el('div','plan-dot')); row.appendChild(sp);
+
+    var body=el('div','plan-body');
+    var nm=el('div','plan-name'); nm.appendChild(document.createTextNode(p.n));
+    if(start && i===nowIdx) nm.appendChild(el('span','pill','다음'));
+    body.appendChild(nm);
+    if(p.t) body.appendChild(el('div','plan-desc',p.t));
+    if(p.v){
+      var g=el('button','plan-go'); g.type='button';
+      g.innerHTML='<span></span>'+chevron(10);
+      g.querySelector('span').textContent=VIEWS[p.v].label+' 화면 열기';
+      g.addEventListener('click',function(){ go(p.v) });
+      body.appendChild(g);
+    }
+    row.appendChild(body);
+    list.appendChild(row);
+  });
+
+  var sum=$('#planSummary');
+  if(start){
+    var moveIn=afterDate(start,AFTER[AFTER.length-1]);
+    var n=workDayNo(start,today);
+    sum.innerHTML='';
+    var b=el('b',null,'입주 가능일은 '+fmt(moveIn)); b.style.color='var(--ink)';
+    sum.appendChild(b); sum.appendChild(document.createElement('br'));
+    sum.appendChild(document.createTextNode(
+      today<start? '착공까지 '+Math.round((start-today)/864e5)+'일 남았습니다.'
+      : (n>LAST_DAY? '공사가 끝났습니다. 하자 보수 기간입니다.' : '오늘은 공사 '+n+'일차입니다.')));
+    setSum('plan','done', today<start? '착공 전입니다. 준비할 것을 미리 챙겨 두세요.'
+      : '<b>공사 '+Math.min(n,LAST_DAY)+'일차</b>입니다. 전체 '+LAST_DAY+'일 가운데 진행 중입니다.',
+      today<start? 'D-'+Math.round((start-today)/864e5) : Math.min(n,LAST_DAY)+'/'+LAST_DAY);
+  } else {
+    sum.textContent='계약서의 착공일을 넣으면 공정 일정과 입주 가능일을 계산합니다.';
+    setSum('plan','none','착공일을 넣으면 <b>오늘 무슨 공정이고 무엇을 챙겨야 하는지</b> 나옵니다.','');
+  }
+}
+
+function planBody(p, isNow, open){
+  var body=el('div','plan-body');
+  if(p.det && p.det.length){
+    var head=el('button','plan-head'); head.type='button';
+    var txt=el('div'); txt.style.flex='1';
+    var nm=el('div','plan-name'); nm.appendChild(document.createTextNode(p.n));
+    if(isNow) nm.appendChild(el('span','pill','지금'));
+    txt.appendChild(nm);
+    if(p.t) txt.appendChild(el('div','plan-desc',p.t));
+    head.appendChild(txt);
+    var ch=el('span','plan-chev');
+    ch.innerHTML='<svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5 7 9l3.5-3.5"/></svg>';
+    head.appendChild(ch);
+    head.addEventListener('click',function(){ S.planOpen[p.k]=!open; persist(); renderPlan() });
+    body.appendChild(head);
+
+    var det=el('div','plan-detail');
+    var ul=document.createElement('ul');
+    p.det.forEach(function(d){ var li=document.createElement('li'); li.innerHTML=d; ul.appendChild(li) });
+    det.appendChild(ul);
+    if(p.v){
+      var g=el('button','plan-go'); g.type='button';
+      g.innerHTML='<span></span>'+chevron(10);
+      g.querySelector('span').textContent=VIEWS[p.v].label+' 화면 열기';
+      g.addEventListener('click',function(e){ e.stopPropagation(); go(p.v) });
+      det.appendChild(g);
+    }
+    body.appendChild(det);
+  } else {
+    var nm2=el('div','plan-name'); nm2.appendChild(document.createTextNode(p.n));
+    if(isNow) nm2.appendChild(el('span','pill','지금'));
+    body.appendChild(nm2);
+  }
+  return body;
+}
+
+/* 지금 해야 할 일 / 오늘의 공정 */
+function renderNow(){
+  var box=$('#nowBox'); box.innerHTML='';
+  var today=today0();
+  if(S.phase==='before'){
+    if(!parseDate(S.moveIn)) return;
+    var base=parseDate(S.moveIn); if(!base) return;
+    var idx=-1;
+    for(var i=0;i<PLAN.length;i++){ if(new Date(base.getTime()-PLAN[i].d*864e5)>=today){ idx=i; break } }
+    if(idx===-1) idx=PLAN.length-1;
+    var p=PLAN[idx], due=new Date(base.getTime()-p.d*864e5);
+    var left=Math.round((due-today)/864e5);
+
+    var c=el('div','nowcard');
+    c.appendChild(el('div','nc-lab','지금 해야 할 일'));
+    c.appendChild(el('h3',null,p.n));
+    c.appendChild(el('div','nc-when', fmt(due)+' 까지 · '+(left>0? left+'일 남음' : left===0? '오늘' : Math.abs(left)+'일 지남')));
+    var ul=document.createElement('ul');
+    (p.det||[]).forEach(function(d){ var li=document.createElement('li'); li.innerHTML=d; ul.appendChild(li) });
+    c.appendChild(ul);
+
+    if(p.k==='p2'||p.k==='p3'){
+      var ex=el('div','nc-next');
+      ex.innerHTML='<b>업체를 볼 때 따질 여덟 가지</b><br>'+VCHECKS.map(function(v){return v.l}).join(' · ');
+      c.appendChild(ex);
+    }
+    if(p.k==='p4'||p.k==='p5'){
+      var ex2=el('div','nc-next');
+      ex2.innerHTML='<b>견적에서 놓치기 쉬운 것</b><br>'+MISS.slice(0,5).map(function(m){return m.l}).join(' · ')+' 등을 더한 금액으로 비교하세요.';
+      c.appendChild(ex2);
+    }
+    if(p.v){
+      var act=el('div','nc-act');
+      var btn=el('button','btn'); btn.type='button';
+      btn.innerHTML='<span></span>'+chevron(11);
+      btn.querySelector('span').textContent=VIEWS[p.v].label+' 화면으로';
+      btn.addEventListener('click',function(){ go(p.v) });
+      act.appendChild(btn);
+      c.appendChild(act);
+    }
+    box.appendChild(c);
+  } else {
+    var st=parseDate(S.startDate); if(!st) return;
+    var n=workDayNo(st,today);
+    var c2=el('div','nowcard');
+    if(today<st){
+      c2.appendChild(el('div','nc-lab','착공 전'));
+      c2.appendChild(el('h3',null,'현장미팅 준비'));
+      c2.appendChild(el('div','nc-when', fmt(st)+' 착공 · '+Math.round((st-today)/864e5)+'일 남음'));
+      var u0=document.createElement('ul');
+      ['중문·샷시처럼 <b>제작 기간이 긴 품목</b>의 사양을 미리 정해 두세요.',
+       '가전과 가구의 <b>모델명과 치수</b>를 표로 정리해 업체에 넘기세요.',
+       '관리사무소 <b>신고와 동의</b>를 누가 언제 처리하는지 확인하세요.'].forEach(function(t){
+        var li=document.createElement('li'); li.innerHTML=t; u0.appendChild(li);
+      });
+      c2.appendChild(u0);
+    } else if(n>LAST_DAY){
+      c2.appendChild(el('div','nc-lab','공사 종료'));
+      c2.appendChild(el('h3',null,'하자 보수 기간'));
+      c2.appendChild(el('div','nc-when','실내건축 하자담보책임기간은 1년입니다'));
+      var u1=document.createElement('ul');
+      ['발견한 하자는 <b>사진과 날짜</b>를 함께 남겨 요청하세요.',
+       '잔금이 남아 있다면 <b>보수를 확인한 뒤</b> 지급하세요.'].forEach(function(t){
+        var li=document.createElement('li'); li.innerHTML=t; u1.appendChild(li);
+      });
+      c2.appendChild(u1);
+    } else {
+      var ph=PHASES[n-1];
+      c2.appendChild(el('div','nc-lab','오늘의 공정'));
+      c2.appendChild(el('h3',null,ph.n));
+      c2.appendChild(el('div','nc-when', n+'일차 · '+fmt(today)+(ph.m? ' · '+ph.m : '')));
+      var u2=document.createElement('ul');
+      var li0=document.createElement('li');
+      li0.innerHTML = ph.o? ph.o : '오늘은 특별히 결정할 것이 없습니다. <b>현장 사진</b>만 남겨 두세요.';
+      u2.appendChild(li0);
+      var li1=document.createElement('li');
+      li1.innerHTML='공정이 끝나면 <b>사진을 남기고</b> 공정 화면에서 체크하세요.';
+      u2.appendChild(li1);
+      c2.appendChild(u2);
+
+      var nx=PHASES.slice(n,n+2);
+      if(nx.length){
+        var nb=el('div','nc-next');
+        nb.innerHTML='<b>다음</b><br>'+nx.map(function(x){
+          return x.d+'일차 '+x.n+(x.o? ' — '+x.o.replace(/<[^>]+>/g,'').slice(0,44)+'…' : '');
+        }).join('<br>');
+        c2.appendChild(nb);
+      }
+    }
+    var act2=el('div','nc-act');
+    var b2=el('button','btn'); b2.type='button';
+    b2.innerHTML='<span>공정 화면으로</span>'+chevron(11);
+    b2.addEventListener('click',function(){ go('build') });
+    act2.appendChild(b2);
+    var b3=el('button','btn ghost'); b3.type='button'; b3.textContent='하자 점검 열기';
+    b3.addEventListener('click',function(){ go('punch') });
+    act2.appendChild(b3);
+    c2.appendChild(act2);
+    box.appendChild(c2);
+  }
+}
+
+/* ─────────── 02 요청서 ─────────── */
+function renderBrief(){
+  var wrap=$('#briefForm'); wrap.innerHTML='';
+  BRIEF.forEach(function(grp,gi){
+    var filled=grp.fs.filter(function(f){return (S.brief[f.k]||'').trim()}).length;
+    var open = S.acc[gi]!==undefined? S.acc[gi] : (gi===0);
+    var acc=el('div','acc'+(open?' open':''));
+    var head=el('button','acc-head'); head.type='button';
+    head.innerHTML='<span class="chev">'+chevron(11)+'</span><span class="fill"></span><span class="cnt'+(filled===grp.fs.length?' full':'')+'"></span>';
+    head.querySelector('.fill').textContent=grp.g;
+    head.querySelector('.cnt').textContent=filled+'/'+grp.fs.length+' 항목';
+    head.addEventListener('click',function(){ S.acc[gi]=!open; persist(); renderBrief() });
+    acc.appendChild(head);
+
+    var body=el('div','acc-body');
+    grp.fs.forEach(function(f){
+      var d=el('div','fgroup');
+      var lb=el('label','fl',f.l); lb.setAttribute('for','bf-'+f.k); d.appendChild(lb);
+      var inp= f.ta? document.createElement('textarea') : document.createElement('input');
+      if(!f.ta) inp.type='text';
+      inp.id='bf-'+f.k; inp.placeholder=f.ph; inp.value=S.brief[f.k]||'';
+      inp.addEventListener('input',function(){
+        S.brief[f.k]=inp.value; persist(); buildBriefOut(); renderNav();
+        var c=grp.fs.filter(function(x){return (S.brief[x.k]||'').trim()}).length;
+        var cnt=head.querySelector('.cnt');
+        cnt.textContent=c+'/'+grp.fs.length+' 항목';
+        cnt.classList.toggle('full',c===grp.fs.length);
+      });
+      d.appendChild(inp);
+      var chips=fieldChips(f.k,inp); if(chips) d.appendChild(chips);
+      body.appendChild(d);
+    });
+    acc.appendChild(body); wrap.appendChild(acc);
+  });
+  buildBriefOut();
+  linkTerms($('#v-brief'));
+}
+function buildBriefOut(){
+  var lines=['인테리어 견적 요청서',''], n=0, total=0;
+  BRIEF.forEach(function(g){ total+=g.fs.length });
+  BRIEF.forEach(function(g){
+    var got=g.fs.filter(function(f){return (S.brief[f.k]||'').trim()});
+    if(!got.length) return;
+    lines.push('['+g.g+']');
+    got.forEach(function(f){
+      n++;
+      var v=S.brief[f.k].trim();
+      lines.push('· '+f.l+' : '+(v.indexOf('\n')>-1? '\n  '+v.split('\n').join('\n  ') : v));
+    });
+    lines.push('');
+  });
+  if(n){
+    lines.push('※ 같은 조건으로 여러 업체에 요청드리고 있습니다.');
+    lines.push('※ 집계표와 내역서를 함께 주시면 감사하겠습니다. 자재비와 노무비를 분리하고, 자재는 브랜드·모델명까지 기재 부탁드립니다.');
+  }
+  $('#briefOut').textContent = n? lines.join('\n') : '';
+  $('#briefCount').textContent = n? '지금까지 채운 '+n+'개 항목이 담겼습니다. 다 채우지 않아도 보낼 수 있습니다.' : '';
+  setSum('brief', n===0?'none':(n===total?'done':'part'),
+    n===0? '아직 비어 있습니다. <b>기본 정보</b>부터 채워 보세요.'
+         : (n===total? '<b>모든 항목</b>을 채웠습니다. 아래에서 복사해 업체에 보내세요.'
+                     : '전체 '+total+'개 항목 가운데 <b>'+n+'개</b>를 채웠습니다.'),
+    n+'/'+total);
+}
+
+/* ─────────── 03 업체 ─────────── */
+function renderVendors(){
+  var list=$('#vendList'); list.innerHTML='';
+  var byStatus={};
+  S.vendors.forEach(function(v){ byStatus[v.status]=(byStatus[v.status]||0)+1 });
+  var n=S.vendors.length;
+  setSum('vendors', n===0?'none':(byStatus['계약']?'done':'part'),
+    n===0? '후보를 아직 넣지 않았습니다. <b>열 곳 안팎</b>에서 시작해 좁혀 가는 편이 좋습니다.'
+         : '후보 '+n+'곳 · 상담 '+(byStatus['상담']||0)+'곳 · 계약 '+(byStatus['계약']||0)+'곳 · 탈락 '+(byStatus['탈락']||0)+'곳',
+    n? n+'곳':'');
+
+  if(!n){
+    list.appendChild(el('div','empty','아직 후보가 없습니다. 위에 업체 이름을 적어 추가하세요.\n한 곳만 보고 정하면 그 견적이 비싼지 싼지 알 방법이 없습니다.'));
+    linkTerms($('#v-vendors'));
+    return;
+  }
+  var order={'계약':0,'상담':1,'후보':2,'탈락':3};
+  S.vendors.slice().sort(function(a,b){return (order[a.status]||9)-(order[b.status]||9)}).forEach(function(v){
+    var open=!!v.open;
+    var card=el('div','vend'+(open?' open':''));
+    var top=el('div','vend-top');
+
+    var exp=el('button','vend-exp'); exp.type='button'; exp.title='펼치기';
+    exp.setAttribute('aria-expanded',String(open));
+    exp.innerHTML=chevron(12);
+    exp.addEventListener('click',function(){ v.open=!open; persist(); renderVendors() });
+    top.appendChild(exp);
+
+    var nm=document.createElement('input'); nm.type='text'; nm.value=v.name||''; nm.placeholder='업체 이름';
+    nm.addEventListener('input',function(){ v.name=nm.value; persist() });
+    top.appendChild(nm);
+
+    var rt=document.createElement('select');
+    ['경로 선택','플랫폼 자동매칭','플랫폼 직접 선택','업체 홈페이지','지인 소개'].forEach(function(o,i){
+      var op=document.createElement('option'); op.value=i?o:''; op.textContent=o; rt.appendChild(op);
+    });
+    rt.value=v.route||'';
+    rt.addEventListener('change',function(){ v.route=rt.value; persist() });
+    top.appendChild(rt);
+
+    var stSel=document.createElement('select');
+    ['후보','상담','계약','탈락'].forEach(function(o){ var op=document.createElement('option'); op.value=o; op.textContent=o; stSel.appendChild(op) });
+    stSel.value=v.status||'후보';
+    stSel.addEventListener('change',function(){ v.status=stSel.value; persist(); renderVendors(); renderNav() });
+    top.appendChild(stSel);
+
+    var done=VCHECKS.filter(function(c){return v.checks&&v.checks[c.k]}).length;
+    top.appendChild(el('div','vend-score'+(done===VCHECKS.length?' good':(done<=3?' bad':'')), '기준 '+done+'/'+VCHECKS.length));
+
+    var del=el('button','icon-btn'); del.type='button'; del.title='삭제';
+    del.innerHTML='<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4.5h10M6.4 4.5V3.2a.8.8 0 0 1 .8-.8h1.6a.8.8 0 0 1 .8.8v1.3M4.4 4.5l.6 8a.9.9 0 0 0 .9.8h4.2a.9.9 0 0 0 .9-.8l.6-8"/></svg>';
+    del.addEventListener('click',function(){
+      S.vendors=S.vendors.filter(function(x){return x.id!==v.id}); persist(); renderVendors(); renderNav();
+    });
+    top.appendChild(del);
+    card.appendChild(top);
+
+    var flags=el('div','vend-flags');
+    if(done===VCHECKS.length){ flags.appendChild(el('span','pill g','기준 모두 통과')) }
+    else {
+      if(!(v.checks&&v.checks.lic)) flags.appendChild(el('span','pill r','면허 미확인'));
+      if(!(v.checks&&v.checks.contract)) flags.appendChild(el('span','pill r','계약서 미확인'));
+      if(!(v.checks&&v.checks.deposit)) flags.appendChild(el('span','pill a','착수금 확인 필요'));
+      if(!(v.checks&&v.checks.sched)) flags.appendChild(el('span','pill a','공정표 없음'));
+    }
+    if(flags.children.length) card.appendChild(flags);
+
+    var body=el('div','vend-body');
+    var grid=el('div','vend-grid');
+    VCHECKS.forEach(function(c){
+      grid.appendChild(ckRow(c.l,c.d,v.checks&&v.checks[c.k],function(on){
+        v.checks=v.checks||{};
+        if(on) v.checks[c.k]=1; else delete v.checks[c.k];
+        persist(); renderVendors(); renderNav();
+      }));
+    });
+    body.appendChild(grid);
+
+    var mw=el('div','vend-memo');
+    var ta=document.createElement('textarea');
+    ta.placeholder='메모 — 응답 속도, 상담에서 받은 인상, 견적에서 빠진 항목 등';
+    ta.value=v.memo||''; ta.style.minHeight='52px';
+    ta.addEventListener('input',function(){ v.memo=ta.value; persist() });
+    mw.appendChild(ta); body.appendChild(mw);
+    card.appendChild(body);
+    list.appendChild(card);
+  });
+  linkTerms($('#v-vendors'));
+}
+function renderFlagRef(){
+  var w=$('#flagRef'); w.innerHTML='';
+  FLAG_REF.forEach(function(f,i){
+    var d=el('div'); d.style.cssText='display:flex;gap:10px;padding:9px 0;'+(i?'border-top:1px solid var(--rule-soft);':'');
+    d.innerHTML='<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" style="flex:none;margin-top:4px"><circle cx="8" cy="8" r="6.2"/><path d="M8 5v3.4M8 11h.01"/></svg><div></div>';
+    var t=d.querySelector('div');
+    var b=el('b',null,f[0]); b.style.cssText='display:block;font-weight:600;font-size:14px';
+    var s=el('span',null,f[1]); s.style.cssText='display:block;color:var(--ink-2);font-size:13px;line-height:1.6';
+    t.appendChild(b); t.appendChild(s); w.appendChild(d);
+  });
+}
+
+/* ─────────── 04 견적 ─────────── */
+function renderQuoteSummary(){
+  var all=[].concat(qKeys('budget'),qKeys('agg'),qKeys('detail'),qKeys('miss'),qKeys('contract'));
+  var d=all.filter(chk).length;
+  setSum('quote', d===0?'none':(d===all.length?'done':'part'),
+    d===0? '다섯 가지를 차례로 봅니다. <b>예산 기준 → 집계표 → 내역서 → 누락 항목 → 계약서</b> 순입니다.'
+         : (d===all.length? '<b>모든 항목</b>을 확인했습니다.' : '확인한 항목 <b>'+d+'개</b>, 남은 항목 '+(all.length-d)+'개입니다.'),
+    d+'/'+all.length);
+  var tabs=$('#qTabs'); tabs.innerHTML='';
+  QTABS.forEach(function(t){
+    var ks=qKeys(t.src), n=ks.filter(chk).length;
+    var b=el('button','tab'+(S.qt===t.id?' on':'')); b.type='button'; b.setAttribute('data-qt',t.id);
+    b.appendChild(document.createTextNode(t.l));
+    b.appendChild(el('span','tn',n+'/'+ks.length));
+    b.addEventListener('click',function(){ S.qt=t.id; persist(); renderQuote() });
+    tabs.appendChild(b);
+  });
+  ['q0','q1','q2','q3','q4'].forEach(function(id){ var e=$('#qt-'+id); if(e) e.hidden=(id!==S.qt) });
+}
+function renderQuote(){
+  var a=$('#ckAgg'); a.innerHTML='';
+  AGG.forEach(function(name,i){
+    var k='agg'+i;
+    a.appendChild(ckRow(name,'',chk(k),function(on){setChk(k,on); renderQuote()}));
+  });
+  [['#ckDetail',DETAIL],['#ckMiss',MISS],['#ckContract',CONTRACT],['#ckBudget',BUDGET],['#ckMoney',MONEY]].forEach(function(pair){
+    var w=$(pair[0]); if(!w) return; w.innerHTML='';
+    pair[1].forEach(function(it){
+      w.appendChild(ckRow(it.l,it.d,chk(it.k),function(on){setChk(it.k,on); renderQuote()}));
+    });
+  });
+  renderQuoteSummary();
+  linkTerms($('#v-quote'));
+}
+
+/* ─────────── 05 공사 ─────────── */
+function renderPhases(){
+  var w=$('#phaseList'); w.innerHTML='';
+  var box=el('div','ph-wrap');
+  var start = baseStart();
+  var done=Object.keys(S.build).length;
+  setSum('build', done===0?'none':(done===PHASES.length?'done':'part'),
+    done===0? (start? '공사 시작일은 <b>'+fmt(start)+'</b>입니다. 지나간 날을 체크하며 따라가세요.'
+                    : '일정 화면에서 날짜를 넣으면 <b>실제 날짜</b>가 각 줄에 붙습니다.')
+            : (done===PHASES.length? '<b>모든 공정</b>이 끝났습니다. 하자 점검으로 넘어가세요.'
+                                   : '전체 '+PHASES.length+'일 가운데 <b>'+done+'일</b>이 지났습니다.'),
+    done+'/'+PHASES.length);
+
+  PHASES.forEach(function(p){
+    var row=el('div','ph'+(S.build['b'+p.d]?' done':''));
+    row.setAttribute('data-g',p.g);
+
+    var ckw=el('div','ph-ck');
+    var ci=document.createElement('input'); ci.type='checkbox'; ci.checked=!!S.build['b'+p.d];
+    ci.setAttribute('aria-label',p.d+'일차 '+p.n+' 완료');
+    ci.addEventListener('change',function(){
+      if(ci.checked) S.build['b'+p.d]=1; else delete S.build['b'+p.d];
+      persist(); renderPhases(); renderNav();
+    });
+    ckw.appendChild(ci); row.appendChild(ckw);
+
+    var day=el('div','ph-day');
+    day.appendChild(el('div',null,p.d+'일차 '+p.w));
+    if(start){
+      var dt=workDate(start,p.d);
+      var s=el('div',null,(dt.getMonth()+1)+'/'+dt.getDate()); s.style.opacity='.7'; day.appendChild(s);
+    }
+    row.appendChild(day);
+    row.appendChild(el('div','ph-bar'));
+
+    var main=el('div','ph-main');
+    var nm=el('div','ph-name'); nm.appendChild(document.createTextNode(p.n));
+    if(p.g==='issue') nm.appendChild(el('span','pill a','실제로 밀린 날'));
+    main.appendChild(nm);
+    if(p.m) main.appendChild(el('div','ph-memo',p.m));
+    if(p.o) main.appendChild(el('div','ph-owner',p.o));
+    row.appendChild(main);
+
+    if(p.o){
+      var tg=el('button','ph-toggle'); tg.type='button';
+      tg.setAttribute('aria-label','집주인이 할 일 보기'); tg.title='집주인이 할 일';
+      tg.innerHTML='<svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5 7 9l3.5-3.5"/></svg>';
+      tg.addEventListener('click',function(){ row.classList.toggle('open') });
+      row.appendChild(tg);
+    }
+    box.appendChild(row);
+  });
+  w.appendChild(box);
+  linkTerms($('#v-build'));
+}
+
+/* ─────────── 06 하자 ─────────── */
+function renderPunch(){
+  var open=S.punch.filter(function(p){return p.st==='need'}).length;
+  setTimeout(function(){ linkTerms($('#v-punch')) },0);
+  var mine=S.punch.filter(function(p){return p.st==='mine'}).length;
+  var fin=S.punch.filter(function(p){return p.st==='done'}).length;
+  setSum('punch', S.punch.length===0?'none':(open===0?'done':'part'),
+    S.punch.length===0? '아직 기록이 없습니다. 방을 고르고 <b>흔한 항목 버튼</b>으로 빠르게 넣으세요.'
+      : '처리 필요 <b>'+open+'건</b> · 내가 직접 '+mine+'건 · 완료 '+fin+'건',
+    S.punch.length? '전체 '+S.punch.length+'건':'');
+
+  var tabs=$('#roomTabs'); tabs.innerHTML='';
+  Object.keys(ROOMS).forEach(function(r){
+    var n=S.punch.filter(function(p){return p.room===r}).length;
+    var b=el('button','room-tab'+(S.room===r?' on':'')); b.type='button';
+    b.appendChild(document.createTextNode(r));
+    if(n) b.appendChild(el('span','rc',String(n)));
+    b.addEventListener('click',function(){ S.room=r; persist(); renderPunch() });
+    tabs.appendChild(b);
+  });
+
+  var q=$('#quickAdd'); q.innerHTML='';
+  (ROOMS[S.room]||[]).forEach(function(t){
+    var b=document.createElement('button'); b.type='button'; b.textContent='+ '+t;
+    b.addEventListener('click',function(){ addPunch(t) });
+    q.appendChild(b);
+  });
+
+  var list=$('#punchList'); list.innerHTML='';
+  if(!S.punch.length){
+    list.appendChild(el('div','empty','기록이 없습니다. 위 버튼으로 흔한 항목을 넣거나 직접 적어 추가하세요.'));
+  } else {
+    var LAB={need:'처리 필요',mine:'내가 직접',done:'완료'};
+    var NEXT={need:'mine',mine:'done',done:'need'};
+    S.punch.forEach(function(p){
+      var it=el('div','punch-item'); it.setAttribute('data-st',p.st);
+      var b=el('button','punch-st',LAB[p.st]); b.type='button'; b.setAttribute('data-st',p.st);
+      b.title='눌러서 상태 변경';
+      b.addEventListener('click',function(){ p.st=NEXT[p.st]; persist(); renderPunch(); renderNav() });
+      it.appendChild(b);
+      it.appendChild(el('div','punch-room',p.room));
+      it.appendChild(el('div','punch-txt',p.text));
+      var d=el('button','icon-btn'); d.type='button'; d.title='삭제';
+      d.innerHTML='<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>';
+      d.addEventListener('click',function(){
+        S.punch=S.punch.filter(function(x){return x.id!==p.id}); persist(); renderPunch(); renderNav();
+      });
+      it.appendChild(d);
+      list.appendChild(it);
+    });
+  }
+}
+function addPunch(text){
+  if(!text||!text.trim()) return;
+  S.punch.push({id:'p'+Date.now()+Math.random().toString(36).slice(2,6),room:S.room,text:text.trim(),st:'need'});
+  persist(); renderPunch(); renderNav();
+}
+
+/* ─────────── 복사 ─────────── */
+function copy(text,msg){
+  if(!text){ toast('복사할 내용이 없습니다'); return }
+  var done=function(){ toast(msg) };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done,function(){ fallback(text,done) });
+  } else fallback(text,done);
+}
+function fallback(text,done){
+  var ta=document.createElement('textarea'); ta.value=text;
+  ta.style.cssText='position:fixed;top:-999px;left:-999px';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done() }catch(e){ toast('복사에 실패했습니다. 직접 선택해 주세요') }
+  document.body.removeChild(ta);
+}
+
+/* ─────────── 바인딩 ─────────── */
+$('#moveIn').addEventListener('change',function(e){
+  var v=e.target.value;
+  if(S.phase==='before'){
+    var d=parseDate(v);
+    if(d && Math.round((d-today0())/864e5)<=0){
+      toast('입주 희망일은 오늘 이후로 넣어 주세요');
+      e.target.value=S.moveIn||''; return;
+    }
+    S.moveIn=v;
+  } else S.startDate=v;
+  persist(); renderPlan(); renderPhases(); renderNav();
+});
+document.querySelectorAll('#phaseSw button').forEach(function(b){
+  b.addEventListener('click',function(){
+    S.phase=b.getAttribute('data-ph'); persist(); renderPlan(); renderPhases(); renderNav();
+  });
+});
+$('#copyBrief').addEventListener('click',function(){ copy($('#briefOut').textContent,'요청서를 복사했습니다') });
+$('#addVend').addEventListener('click',function(){
+  var i=$('#vendName'), n=i.value.trim();
+  S.vendors.push({id:'v'+Date.now(),name:n||'이름 없는 업체',route:'',status:'후보',checks:{},memo:'',open:true});
+  i.value=''; persist(); renderVendors(); renderNav();
+});
+$('#vendName').addEventListener('keydown',function(e){ if(e.key==='Enter') $('#addVend').click() });
+$('#addPunch').addEventListener('click',function(){ var i=$('#punchInput'); addPunch(i.value); i.value='' });
+$('#punchInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('#addPunch').click() });
+$('#copyPunch').addEventListener('click',function(){
+  if(!S.punch.length){ toast('기록된 항목이 없습니다'); return }
+  var LAB={need:'처리 필요',mine:'저희가 직접 처리',done:'완료'};
+  var byRoom={};
+  S.punch.forEach(function(p){ (byRoom[p.room]=byRoom[p.room]||[]).push(p) });
+  var out=['A/S 요청 목록',''];
+  ['need','mine','done'].forEach(function(st){
+    if(!S.punch.some(function(p){return p.st===st})) return;
+    out.push('['+LAB[st]+']');
+    Object.keys(byRoom).forEach(function(r){
+      var items=byRoom[r].filter(function(p){return p.st===st});
+      if(!items.length) return;
+      out.push(' '+r);
+      items.forEach(function(p){ out.push('  - '+p.text) });
+    });
+    out.push('');
+  });
+  copy(out.join('\n'),'A/S 목록을 복사했습니다');
+});
+var lastToggle=0;
+function toggleDock(e){
+  if(e){ e.preventDefault(); e.stopPropagation() }
+  var now=Date.now();
+  if(now-lastToggle<320) return;
+  lastToggle=now;
+  setDock(!isDockOpen());
+}
+$('#dockBtn').addEventListener('click',toggleDock);
+$('#railClose').addEventListener('click',function(){ setDock(false) });
+$('#scrim').addEventListener('click',function(){ setDock(false) });
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape' && isDockOpen()) setDock(false);
+});
+$('#goHome').addEventListener('click',function(){ go('home') });
+var glQ=$('#glQ'); if(glQ) glQ.addEventListener('input',renderGlossary);
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',onScroll);
+document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#startBtn')) go('plan') });
+$('#resetAll').addEventListener('click',function(){
+  S={view:S.view,phase:S.phase,moveIn:'',startDate:'',brief:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',acc:{},planOpen:{}};
+  persist(); $('#moveIn').value=''; renderAll(); toast('기록을 모두 지웠습니다');
+});
+
+function renderHome(){
+  var w=$('#homeCards'); if(!w) return; w.innerHTML='';
+  var n=0;
+  STAGES.forEach(function(st){
+    st.views.forEach(function(id){
+      var v=VIEWS[id]; n++;
+      var b=el('button','hcard rv'); b.type='button';
+      b.innerHTML='<span class="hc-i"></span>'+
+        '<span class="hc-nm"><span class="nm"></span><u></u></span>'+
+        '<span class="hc-d"></span>'+
+        '<span class="hc-go"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg></span>';
+      b.querySelector('.hc-i').textContent = (n<10?'0':'')+n;
+      b.querySelector('.nm').textContent = v.label;
+      b.querySelector('.hc-nm u').textContent = st.label;
+      b.querySelector('.hc-d').textContent = v.desc||'';
+      b.addEventListener('click',function(){ go(id) });
+      w.appendChild(b);
+    });
+  });
+  observeReveal();
+}
+
+/* ── 인트로 모션 ── */
+var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var rvIO=null;
+function observeReveal(){
+  if(reduce){
+    document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in')});
+    document.querySelectorAll('.cnt').forEach(function(e){e.textContent=e.getAttribute('data-to')});
+    return;
+  }
+  if(!rvIO){
+    rvIO=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        e.target.classList.add('in');
+        var c=e.target.querySelector('.cnt');
+        if(c && !c._done){ c._done=1; countUp(c) }
+        rvIO.unobserve(e.target);
+      });
+    },{rootMargin:'0px 0px -12% 0px',threshold:.15});
+  }
+  document.querySelectorAll('.rv:not(.in)').forEach(function(e){ rvIO.observe(e) });
+}
+function countUp(node){
+  var to=parseInt(node.getAttribute('data-to'),10)||0, t0=null, dur=1100;
+  function step(t){
+    if(!t0) t0=t;
+    var k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
+    node.textContent=Math.round(to*e);
+    if(k<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+var pxEls=[], ticking=false;
+function onScroll(){
+  if(ticking) return; ticking=true;
+  requestAnimationFrame(function(){
+    var y=window.scrollY||document.documentElement.scrollTop;
+    if(!reduce && S.view==='home'){
+      for(var i=0;i<pxEls.length;i++){
+        var el2=pxEls[i];
+        el2.style.transform='translate3d(0,'+(y*parseFloat(el2.getAttribute('data-speed'))).toFixed(1)+'px,0)';
+      }
+    }
+    var bar=$('#sprog');
+    if(bar){
+      var h=document.documentElement.scrollHeight-window.innerHeight;
+      bar.firstElementChild.style.width=(h>0? Math.min(100,y/h*100):0)+'%';
+    }
+    ticking=false;
+  });
+}
+var introTimer=null;
+function initIntro(){
+  pxEls=Array.prototype.slice.call(document.querySelectorAll('.px'));
+  observeReveal();
+  onScroll();
+  var home=$('#v-home');
+  document.body.classList.remove('intro-done');
+  clearTimeout(introTimer);
+  if(reduce){
+    home.classList.add('ready');
+    document.body.classList.add('intro-done');
+    return;
+  }
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ home.classList.add('ready') }) });
+  introTimer=setTimeout(function(){ document.body.classList.add('intro-done') },2100);
+}
+
+function renderAll(){
+  try{ $('#rail').inert=true }catch(e){}
+  document.querySelector('.main').classList.toggle('home-mode', S.view==='home');
+  renderNav(); renderHome(); renderPlan(); renderBrief(); renderVendors(); renderFlagRef();
+  renderQuote(); renderPhases(); renderPunch(); renderGlossary();
+  Object.keys(VIEWS).forEach(function(v){ $('#v-'+v).hidden=(v!==S.view) });
+  var sp=$('#sprog'); if(sp) sp.style.display=(S.view==='home')?'block':'none';
+  syncDockBtn(S.view);
+  if(S.view==='home') initIntro();
+}
+renderAll();
+})();
+</script>
+
+</body>
+</html>
