@@ -488,7 +488,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 .termchips .tc-esc:hover{border-style:solid;border-color:var(--ink-3);color:var(--ink-2);background:var(--panel-2)}
 
 .size-sw{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;align-items:center}
-.size-sw .ss-lab{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-right:4px}
+.size-sw .ss-lab{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-right:4px;white-space:nowrap;flex:0 0 auto}
 .size-sw button{
   background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);
   padding:7px 13px;cursor:pointer;color:var(--ink-3);transition:all .14s;text-align:left;
@@ -691,9 +691,21 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 }
 @media (max-width:860px){
   .ph-total{margin-left:0;width:100%}
-  .ph-edit select{min-width:96px;flex:0 0 auto}
-  .ph-days{width:64px;min-height:38px}
-  .ph-memo-in{flex:1 1 100%;min-height:38px}
+  /* 좁은 화면에서는 일차를 본문 위로 올리고 공정 이름에 폭을 몰아 준다 */
+  .ph-day{display:none}
+
+  .ph-edit{display:grid;grid-template-columns:minmax(0,1fr) 56px auto 28px;gap:6px 7px;align-items:center}
+  .ph-edit select{grid-column:1;grid-row:1;min-width:0;width:100%;padding:8px 8px}
+  .ph-days{grid-column:2;grid-row:1}
+  .ph-unit{grid-column:3;grid-row:1}
+  .ph-days{width:56px;min-height:38px;padding:7px 4px}
+  .ph-unit{margin:0;font-size:12px}
+  .ph-edit .icon-btn{grid-column:4;grid-row:1;justify-self:end;padding:4px}
+  .ph-memo-in{grid-column:1/-1;grid-row:2;width:100%;min-height:36px;border-color:var(--rule-soft)}
+  .ph-ck{padding:12px 0 12px 12px}
+  .ph-main{padding:11px 10px 12px 0}
+  .ph-bar{margin-right:10px}
+  .ph-toggle{margin:9px 2px 0 0}
 }
 
 .ph-wrap{max-width:900px;border:1px solid var(--rule);border-radius:var(--r);box-shadow:var(--shadow-s);overflow:hidden;margin-bottom:6px}
@@ -711,7 +723,12 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 .ph[data-g="fit"] .ph-bar{background:linear-gradient(180deg,#BFF7DD,#5FD9A4)}
 .ph[data-g="issue"] .ph-bar{background:linear-gradient(180deg,#F0C784,#B98A3C)}
 .ph-main{flex:1;min-width:0;padding:11px 14px 12px 0}
+.ph-when{
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);
+  margin-bottom:7px;font-variant-numeric:tabular-nums;letter-spacing:.02em;
+}
 .ph-name{font-size:15px;font-weight:600;letter-spacing:-.012em;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+@media (min-width:861px){.ph-when{display:none}}
 .ph-memo{font-size:13px;color:var(--ink-2);margin-top:1px;line-height:1.55}
 .ph[data-g="issue"] .ph-memo{color:var(--amber)}
 .ph-owner{font-size:13px;line-height:1.62;color:var(--ink-2);margin-top:8px;padding:9px 12px;background:var(--accent-soft);border-radius:var(--r);border:1px solid var(--accent-line)}
@@ -765,6 +782,8 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
   h2.sub{font-size:11.5px}
   .btn.sm,.mini-btn,.room-tab,.quick button,.termchips button,.tc-esc{min-height:38px;display:inline-flex;align-items:center}
   .plan-fold{min-height:38px}
+  .size-sw{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .size-sw .ss-lab{grid-column:1/-1;margin:0 0 2px}
   .rail{width:min(80vw,290px)}
   .dockbtn{left:14px;top:12px;padding:7px 11px 7px 9px}
   .hsec{padding:0 18px}
@@ -2524,6 +2543,12 @@ function renderPhases(){
     row.appendChild(el('div','ph-bar'));
 
     var main=el('div','ph-main');
+    var when=el('div','ph-when');
+    when.textContent = lab + (start? ' · '+(function(){
+      var a=workDate(start,r.from), b2=workDate(start,r.to);
+      return (a.getMonth()+1)+'/'+a.getDate()+(r.from!==r.to? '~'+(b2.getMonth()+1)+'/'+b2.getDate():'');
+    })() : '');
+    main.appendChild(when);
     var head=el('div','ph-edit');
     var sel=document.createElement('select');
     KIND_KEYS.forEach(function(k){ var o=document.createElement('option'); o.value=k; o.textContent=k; sel.appendChild(o) });
