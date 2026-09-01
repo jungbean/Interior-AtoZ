@@ -1490,6 +1490,7 @@ var MISS = [
   {k:'m5', l:'폐기물 추가 반출', d:'철거하다 물량이 늘면 붙습니다. 기준을 미리 물어보세요'},
   {k:'m6', l:'조명 기구 구입비', d:'설치비만 있고 기구값은 별도인 경우가 흔합니다'},
   {k:'m7', l:'에어컨 본체와 설치', d:'선배관만 견적에 있고 본체는 직접 사는 구조인지 확인합니다'},
+  {k:'m9', l:'사다리차 또는 대형 자재 반입 비용', d:'저층이 아니면 샷시·가구를 창으로 올려야 합니다. 엘리베이터에 안 들어가는 자재가 있으면 별도 비용이 붙습니다'},
   {k:'m8', l:'싱크볼·수전 등 직접 구매 품목', d:'누가 사는지 명확히 나눠 적습니다'}
 ];
 
@@ -2094,6 +2095,7 @@ function dateWarn(d){
   } else {
     if(diff<-365) return '1년 넘게 지난 날짜입니다. 착공일이 맞는지 확인해 주세요.';
     if(diff>365) return '1년 넘게 남은 날짜입니다. 착공일이 맞는지 확인해 주세요.';
+    if(d.getDay()===0||d.getDay()===6) return '주말입니다. 단지에 따라 주말 공사가 막혀 있을 수 있으니 착공일이 맞는지 확인해 주세요.';
   }
   return null;
 }
@@ -2195,6 +2197,15 @@ function renderPlanBefore(){
   });
 
   var sum=$('#planSummary');
+  if(base && base<today){
+    sum.innerHTML='';
+    var wb=el('b',null,'입주 희망일이 이미 지났습니다'); wb.style.color='var(--amber)';
+    sum.appendChild(wb); sum.appendChild(document.createElement('br'));
+    sum.appendChild(document.createTextNode(fmt(base)+'로 넣어 두신 날짜가 '+Math.abs(Math.round((base-today)/864e5))+'일 지났습니다. 새 입주일로 바꾸거나, 이미 공사에 들어가셨다면 위에서 계약 후로 전환하세요.'));
+    setSum('plan','none','<b>입주 희망일이 지났습니다.</b> 날짜를 다시 넣어 주세요.','');
+    showWarn('입주 희망일이 지났습니다. 새 날짜로 바꿔 주세요.');
+    return;
+  }
   if(base){
     var start=new Date(base.getTime()-110*864e5);
     var dleft=Math.round((start-today)/864e5);
