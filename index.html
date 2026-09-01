@@ -17,7 +17,10 @@
 <title>갈 것인가 수라의 길로</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&text=%E8%A1%8C%E3%81%8F%E3%81%8B%E3%80%81%E4%BF%AE%E7%BE%85%E3%81%AE%E9%81%93%E3%82%92%E8%8B%A6%E9%9B%A3%E4%B8%8A%E7%AD%89%E5%A5%BD%E3%82%80%E3%82%82%E3%81%AE%E3%81%AA%E3%82%8A&display=swap">
+<style>@font-face{font-family:"Paperlogy";font-weight:900;font-display:swap;src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2") format("woff2")}</style>
 <style>
 :root{
   color-scheme:dark;
@@ -35,8 +38,11 @@
   --glow:rgba(0,230,118,.34);
   --shadow-s:0 1px 2px rgba(0,0,0,.5),0 4px 12px -8px rgba(0,0,0,.7);
   --shadow-m:0 2px 6px rgba(0,0,0,.5),0 16px 34px -18px rgba(0,0,0,.85);
-  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --sans:"IBM Plex Sans KR","Pretendard","Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  /* ㎡·평은 어느 모노에도 글리프가 없어 폴백을 명시해야 자형이 갈리지 않는다 */
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,"Pretendard Variable",Pretendard,monospace;
+  --sans:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --disp:"Paperlogy","Pretendard Variable",Pretendard,"Apple SD Gothic Neo",system-ui,sans-serif;
+  --jp:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
   --rail:0px;
   --r:0px;
 }
@@ -256,8 +262,8 @@ h2.sub::after{
 .panel > :first-child{margin-top:0}
 .panel > :last-child{margin-bottom:0}
 .note{
-  border-left:2px solid var(--accent);background:var(--accent-soft);
-  padding:16px 20px;border-radius:0 var(--r) var(--r) 0;margin:22px 0;
+  border-left:2px solid var(--accent);background:none;
+  padding:4px 0 4px 18px;margin:24px 0;
   font-size:13.5px;line-height:1.85;color:var(--ink-2);max-width:640px;
 }
 .note b{color:var(--ink);font-weight:600}
@@ -265,9 +271,9 @@ h2.sub::after{
   display:block;margin-bottom:7px;font-size:14.5px;color:#fff;letter-spacing:-.015em;
 }
 .note br + br{content:"";display:block;height:6px}
-.note.calm{border-left-color:var(--ink-3);background:var(--panel-2)}
-.note.warn{border-left-color:var(--amber);background:var(--amber-soft)}
-.note.stop{border-left-color:var(--red);background:var(--red-soft)}
+.note.calm{border-left-color:var(--ink-3)}
+.note.warn{border-left-color:var(--amber)}
+.note.stop{border-left-color:var(--red)}
 .note b{font-weight:600}
 .btn{
   display:inline-flex;align-items:center;gap:8px;
@@ -332,17 +338,75 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 /* 1. 히어로 */
 .h1sec{min-height:100svh;display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,4vh,52px);padding-top:26px;padding-bottom:30px;position:relative}
 
-.h1mid{padding:0}
+.h1mid{padding:0;position:relative;z-index:3}
+.jpsub{
+  font-family:var(--jp);font-size:clamp(12px,1.5vw,17px);font-weight:500;
+  letter-spacing:.34em;color:var(--ink-3);margin:0 0 clamp(10px,1.6vh,20px);
+  overflow:hidden;
+}
+.jpsub i{display:block;font-style:normal;transform:translateY(120%);
+  transition:transform .95s cubic-bezier(.16,.84,.24,1) .3s}
+.home.ready .jpsub i{transform:none}
+
+/* 히어로 배경 도면 */
+.hplan{
+  position:absolute;inset:0;display:grid;place-items:center;
+  z-index:2;pointer-events:none;overflow:hidden;
+  opacity:0;transition:opacity 1.8s ease .35s;
+}
+.home.ready .hplan{opacity:1}
+.hplan svg{width:min(1300px,106%);max-height:84vh;height:auto;display:block;
+  clip-path:inset(0 100% 0 0);transition:clip-path 2.6s cubic-bezier(.16,.84,.24,1) .5s}
+.home.ready .hplan svg{clip-path:inset(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){
+  .hplan svg{clip-path:none!important;transition:none}
+  .jpsub i{transform:none!important}
+}
+@media (max-width:860px){ .hplan{width:190%;opacity:0} .home.ready .hplan{opacity:1} }
+
+/* 도면 공통 — 선은 한 색, 위계는 굵기와 농도로만 */
+.fp{--dl:#7FA3B0}
+.fp .hl-line{stroke:var(--dl);stroke-width:1.1;opacity:.4}
+.fp .walls rect{fill:url(#fpHatch);stroke:var(--dl);stroke-width:1.6}
+.fp .rooms .rm{fill:none;stroke:none;transition:fill .22s}
+.fp .rooms .rm.on{fill:rgba(0,230,118,.14)}
+.fp .bal rect{fill:none;stroke:var(--dl);stroke-width:1;opacity:.5}
+.fp .bal line{stroke:var(--dl);stroke-width:1;opacity:.38}
+.fp .win line{stroke:var(--dl);stroke-width:1.4;opacity:.95}
+.fp .win line.wc{stroke-width:.9;opacity:.5}
+.fp .door .sw{fill:none;stroke:var(--dl);stroke-width:1;opacity:.5}
+.fp .door .leaf{stroke:var(--dl);stroke-width:1.9;opacity:.9}
+.fp .furn{fill:none;stroke:var(--dl);stroke-width:1;opacity:.42}
+.fp .lab text{paint-order:stroke;stroke:var(--paper);stroke-width:6;stroke-linejoin:round}
+.fp .lab .lk{fill:var(--ink);font:500 20px/1 var(--sans);letter-spacing:.02em}
+.fp .lab .le{fill:var(--dl);opacity:.7;font:400 11px/1 var(--mono);letter-spacing:.14em}
+.fp .dims .ext,.fp .dims .dim{stroke:var(--dl);stroke-width:.8;opacity:.55}
+.fp .dims .tick{stroke:var(--dl);stroke-width:1.3;opacity:.7}
+.fp .dims .dtx{fill:var(--dl);opacity:.8;font:400 15px/1 var(--mono);letter-spacing:.06em}
+.fp .np circle{fill:none;stroke:var(--dl);stroke-width:1;opacity:.6}
+.fp .np .nf{fill:var(--dl);opacity:.85}
+.fp .np .le{fill:var(--dl);opacity:.7;font:400 12px/1 var(--mono);letter-spacing:.1em}
+/* 배경용: 같은 색 그대로 농도만 낮춘다 */
+.fp-bare{--dl:#5F7E8A}
+.fp-bare .walls rect{opacity:.5}
+.fp-bare .hl-line{opacity:.34}
+.fp-bare .furn{opacity:.26}
+.fp-bare .door .sw{opacity:.3}
+.fp-bare .door .leaf{opacity:.5}
+.fp-bare .win line{opacity:.5}
+.fp-bare .bal rect{opacity:.26}
+
 .giant{
-  font-size:clamp(36px,8.4vw,182px);font-weight:700;line-height:1.02;
-  letter-spacing:-.058em;color:#fff;margin:0;
+  font-family:var(--disp);
+  font-size:clamp(40px,9.6vw,208px);font-weight:900;line-height:1.02;
+  letter-spacing:-.03em;color:#fff;margin:0;
 }
 .giant span{display:block;overflow:hidden;padding:.08em 0 .16em;margin-bottom:-.14em}
 .giant i{display:block;font-style:normal;transform:translateY(116%);transition:transform 1.15s cubic-bezier(.16,.84,.24,1) .42s}
 .home.ready .giant i{transform:translateY(0)}
 .home.ready .giant span:nth-child(2) i{transition-delay:.55s}
 .h1bot{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
-.h1lead{font-size:15px;color:var(--ink-2);line-height:1.8;max-width:44ch;margin:0}
+.h1lead{font-size:15px;color:var(--ink-2);line-height:1.8;margin:0;word-break:keep-all}
 .scrollcue{display:flex;align-items:center;gap:9px;color:var(--ink-3)}
 .scrollcue s{display:block;width:52px;height:1px;background:currentColor;text-decoration:none;position:relative;overflow:hidden}
 .scrollcue s::after{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-100%);animation:cue 2.4s ease-in-out infinite}
@@ -421,7 +485,11 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 
 /* 5. 맺음 */
 .h5sec{padding-top:11vh;padding-bottom:13vh;border-top:1px solid var(--rule);text-align:center}
-.h5sec .sig{font-size:clamp(24px,3.4vw,44px);font-weight:600;letter-spacing:-.035em;color:#fff;margin:0 0 12px}
+.h5sec .sig{font-family:var(--disp);font-size:clamp(26px,3.9vw,52px);font-weight:900;
+  letter-spacing:-.03em;line-height:1.24;color:#fff;margin:0 0 14px;word-break:keep-all}
+.h5sec .sig b{font-weight:900;color:var(--accent)}
+.h5sec .jpfoot{font-family:var(--jp);font-size:clamp(11px,1.25vw,14px);font-weight:500;
+  letter-spacing:.3em;color:var(--ink-3);margin:0 0 18px}
 .h5sec .by{font-size:13.5px;color:var(--ink-3);margin:0 0 40px}
 .h5note{
   max-width:620px;margin:44px auto 0;padding-top:22px;border-top:1px solid var(--rule);
@@ -558,28 +626,33 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 .size-sw{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;align-items:center}
 .size-sw .ss-lab{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-right:4px;white-space:nowrap;flex:0 0 auto}
 .size-sw button{
-  background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);
-  padding:7px 13px;cursor:pointer;color:var(--ink-3);transition:all .14s;text-align:left;
+  background:none;border:0;border-bottom:1.5px solid var(--rule);
+  padding:6px 13px 7px;cursor:pointer;color:var(--dim);
+  transition:color .14s,border-color .14s,background .14s;text-align:left;
 }
-.size-sw button:hover{border-color:var(--ink-3);color:var(--ink-2)}
-.size-sw button.on{border-color:var(--accent-line);color:var(--ink);background:rgba(0,230,118,.08)}
+.size-sw button:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
+.size-sw button.on{
+  color:var(--ink);border-bottom-color:var(--accent);
+  background:linear-gradient(180deg,transparent 0%,rgba(0,230,118,.11) 100%);
+}
 .size-sw button b{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.02em}
 .size-sw button.on b{color:#fff}
 .size-sw button span{display:block;font-size:11px;opacity:.8;margin-top:1px}
 .size-note{font-size:12.5px;color:var(--ink-3);line-height:1.65;margin:-8px 0 18px;max-width:600px}
 
 /* ── 단계 스위치 ─────────────────── */
-.phase-sw{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);max-width:520px;margin:0 0 18px}
+.phase-sw{display:flex;border-bottom:1px solid var(--rule);max-width:520px;margin:0 0 20px}
 .phase-sw button{
-  background:var(--panel);border:0;padding:13px 16px;text-align:left;cursor:pointer;color:var(--ink-3);
-  transition:background .16s,color .16s;
+  background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;
+  padding:9px 18px 10px;text-align:left;cursor:pointer;color:var(--ink-3);
+  transition:color .16s,border-color .16s;
 }
-.phase-sw button:hover{background:var(--panel-2);color:var(--ink-2)}
+.phase-sw button:hover{color:var(--ink-2)}
 .phase-sw button b{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.02em}
 .phase-sw button span{display:block;font-size:12px;margin-top:2px;opacity:.8}
 .phase-sw button.on{
-  background:linear-gradient(100deg, rgba(0,230,118,.16) 0%, rgba(0,230,118,.04) 46%, transparent 72%), var(--panel);
-  color:var(--ink);box-shadow:inset 2px 0 0 var(--accent);
+  color:var(--ink);border-bottom-color:var(--accent);
+  background:linear-gradient(180deg,transparent 0%,rgba(0,230,118,.10) 100%);
 }
 .phase-sw button.on b{color:#fff}
 
@@ -928,25 +1001,27 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
       <div class="blob b2 px" data-speed="0.26"></div>
       <div class="blob b3 px" data-speed="0.40"></div>
     </div>
+    <div class="hplan px" data-speed="0.07" id="heroPlan"></div>
 
     <div class="hin h1mid px" data-speed="0.16">
+      <p class="jpsub"><i>行くか、修羅の道を</i></p>
       <h1 class="giant">
-        <span><i>덜 고생하셨으면</i></span>
-        <span><i>해서 만들었습니다</i></span>
+        <span><i>갈 것인가</i></span>
+        <span><i>수라의 길로</i></span>
       </h1>
     </div>
 
     <div class="hin h1bot">
-      <p class="h1lead">인테리어를 처음 맡길 때 어려운 건 취향이 아니라 순서와 판단 기준입니다.
-      제가 한 번 겪으며 적어 둔 것을 그대로 정리했습니다.</p>
+      <p class="h1lead">인테리어는 뭘 해도 아쉽고, 모르는 만큼 더 냅니다.<br>
+      이왕 걸으실 길이면 덜 다치시라고 적어 둔 것을 열어 둡니다.</p>
       <div class="scrollcue micro"><span>스크롤</span><s></s></div>
     </div>
 
     <div class="hin">
       <div class="titleblock">
-        <div><s>PROJECT</s><b>갈 것인가 수라의 길로</b></div>
-        <div><s>SUBJECT</s><b>첫 턴키 인테리어</b></div>
-        <div><s>SOURCE</s><b>59㎡ · 24평 · 실측</b></div>
+        <div><s>PROJECT</s><b>첫 턴키 인테리어</b></div>
+        <div><s>SUBJECT</s><b>24평 아파트 전체 공사</b></div>
+        <div><s>SOURCE</s><b>59㎡ · 3BAY · 실측</b></div>
         <div><s>PERIOD</s><b>2026.03 — 04</b></div>
         <div><s>SHEET</s><b>A-00</b></div>
         <div><s>SCALE</s><b>N.T.S.</b></div>
@@ -1008,8 +1083,9 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
   <div class="hsec h5sec">
     <span class="xm bl"></span><span class="xm br"></span>
     <div class="hin">
-      <p class="sig rv">덜 고생하시길 바랍니다.</p>
-      <p class="by rv d1">먼저 겪어 본 사람 드림</p>
+      <p class="sig rv">고난이 대수랴, 기꺼이 걸어가리.<br><b>수라의 길!</b></p>
+        <p class="jpfoot rv d1">苦難上等 好むものなり修羅の道</p>
+      
       <div class="rv d2"><button class="btn" id="startBtn">일정 화면부터 시작하기
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>
       </button></div>
@@ -1047,7 +1123,6 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
     <h1 id="planTitle">언제부터 움직여야 하는지</h1>
     <p id="planLead">입주하고 싶은 날을 넣으면 거꾸로 계산합니다. 좋은 업체일수록 일정이 먼저 차기 때문에, 이 역산이 실제로는 가장 급한 일입니다.</p>
   </div>
-  <div class="vsum" id="sum-plan"></div>
   </div></header>
   <div class="vbody">
   <div class="phase-sw" id="phaseSw">
@@ -1074,12 +1149,13 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
   <div class="plan" id="planList"></div>
 
   <div class="note" id="planBasis">
-    <b>110일은 어디서 나온 숫자인가</b>
-    24평 전체 공사 한 건을 실제로 진행하며 걸린 시간을 더한 값입니다.
+    <b>이 일정은 기준이 아니라 출발점입니다</b>
+    공사 범위와 업체 사정에 따라 크게 달라집니다. 아래 순서는 24평 전체 공사 한 건을 옮겨 둔 것이고,
+    공정과 기간은 직접 고쳐 쓰시라고 열어 두었습니다.
     <br><br>
-    요청서 작성에 2주, 업체에 보내고 회신을 받는 데 열흘, 대면 상담에 2주,
-    견적을 비교해 확정하는 데 열흘, 계약 준비에 2주, 계약에서 착공까지 2주,
-    공사에 한 달, 준공 후 보수와 새집증후군 시공에 2주가 걸렸습니다.
+    <b>남은 기간으로 판단하세요.</b>
+    넉넉하면 업체를 여러 곳 만나 비교할 수 있고, 빠듯하면 공사 범위를 줄이거나
+    일정이 이미 비어 있는 업체를 찾는 쪽이 현실적입니다.
     <br><br>
     <b>부분 공사면 훨씬 짧아집니다.</b>
     도배와 바닥만 하는 공사는 상담과 시공이 각각 며칠이면 끝납니다.
@@ -1550,6 +1626,138 @@ var ROOMS = {
 };
 
 
+/* ══ 평면도 (59㎡ · 24평 · 3베이) ═══════════════════════
+   좌표 1 unit = 10mm. 실 하이라이트는 data-room 으로 건다. */
+var floorplan=(function(){
+  var W=20, IW=10, X0=80, X1=1040, Y0=80, Y1=700, MY=335, BAL=64;
+  var ROOMS=[
+    {id:'kitchen', ko:'주방 · 식당', en:'KITCHEN / DINING', x:100, y:100, w:320, h:235, ly:-22},
+    {id:'entry',   ko:'현관 · 복도', en:'ENTRANCE',         x:430, y:100, w:180, h:235, ly:60},
+    {id:'bath',    ko:'욕실',        en:'BATHROOM',         x:620, y:100, w:180, h:235, ly:-28},
+    {id:'dress',   ko:'드레스룸',    en:'DRESSING',         x:810, y:100, w:210, h:235, ly:82},
+    {id:'room2',   ko:'침실 2',      en:'BEDROOM 02',       x:100, y:345, w:240, h:335, ly:62},
+    {id:'living',  ko:'거실',        en:'LIVING ROOM',      x:350, y:345, w:350, h:335},
+    {id:'room1',   ko:'안방',        en:'BEDROOM 01',       x:710, y:345, w:310, h:335, ly:112}
+  ];
+  var WALLS=[[X0,Y0,X1-X0,W],[X0,Y1-W,X1-X0,W],[X0,Y0,W,Y1-Y0],[X1-W,Y0,W,Y1-Y0],
+    [100,MY,920,IW],[420,100,IW,235],[610,100,IW,235],[800,100,IW,235],
+    [340,345,IW,335],[700,345,IW,335]];
+  var OPENINGS=[[480,Y0,90,W],[200,MY,90,IW],[450,MY,90,IW],[850,MY,80,IW],
+    [610,180,IW,80],[340,400,IW,90],[700,400,IW,90]];
+  var DOORS=[{cx:570,cy:100,r:90,a0:180,dir:-1},{cx:620,cy:180,r:80,a0:90,dir:-1},
+    {cx:340,cy:490,r:90,a0:270,dir:-1},{cx:710,cy:490,r:90,a0:270,dir:1},
+    {cx:930,cy:335,r:80,a0:180,dir:1}];
+  var WINDOWS=[[130,Y1-W,180,W,'h'],[385,Y1-W,290,W,'h'],[745,Y1-W,245,W,'h'],
+    [150,Y0,180,W,'h'],[X1-W,150,W,120,'v']];
+
+  function rad(a){ return a*Math.PI/180 }
+  function arc(d){
+    var x1=d.cx+d.r*Math.cos(rad(d.a0)), y1=d.cy+d.r*Math.sin(rad(d.a0));
+    var a1=d.a0+90*d.dir;
+    return {x1:x1,y1:y1,x2:d.cx+d.r*Math.cos(rad(a1)),y2:d.cy+d.r*Math.sin(rad(a1)),sweep:d.dir>0?1:0};
+  }
+  function dim(x1,y1,x2,y2,txt,off){
+    var g='', horiz=(y1===y2), ox=horiz?0:off, oy=horiz?off:0;
+    var ax=x1+ox, ay=y1+oy, bx=x2+ox, by=y2+oy;
+    g+='<line x1="'+x1+'" y1="'+y1+'" x2="'+(ax+(horiz?0:6))+'" y2="'+(ay+(horiz?6:0))+'" class="ext"/>';
+    g+='<line x1="'+x2+'" y1="'+y2+'" x2="'+(bx+(horiz?0:6))+'" y2="'+(by+(horiz?6:0))+'" class="ext"/>';
+    g+='<line x1="'+ax+'" y1="'+ay+'" x2="'+bx+'" y2="'+by+'" class="dim"/>';
+    [[ax,ay],[bx,by]].forEach(function(pt){
+      g+='<line x1="'+(pt[0]-6)+'" y1="'+(pt[1]-6)+'" x2="'+(pt[0]+6)+'" y2="'+(pt[1]+6)+'" class="tick"/>';
+    });
+    var mx=(ax+bx)/2, my=(ay+by)/2;
+    if(horiz) g+='<text x="'+mx+'" y="'+(my-7)+'" class="dtx" text-anchor="middle">'+txt+'</text>';
+    else g+='<text x="'+mx+'" y="'+my+'" class="dtx" text-anchor="middle" transform="rotate(-90 '+mx+' '+my+')" dy="-7">'+txt+'</text>';
+    return g;
+  }
+  function furn(){
+    return '<g class="furn">'
+     +'<rect x="380" y="600" width="240" height="60" rx="4"/><line x1="380" y1="618" x2="620" y2="618"/>'
+     +'<rect x="420" y="380" width="180" height="26" rx="2"/>'
+     +'<rect x="790" y="380" width="150" height="200" rx="3"/>'
+     +'<rect x="798" y="388" width="62" height="34" rx="3"/><rect x="870" y="388" width="62" height="34" rx="3"/>'
+     +'<rect x="130" y="380" width="110" height="180" rx="3"/><rect x="137" y="387" width="96" height="30" rx="3"/>'
+     +'<rect x="130" y="600" width="170" height="46" rx="2"/>'
+     +'<rect x="110" y="110" width="230" height="52" rx="2"/><circle cx="165" cy="136" r="17"/>'
+     +'<circle cx="245" cy="126" r="8"/><circle cx="272" cy="126" r="8"/>'
+     +'<circle cx="245" cy="150" r="8"/><circle cx="272" cy="150" r="8"/>'
+     +'<rect x="150" y="230" width="150" height="80" rx="3"/>'
+     +'<circle cx="132" cy="252" r="13"/><circle cx="132" cy="288" r="13"/>'
+     +'<circle cx="318" cy="252" r="13"/><circle cx="318" cy="288" r="13"/>'
+     +'<rect x="632" y="112" width="70" height="42" rx="3"/><ellipse cx="667" cy="133" rx="24" ry="14"/>'
+     +'<rect x="726" y="112" width="46" height="62" rx="6"/><ellipse cx="749" cy="146" rx="18" ry="22"/>'
+     +'<rect x="632" y="228" width="108" height="92" rx="2"/><line x1="632" y1="228" x2="740" y2="320"/>'
+     +'<rect x="820" y="110" width="60" height="215" rx="2"/><line x1="850" y1="110" x2="850" y2="325"/>'
+     +'<rect x="950" y="110" width="60" height="120" rx="2"/>'
+     +'<rect x="440" y="110" width="34" height="90" rx="2"/>'
+     +'<rect x="470" y="118" width="80" height="48" rx="2" stroke-dasharray="5 4"/></g>';
+  }
+  return function(o){
+    o=o||{};
+    var bare=!!o.bare, hl=o.highlight, showD=o.dims!==false && !bare;
+    var pad=bare?10:118;
+    var vb=[X0-pad, Y0-pad-6, (X1-X0)+pad*2, (Y1-Y0)+BAL+pad*2];
+    var s='<svg viewBox="'+vb.join(' ')+'" class="fp'+(bare?' fp-bare':'')+'" xmlns="http://www.w3.org/2000/svg"'
+        + (o.interactive?'':' aria-hidden="true"')+'>';
+    s+='<defs><pattern id="fpHatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">'
+     + '<line x1="0" y1="0" x2="0" y2="7" class="hl-line"/></pattern>'
+     + '<mask id="fpCut" maskUnits="userSpaceOnUse" x="'+vb[0]+'" y="'+vb[1]+'" width="'+vb[2]+'" height="'+vb[3]+'">'
+     + '<rect x="'+vb[0]+'" y="'+vb[1]+'" width="'+vb[2]+'" height="'+vb[3]+'" fill="#fff"/>';
+    OPENINGS.concat(WINDOWS).forEach(function(w){
+      s+='<rect x="'+w[0]+'" y="'+w[1]+'" width="'+w[2]+'" height="'+w[3]+'" fill="#000"/>' });
+    s+='</mask></defs>';
+    s+='<g class="bal"><rect x="'+X0+'" y="'+(Y1-W)+'" width="'+(X1-X0)+'" height="'+(BAL+W)+'"/>'
+     + '<line x1="'+X0+'" y1="'+(Y1+BAL-6)+'" x2="'+X1+'" y2="'+(Y1+BAL-6)+'"/></g>';
+    s+='<g class="rooms">';
+    ROOMS.forEach(function(r){
+      s+='<rect class="rm'+(hl===r.id?' on':'')+'" data-room="'+r.id+'" x="'+r.x+'" y="'+r.y
+       + '" width="'+r.w+'" height="'+r.h+'"/>';
+    });
+    s+='</g><g class="walls" mask="url(#fpCut)">';
+    WALLS.forEach(function(w){ s+='<rect x="'+w[0]+'" y="'+w[1]+'" width="'+w[2]+'" height="'+w[3]+'"/>' });
+    s+='</g><g class="win">';
+    WINDOWS.forEach(function(w){
+      if(w[4]==='h'){
+        s+='<line x1="'+w[0]+'" y1="'+(w[1]+6)+'" x2="'+(w[0]+w[2])+'" y2="'+(w[1]+6)+'"/>'
+         + '<line x1="'+w[0]+'" y1="'+(w[1]+w[3]-6)+'" x2="'+(w[0]+w[2])+'" y2="'+(w[1]+w[3]-6)+'"/>'
+         + '<line x1="'+w[0]+'" y1="'+(w[1]+w[3]/2)+'" x2="'+(w[0]+w[2])+'" y2="'+(w[1]+w[3]/2)+'" class="wc"/>';
+      } else {
+        s+='<line x1="'+(w[0]+6)+'" y1="'+w[1]+'" x2="'+(w[0]+6)+'" y2="'+(w[1]+w[3])+'"/>'
+         + '<line x1="'+(w[0]+w[2]-6)+'" y1="'+w[1]+'" x2="'+(w[0]+w[2]-6)+'" y2="'+(w[1]+w[3])+'"/>'
+         + '<line x1="'+(w[0]+w[2]/2)+'" y1="'+w[1]+'" x2="'+(w[0]+w[2]/2)+'" y2="'+(w[1]+w[3])+'" class="wc"/>';
+      }
+    });
+    s+='</g><g class="door">';
+    DOORS.forEach(function(d){
+      var a=arc(d);
+      s+='<path d="M'+a.x1.toFixed(1)+' '+a.y1.toFixed(1)+' A'+d.r+' '+d.r+' 0 0 '+a.sweep+' '
+       + a.x2.toFixed(1)+' '+a.y2.toFixed(1)+'" class="sw"/>'
+       + '<line x1="'+d.cx+'" y1="'+d.cy+'" x2="'+a.x1.toFixed(1)+'" y2="'+a.y1.toFixed(1)+'" class="leaf"/>';
+    });
+    s+='</g>'+furn();
+    if(!bare){
+      s+='<g class="lab">';
+      ROOMS.forEach(function(r){
+        var cx=r.x+r.w/2+(r.lx||0), cy=r.y+r.h/2+(r.ly||0);
+        s+='<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" class="lk">'+r.ko+'</text>'
+         + '<text x="'+cx+'" y="'+(cy+16)+'" text-anchor="middle" class="le">'+r.en+'</text>';
+      });
+      s+='</g>';
+      if(showD){
+        s+='<g class="dims">'
+         + dim(X0,Y1+BAL,345,Y1+BAL,'2,650',26) + dim(345,Y1+BAL,705,Y1+BAL,'3,600',26)
+         + dim(705,Y1+BAL,X1,Y1+BAL,'3,350',26) + dim(X0,Y1+BAL,X1,Y1+BAL,'9,600',68)
+         + dim(X0,Y0,X0,345,'2,650',-26) + dim(X0,345,X0,Y1,'3,550',-26)
+         + dim(X0,Y0,X0,Y1,'6,200',-68) + '</g>'
+         + '<g class="np" transform="translate('+(X1-26)+','+(Y0-58)+')"><circle r="17"/>'
+         + '<path d="M0 -12 L6 8 L0 3 L-6 8 Z" class="nf"/>'
+         + '<text y="-24" text-anchor="middle" class="le">N</text></g>';
+      }
+    }
+    return s+'</svg>';
+  };
+})();
+
 var TERMS={
  '턴키':{c:'방식',d:'설계·시공·자재 구매까지 업체 한 곳이 전부 맡는 방식. 손이 덜 가지만 비용은 높습니다. 이 진행판은 턴키를 기준으로 씌어 있습니다.'},
  '반셀프':{c:'방식',d:'도배·타일처럼 공정별로 직접 업체를 구해 맡기는 방식. 싸지만 일정 조율과 하자 책임을 본인이 집니다.'},
@@ -1565,7 +1773,8 @@ var TERMS={
  '확장':{c:'구조',d:'발코니와 실내 사이의 벽·창을 없애 방이나 거실을 넓히는 공사. 단열과 창호 교체가 따라붙어 비용이 크게 늘어납니다.'},
  '터닝도어':{c:'구조',d:'발코니를 남길 때 실내와의 사이에 다는 접이식 유리문. 열면 트이고 닫으면 단열됩니다.'},
  '아이소핑크':{c:'구조',d:'분홍색 스티로폼 단열재의 상표명. 확장한 바닥과 벽에 깔아 결로와 추위를 막습니다.'},
- '내력벽':{c:'구조',d:'건물 하중을 받치는 벽. 법으로 철거가 금지됩니다. 도면이나 관리사무소에서 확인합니다.'},
+ '내력벽':{c:'구조',d:'건물 하중을 받치는 벽입니다. 헐거나 벽면적 30㎡ 이상 손대면 건축법상 대수선이라 허가 없이는 할 수 없습니다. 아파트는 관리사무소 도면에서 어느 벽인지 확인할 수 있습니다.'},
+ '대수선':{c:'구조',d:'내력벽·기둥·보·계단처럼 건물 뼈대를 늘리거나 헐거나 크게 고치는 공사입니다. 허가를 받아야 하고, 무단으로 하면 시공한 업체뿐 아니라 공사를 맡긴 집주인도 함께 처벌 대상이 됩니다. 도배·바닥·주방 교체 같은 공사는 여기 해당하지 않습니다.'},
  '가벽':{c:'구조',d:'하중을 받지 않는 칸막이 벽. 세우거나 옮길 수 있습니다.'},
  '우물천장':{c:'구조',d:'가운데가 사각으로 파인 천장. 오래된 집에 많고, 요즘은 철거해 평평하게 만드는 경우가 많습니다.'},
  '평천장':{c:'구조',d:'굴곡 없이 평평한 천장. 천장이 높아 보입니다.'},
@@ -1618,6 +1827,8 @@ var TERMS={
  '천장공사':{c:'견적',d:'천장 틀을 새로 짜고 마감하는 공사. 우물천장을 철거해 평천장으로 만드는 것도 여기 들어갑니다.'},
  '타일공사':{c:'견적',d:'현관·주방·욕실·발코니에 타일을 붙이는 공사. 붙이는 면적뿐 아니라 옆면 마감 방식으로도 금액이 갈립니다.'},
  '전기공사':{c:'견적',d:'배선·콘센트·스위치·조명 회로 공사. 벽을 막기 전에 끝나야 해서 되돌리기가 가장 어렵습니다.'},
+ '매입박스':{c:'설비',d:'스위치와 콘센트를 벽에 묻으려고 미리 넣어 두는 통입니다. 국내 제품은 규격이 같아서 브랜드가 달라도 그대로 갈아 끼울 수 있습니다.'},
+ '유럽형 스위치':{c:'설비',d:'융, 기라 같은 독일 브랜드 스위치를 말합니다. 국내 매입박스는 세로로 긴 사각형인데 유럽 규격은 지름 68mm 원형이라 박스부터 바꿔야 합니다. 전기 공사 때 미리 말하지 않으면 나중에 벽을 다시 뜯게 됩니다.'},
  '도배공사':{c:'견적',d:'초배와 정배로 벽지를 바르는 공사. 벽지 등급(합지·실크)에 따라 자재비가 크게 달라집니다.'},
  '방수공사':{c:'견적',d:'욕실과 발코니에 물이 새지 않게 막는 공사. 타일 아래 숨어서 나중에 다시 못 하니 여기를 아끼면 안 됩니다.'},
  '욕실공사':{c:'견적',d:'욕실 철거·방수·타일·도기·부속을 묶은 항목. 욕실 개수만큼 늘어납니다.'},
@@ -1774,7 +1985,7 @@ function go(id){
   linkTerms($('#v-'+id));
 }
 function setSum(id,state,text,num){
-  var w=$('#sum-'+id); w.innerHTML=''; w.setAttribute('data-s',state);
+  var w=$('#sum-'+id); if(!w) return; w.innerHTML=''; w.setAttribute('data-s',state);
   var t=el('div','vs-t'); t.innerHTML=text; w.appendChild(t);
   if(num){ w.appendChild(el('div','vs-n',num)) }
 }
@@ -2211,22 +2422,18 @@ function renderPlanBefore(){
     var dleft=Math.round((start-today)/864e5);
     var dtoMove=Math.max(0,Math.round((base-today)/864e5));
     sum.innerHTML='';
-    var b=el('b',null,
-      dleft>0 ? '요청서 작성은 '+fmt(start)+'까지 시작하세요'
-              : '표준 일정이라면 '+fmt(start)+'에 시작했어야 합니다');
+    var b=el('b',null,'입주까지 '+dtoMove+'일 남았습니다');
     b.style.color='var(--ink)';
     sum.appendChild(b); sum.appendChild(document.createElement('br'));
     var tail;
-    if(dleft>0) tail='아직 '+dleft+'일 남았습니다. 여유 있게 시작할 수 있습니다.';
-    else if(dleft===0) tail='오늘이 그날입니다. 지금 요청서를 쓰기 시작하세요.';
-    else if(dtoMove>=70) tail='이미 '+Math.abs(dleft)+'일 지났지만 남은 '+dtoMove+'일이면 상담 단계를 줄여 맞출 수 있습니다.';
-    else if(dtoMove>=35) tail='남은 '+dtoMove+'일로 전체 공사는 빠듯합니다. 업체가 이미 정해졌거나 부분 공사여야 가능합니다.';
-    else tail='남은 '+dtoMove+'일로는 전체 공사가 어렵습니다. 공사 범위를 줄이거나 입주일을 미루는 쪽을 검토하세요.';
+    if(dtoMove>=150) tail='업체를 여러 곳 만나 비교하고 요청서를 다듬을 시간까지 있습니다. 서두를 것은 없지만 요청서부터 손에 잡으세요.';
+    else if(dtoMove>=100) tail='전체 공사를 무리 없이 넣을 수 있는 기간입니다. 요청서를 쓰고 업체 접촉을 시작하세요.';
+    else if(dtoMove>=70) tail='업체 접촉과 상담을 동시에 돌리면 맞출 수 있습니다. 요청서를 오늘 쓰고 내일 보내세요.';
+    else if(dtoMove>=35) tail='전체 공사는 빠듯합니다. 공사 범위를 줄이거나, 일정이 이미 비어 있는 업체를 먼저 찾으세요.';
+    else tail='전체 공사는 어렵습니다. 도배·바닥 같은 부분 공사로 줄이거나 입주일을 미루는 쪽을 검토하세요.';
     sum.appendChild(document.createTextNode(tail));
-    setSum('plan','done','지금은 <b>'+nowName+'</b> 단계입니다. 입주까지 '+dtoMove+'일 남았습니다.','D-'+dtoMove);
   } else {
-    sum.textContent='입주하고 싶은 날을 넣으면 아홉 단계의 마감일을 거꾸로 계산합니다.';
-    setSum('plan','none','입주 희망일을 넣으면 <b>언제까지 업체를 정해야 하는지</b> 나옵니다.','');
+    sum.textContent='입주하고 싶은 날을 넣으면 남은 기간으로 무엇까지 할 수 있는지 알려 드립니다.';
   }
 }
 
@@ -2343,7 +2550,8 @@ function renderNow(){
     var c=el('div','nowcard');
     c.appendChild(el('div','nc-lab','지금 해야 할 일'));
     c.appendChild(el('h3',null,p.n));
-    c.appendChild(el('div','nc-when', fmt(due)+' 까지 · '+(left>0? left+'일 남음' : left===0? '오늘' : Math.abs(left)+'일 지남')));
+    c.appendChild(el('div','nc-when',
+      left>0? '앞으로 '+left+'일 안에' : left===0? '오늘 안에' : '이미 '+Math.abs(left)+'일 지났습니다'));
     var ul=document.createElement('ul');
     (p.det||[]).forEach(function(d){ var li=document.createElement('li'); li.innerHTML=d; ul.appendChild(li) });
     c.appendChild(ul);
@@ -2906,6 +3114,9 @@ $('#resetAll').addEventListener('click',function(){
 });
 
 function renderHome(){
+  var hp=$('#heroPlan');
+  if(hp && !hp.firstChild) hp.innerHTML=floorplan({bare:true});
+
   var w=$('#homeCards'); if(!w) return; w.innerHTML='';
   var n=0;
   STAGES.forEach(function(st){
@@ -3009,6 +3220,5 @@ function renderAll(){
 renderAll();
 })();
 </script>
-
 </body>
 </html>
