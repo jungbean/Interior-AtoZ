@@ -1190,13 +1190,6 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
   </div>
   </div></header>
   <div class="vbody">
-  <div class="phase-sw" id="phaseSw">
-    <button type="button" data-ph="before"><b>계약 전</b><span>업체를 고르는 중</span></button>
-    <button type="button" data-ph="after"><b>계약 후</b><span>공사 일정이 잡힘</span></button>
-  </div>
-
-  <div class="size-sw" id="sizeSw"></div>
-
   <div class="panel" id="dateBox">
     <div class="row c2" style="margin-bottom:0;align-items:end">
       <div>
@@ -1425,6 +1418,16 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
     <span><i style="background:var(--accent)"></i>마감 골격</span>
     <span><i style="background:var(--accent-2)"></i>마무리</span>
     <span><i style="background:var(--amber)"></i>이슈</span>
+  </div>
+
+  <div class="panel" id="startBox">
+    <div class="row c2" style="margin-bottom:0;align-items:end">
+      <div>
+        <label class="fl" for="startDate">착공일 (계약서에 적힌 날)</label>
+        <input type="date" id="startDate">
+      </div>
+      <div id="startNote" style="font-size:13px;color:var(--ink-2);line-height:1.6;padding-bottom:8px"></div>
+    </div>
   </div>
 
   <div id="phaseList"></div>
@@ -1967,7 +1970,7 @@ var TERM_KEYS=Object.keys(TERMS).sort(function(a,b){return b.length-a.length});
 
 /* ─────────── 상태 ─────────── */
 var KEY='interior-board-v2';
-var S={view:'home',phase:'before',size:'59',sched:null,showPast:0,moveIn:'',startDate:'',brief:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',acc:{},planOpen:{}};
+var S={view:'home',size:'59',sched:null,showPast:0,moveIn:'',startDate:'',brief:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',acc:{},planOpen:{}};
 try{ var raw=localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw); if(p&&typeof p==='object') for(var k in p) S[k]=p[k]; } }catch(e){}
 function persist(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
@@ -2004,7 +2007,7 @@ function progress(){
   var vd=S.vendors.filter(function(v){return VCHECKS.every(function(c){return v.checks&&v.checks[c.k]})}).length;
   var pOpen=S.punch.filter(function(p){return p.st!=='done'}).length;
   return {
-    plan:  {r:(S.phase==='after'? (S.startDate?1:0) : (S.moveIn?1:0))},
+    plan:  {r:(S.moveIn?1:0)},
     brief: {r:bt?bd/bt:0, d:bd, t:bt},
     vendors:{r:S.vendors.length? Math.min(1,S.vendors.length/5):0, d:S.vendors.length, ok:vd},
     quote: {r:qd/qAll.length, d:qd, t:qAll.length},
@@ -2402,34 +2405,14 @@ var SIZES={
 };
 /* 평형이 커지면 손이 많이 가는 공정에 하루씩 붙는다 */
 
-function afterPlan(){ var LAST=totalDays(); return [
-  {k:'a1', day:1,        n:'공사 시작 · 현장미팅', v:'build',
-   t:'에어컨과 샷시를 실측하고, 제작 기간이 긴 품목을 이날 발주합니다.'},
-  {k:'a2', day:6,        n:'전기 배선', v:'build',
-   t:'콘센트와 스위치 위치를 최종 확정하는 날입니다. 벽이 막히면 되돌리기 어렵습니다.'},
-  {k:'a3', day:8,        n:'목공 시작', v:'build',
-   t:'이 시점에 가전과 가구 치수가 전부 확정되어 있어야 합니다.'},
-  {k:'a4', day:16,       n:'도배 · 가구 미팅', v:'build',
-   t:'주방 가구 실측과 최종 확인이 붙습니다. 도배가 끝나면 수정이 어렵습니다.'},
-  {k:'a5', day:19,       n:'직접 산 자재 도착 마감', v:'build',
-   t:'싱크볼·수전처럼 직접 구매한 품목이 이날까지 현장에 있어야 합니다.'},
-  {k:'a6', day:LAST, n:'준공 · 인수인계', v:'punch',
-   t:'빈 집을 돌며 하자를 찾아 목록을 만드는 날입니다. 잔금은 보수를 확인한 뒤에 냅니다.'},
-  {k:'a7', day:LAST, off:8,  n:'A/S · 새집증후군 시공', v:'punch',
-   t:'짐이 들어오기 전에 보수를 끝냅니다.'},
-  {k:'a8', day:LAST, off:12, n:'입주 가능', v:null, t:''}
-]; }
-function afterDate(start,it){
-  var d=workDate(start,it.day);
-  if(it.off) d=new Date(d.getTime()+it.off*864e5);
-  return d;
-}
 function fmt(dt){ return (dt.getMonth()+1)+'월 '+dt.getDate()+'일 ('+['일','월','화','수','목','금','토'][dt.getDay()]+')' }
 function baseStart(){
-  if(S.phase==='after') return parseDate(S.startDate);
+  var st=parseDate(S.startDate);
+  if(st) return st;
   var mv=parseDate(S.moveIn);
   if(!mv) return null;
-  var d=new Date(mv.getTime()-48*864e5);
+  /* 준공 뒤 보수와 새집증후군 시공에 12일쯤 든다 */
+  var d=new Date(mv.getTime()-(totalDays()+12)*864e5);
   while(d.getDay()===0||d.getDay()===6) d.setDate(d.getDate()+1);
   return d;
 }
@@ -2446,16 +2429,10 @@ function parseDate(v){
 function dateWarn(d){
   if(!d) return null;
   var diff=Math.round((d-today0())/864e5);
-  if(S.phase==='before'){
-    if(diff<=0) return '입주 희망일은 오늘 이후로 넣어 주세요.';
-    if(diff<30) return '전체 공사 기준으로는 촉박합니다. 도배·바닥만 하는 부분 공사이거나 업체가 이미 정해진 경우가 아니라면 일정을 다시 보세요.';
-    if(diff<70) return '전체 공사라면 빠듯합니다. 업체 상담 단계를 줄이거나 입주일을 미루는 쪽을 검토하세요.';
-    if(diff>1095) return '3년 넘게 남은 날짜입니다. 맞는지 확인해 주세요.';
-  } else {
-    if(diff<-365) return '1년 넘게 지난 날짜입니다. 착공일이 맞는지 확인해 주세요.';
-    if(diff>365) return '1년 넘게 남은 날짜입니다. 착공일이 맞는지 확인해 주세요.';
-    if(d.getDay()===0||d.getDay()===6) return '주말입니다. 단지에 따라 주말 공사가 막혀 있을 수 있으니 착공일이 맞는지 확인해 주세요.';
-  }
+  if(diff<=0) return '입주 희망일은 오늘 이후로 넣어 주세요.';
+  if(diff<30) return '전체 공사 기준으로는 촉박합니다. 도배·바닥만 하는 부분 공사이거나 업체가 이미 정해진 경우가 아니라면 일정을 다시 보세요.';
+  if(diff<70) return '전체 공사라면 빠듯합니다. 업체 상담 단계를 줄이거나 입주일을 미루는 쪽을 검토하세요.';
+  if(diff>1095) return '3년 넘게 남은 날짜입니다. 맞는지 확인해 주세요.';
   return null;
 }
 function showWarn(msg){
@@ -2471,48 +2448,14 @@ function showWarn(msg){
   box.style.display=msg?'block':'none';
 }
 
-function renderSizes(){
-  var w=$('#sizeSw'); if(!w) return; w.innerHTML='';
-  w.appendChild(el('span','ss-lab','평형'));
-  Object.keys(SIZES).forEach(function(k){
-    var it=SIZES[k];
-    var b=el('button'); b.type='button';
-    if(S.size===k) b.className='on';
-    b.innerHTML='<b></b><span></span>';
-    b.querySelector('b').textContent=it.l;
-    b.querySelector('span').textContent=it.sub+(it.add? ' · +'+it.add+'일':'');
-    b.addEventListener('click',function(){ S.size=k; persist(); renderPlan(); renderPhases(); renderNav() });
-    w.appendChild(b);
-  });
-  var n=$('#sizeNote');
-  if(!n){ n=el('div','size-note'); n.id='sizeNote'; w.parentNode.insertBefore(n,w.nextSibling) }
-  var edited = !!(S.sched && S.sched.length);
-  n.textContent = edited
-    ? '공정표를 직접 고치셨기 때문에 평형을 바꿔도 일정에는 반영되지 않습니다. 공정 화면에서 예시로 되돌리면 다시 반영됩니다.'
-    : (SIZES[S.size]||SIZES['59']).note;
-  n.style.color = edited? 'var(--amber)' : '';
-}
-
 function renderPlan(){
-  var isAfter = S.phase==='after';
-  renderSizes();
-  document.querySelectorAll('#phaseSw button').forEach(function(b){
-    b.classList.toggle('on', b.getAttribute('data-ph')===S.phase);
-  });
-  $('#dateLabel').textContent = isAfter? '공사 시작일 (계약서의 착공일)' : '입주 희망일';
-  $('#moveIn').value = isAfter? (S.startDate||'') : (S.moveIn||'');
+  $('#moveIn').value = S.moveIn||'';
   var t=today0(), iso=function(d){var m=d.getMonth()+1,dd=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(dd<10?'0':'')+dd};
-  $('#moveIn').min = iso(new Date(t.getTime()+(isAfter? -365 : 1)*864e5));
-  $('#moveIn').max = iso(new Date(t.getTime()+(isAfter?365:1095)*864e5));
-  var cur=parseDate(isAfter? S.startDate : S.moveIn);
-  var rawv=isAfter? S.startDate : S.moveIn;
-  showWarn(rawv && !cur ? '날짜를 읽을 수 없습니다. 다시 선택해 주세요.' : dateWarn(cur));
-  $('#planHead').textContent = isAfter? '착공일부터의 일정' : '입주일에서 거꾸로 센 일정';
-  $('#planTitle').textContent = isAfter? '오늘 무엇을 챙겨야 하는지' : '언제부터 움직여야 하는지';
-  $('#planLead').textContent = isAfter
-    ? '착공일을 넣으면 공정 순서대로 그날 결정해야 할 것을 짚어 줍니다. 벽이 막히기 전에 정해야 하는 것들이 있습니다.'
-    : '입주하고 싶은 날을 넣으면 거꾸로 계산합니다. 좋은 업체일수록 일정이 먼저 차기 때문에, 지금 급한 일은 업체를 정하는 것입니다.';
-  isAfter? renderPlanAfter() : renderPlanBefore();
+  $('#moveIn').min = iso(new Date(t.getTime()+864e5));
+  $('#moveIn').max = iso(new Date(t.getTime()+1095*864e5));
+  var cur=parseDate(S.moveIn);
+  showWarn(S.moveIn && !cur ? '날짜를 읽을 수 없습니다. 다시 선택해 주세요.' : dateWarn(cur));
+  renderPlanBefore();
   renderNow();
   linkTerms($('#v-plan'));
 }
@@ -2585,66 +2528,6 @@ function renderPlanBefore(){
   }
 }
 
-/* 계약 후 — 착공일부터 정방향 */
-function renderPlanAfter(){
-  var list=$('#planList'); list.innerHTML='';
-  var start = parseDate(S.startDate);
-  var today=today0();
-  var nowIdx=-1;
-  if(start){
-    for(var i=0;i<afterPlan().length;i++){
-      if(afterDate(start,afterPlan()[i])>=today){ nowIdx=i; break }
-    }
-    if(nowIdx===-1) nowIdx=afterPlan().length-1;
-  }
-  afterPlan().forEach(function(p,i){
-    var row=el('div','plan-item');
-    var dt = start? afterDate(start,p) : null;
-    row.setAttribute('data-st', start? (i<nowIdx?'past':(i===nowIdx?'now':'next')) : 'next');
-
-    var gut=el('div','plan-gut');
-    var lab = p.k==='a8'? '입주' : (p.off? '준공+'+p.off+'일' : p.day+'일차');
-    gut.appendChild(el('div','plan-dday', lab));
-    if(dt) gut.appendChild(el('div','plan-date', fmt(dt)));
-    row.appendChild(gut);
-
-    var sp=el('div','plan-spine'); sp.appendChild(el('div','plan-dot')); row.appendChild(sp);
-
-    var body=el('div','plan-body');
-    var nm=el('div','plan-name'); nm.appendChild(document.createTextNode(p.n));
-    if(start && i===nowIdx) nm.appendChild(el('span','pill','다음'));
-    body.appendChild(nm);
-    if(p.t) body.appendChild(el('div','plan-desc',p.t));
-    if(p.v){
-      var g=el('button','plan-go'); g.type='button';
-      g.innerHTML='<span></span>'+chevron(10);
-      g.querySelector('span').textContent=VIEWS[p.v].label+' 화면 열기';
-      g.addEventListener('click',function(){ go(p.v) });
-      body.appendChild(g);
-    }
-    row.appendChild(body);
-    list.appendChild(row);
-  });
-
-  var sum=$('#planSummary');
-  if(start){
-    var moveIn=afterDate(start,afterPlan()[afterPlan().length-1]);
-    var n=workDayNo(start,today);
-    sum.innerHTML='';
-    var b=el('b',null,'입주 가능일은 '+fmt(moveIn)); b.style.color='var(--ink)';
-    sum.appendChild(b); sum.appendChild(document.createElement('br'));
-    sum.appendChild(document.createTextNode(
-      today<start? '착공까지 '+Math.round((start-today)/864e5)+'일 남았습니다.'
-      : (n>totalDays()? '공사가 끝났습니다. 하자 보수 기간입니다.' : '오늘은 공사 '+n+'일차입니다.')));
-    setSum('plan','done', today<start? '착공 전입니다. 준비할 것을 미리 챙겨 두세요.'
-      : '<b>'+Math.min(n,totalDays())+'일차</b>입니다. 전체 '+totalDays()+'일 가운데 진행 중입니다.',
-      today<start? 'D-'+Math.round((start-today)/864e5) : Math.min(n,totalDays())+'/'+totalDays());
-  } else {
-    sum.textContent='계약서의 착공일을 넣으면 공정 일정과 입주 가능일을 계산합니다.';
-    setSum('plan','none','착공일을 넣으면 <b>오늘 무슨 공정이고 무엇을 챙겨야 하는지</b> 나옵니다.','');
-  }
-}
-
 function planBody(p, isNow, open){
   var body=el('div','plan-body');
   if(p.det && p.det.length){
@@ -2685,7 +2568,6 @@ function planBody(p, isNow, open){
 function renderNow(){
   var box=$('#nowBox'); box.innerHTML='';
   var today=today0();
-  if(S.phase==='before'){
     if(!parseDate(S.moveIn)) return;
     var base=parseDate(S.moveIn); if(!base) return;
     var idx=-1, behind=(new Date(base.getTime()-110*864e5) < today);
@@ -2735,67 +2617,6 @@ function renderNow(){
       c.appendChild(act);
     }
     box.appendChild(c);
-  } else {
-    var st=parseDate(S.startDate); if(!st) return;
-    var n=workDayNo(st,today);
-    var c2=el('div','nowcard');
-    if(today<st){
-      c2.appendChild(el('div','nc-lab','착공 전'));
-      c2.appendChild(el('h3',null,'현장미팅 준비'));
-      c2.appendChild(el('div','nc-when', fmt(st)+' 착공 · '+Math.round((st-today)/864e5)+'일 남음'));
-      var u0=document.createElement('ul');
-      ['중문·샷시처럼 <b>제작 기간이 긴 품목</b>의 사양을 미리 정해 두세요.',
-       '가전과 가구의 <b>모델명과 치수</b>를 표로 정리해 업체에 넘기세요.',
-       '관리사무소 <b>신고와 동의</b>를 누가 언제 처리하는지 확인하세요.'].forEach(function(t){
-        var li=document.createElement('li'); li.innerHTML=t; u0.appendChild(li);
-      });
-      c2.appendChild(u0);
-    } else if(n>totalDays()){
-      c2.appendChild(el('div','nc-lab','공사 종료'));
-      c2.appendChild(el('h3',null,'하자 보수 기간'));
-      c2.appendChild(el('div','nc-when','실내건축 하자담보책임기간은 1년입니다'));
-      var u1=document.createElement('ul');
-      ['발견한 하자는 <b>사진과 날짜</b>를 함께 남겨 요청하세요.',
-       '잔금이 남아 있다면 <b>보수를 확인한 뒤</b> 지급하세요.'].forEach(function(t){
-        var li=document.createElement('li'); li.innerHTML=t; u1.appendChild(li);
-      });
-      c2.appendChild(u1);
-    } else {
-      var sc=schedule(), ph=null;
-      for(var q=0;q<sc.length;q++){ if(n>=sc[q].from && n<=sc[q].to){ ph=sc[q]; break } }
-      if(!ph) ph=sc[sc.length-1];
-      c2.appendChild(el('div','nc-lab','오늘의 공정'));
-      c2.appendChild(el('h3',null,ph.kind));
-      c2.appendChild(el('div','nc-when', n+'일차 · '+fmt(today)+(ph.memo? ' · '+ph.memo : '')));
-      var u2=document.createElement('ul');
-      var li0=document.createElement('li');
-      li0.innerHTML = ph.o? ph.o : '오늘은 특별히 결정할 것이 없습니다. <b>현장 사진</b>만 남겨 두세요.';
-      u2.appendChild(li0);
-      var li1=document.createElement('li');
-      li1.innerHTML='공정이 끝나면 <b>사진을 남기고</b> 공정 화면에서 체크하세요.';
-      u2.appendChild(li1);
-      c2.appendChild(u2);
-
-      var nx=sc.filter(function(x){return x.from>n}).slice(0,2);
-      if(nx.length){
-        var nb=el('div','nc-next');
-        nb.innerHTML='<b>다음</b><br>'+nx.map(function(x){
-          return x.from+'일차 '+x.kind+(x.o? ' — '+x.o.replace(/<[^>]+>/g,'').slice(0,42)+'…' : '');
-        }).join('<br>');
-        c2.appendChild(nb);
-      }
-    }
-    var act2=el('div','nc-act');
-    var b2=el('button','btn'); b2.type='button';
-    b2.innerHTML='<span>공정 화면으로</span>'+chevron(11);
-    b2.addEventListener('click',function(){ go('build') });
-    act2.appendChild(b2);
-    var b3=el('button','btn ghost'); b3.type='button'; b3.textContent='하자 점검 열기';
-    b3.addEventListener('click',function(){ go('punch') });
-    act2.appendChild(b3);
-    c2.appendChild(act2);
-    box.appendChild(c2);
-  }
 }
 
 /* ─────────── 02 요청서 ─────────── */
@@ -3072,6 +2893,16 @@ function renderPhases(){
                                 : '전체 '+sc.length+'개 공정 가운데 <b>'+doneN+'개</b>가 끝났습니다. 총 '+total+'일 일정입니다.'),
     doneN+'/'+sc.length);
 
+  var sd=$('#startDate');
+  if(sd){
+    sd.value=S.startDate||'';
+    var nt=$('#startNote');
+    if(nt) nt.textContent = S.startDate
+      ? '이 날짜를 기준으로 공정 날짜를 셉니다.'
+      : (start? '아직 계약 전이라 입주 희망일에서 거꾸로 잡은 '+fmt(start)+'을 착공일로 두고 셉니다. 계약서에 날짜가 적히면 여기에 넣으세요.'
+              : '계약서에 착공일이 적히면 여기에 넣으세요. 비어 있으면 일정 화면의 입주 희망일에서 거꾸로 계산합니다.');
+  }
+
   var box=el('div','ph-wrap');
   sc.forEach(function(r,idx){
     var row=el('div','ph'+(S.build[r.id]?' done':''));
@@ -3253,21 +3084,15 @@ function fallback(text,done){
 
 /* ─────────── 바인딩 ─────────── */
 $('#moveIn').addEventListener('change',function(e){
-  var v=e.target.value;
-  if(S.phase==='before'){
-    var d=parseDate(v);
-    if(d && Math.round((d-today0())/864e5)<=0){
-      toast('입주 희망일은 오늘 이후로 넣어 주세요');
-      e.target.value=S.moveIn||''; return;
-    }
-    S.moveIn=v;
-  } else S.startDate=v;
-  persist(); renderPlan(); renderPhases(); renderNav();
+  var v=e.target.value, d=parseDate(v);
+  if(d && Math.round((d-today0())/864e5)<=0){
+    toast('입주 희망일은 오늘 이후로 넣어 주세요');
+    e.target.value=S.moveIn||''; return;
+  }
+  S.moveIn=v; persist(); renderPlan(); renderPhases(); renderNav();
 });
-document.querySelectorAll('#phaseSw button').forEach(function(b){
-  b.addEventListener('click',function(){
-    S.phase=b.getAttribute('data-ph'); persist(); renderPlan(); renderPhases(); renderNav();
-  });
+$('#startDate').addEventListener('change',function(e){
+  S.startDate=e.target.value; persist(); renderPhases(); renderPlan(); renderNav();
 });
 $('#copyBrief').addEventListener('click',function(){ copy($('#briefOut').textContent,'요청서를 복사했습니다') });
 $('#addVend').addEventListener('click',function(){
@@ -3317,7 +3142,7 @@ window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',onScroll);
 document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#startBtn')) go('plan') });
 $('#resetAll').addEventListener('click',function(){
-  S={view:S.view,phase:S.phase,size:S.size,sched:null,showPast:0,moveIn:'',startDate:'',brief:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',acc:{},planOpen:{}};
+  S={view:S.view,size:S.size,sched:null,showPast:0,moveIn:'',startDate:'',brief:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',acc:{},planOpen:{}};
   persist(); $('#moveIn').value=''; renderAll(); toast('기록을 모두 지웠습니다');
 });
 
