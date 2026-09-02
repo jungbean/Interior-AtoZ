@@ -1305,7 +1305,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
   <div class="crumb"><span class="sheet">B-02</span><span>준비</span><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 2.5 7.5 6 4 9.5"/></svg><b>요청서</b><s></s></div>
   <div class="v-head">
     <h1>모든 업체에 같은 조건을 줍니다</h1>
-    <p>"24평인데 견적 좀 주세요"로는 돌아온 숫자를 비교할 수 없습니다. 한 곳은 샷시를 빼고 계산하고 다른 곳은 넣고 계산하니까요. 아래를 채우면 그대로 보낼 수 있는 요청서가 만들어집니다.</p>
+    <p>"24평인데 견적 좀 주세요"로는 돌아온 숫자를 비교할 수 없습니다. 한 곳은 샷시를 빼고 계산하고 다른 곳은 넣고 계산하니까요. 업체를 만나기 전에 우리끼리 무엇을 정했는지 여기서 맞춰 두고, 정한 만큼 그대로 요청서로 보내면 됩니다.</p>
   </div>
   <div class="vsum" id="sum-brief"></div>
   </div></header>
@@ -2949,7 +2949,11 @@ function renderBrief(){
 }
 function buildBriefOut(){
   var lines=['인테리어 견적 요청서',''], n=0, total=0;
-  BRIEF.forEach(function(g){ total+=g.fs.length });
+  /* 진행률은 채운 칸 수 그대로 센다. 아래에서 중복을 빼는 것과는 별개다 */
+  BRIEF.forEach(function(g){
+    total+=g.fs.length;
+    g.fs.forEach(function(f){ if((S.brief[f.k]||'').trim()) n++ });
+  });
   var undecided=[];
   /* 평형과 공사 중 거주는 기본 정보의 자세한 칸과 겹쳐서, 그쪽이 채워져 있으면 요청서에는 싣지 않는다 */
   var DUP={sz:'size', stay:'live'}, replaced={};
@@ -2965,7 +2969,6 @@ function buildBriefOut(){
     });
     var body=[];
     got.forEach(function(f){
-      n++;
       var v=S.brief[f.k].trim();
       if(v===UNKNOWN_TEXT){ if(!replaced[f.k]) undecided.push(f.l); return }
       if(f.opt){ var o=f.opt.filter(function(x){return x.v===v})[0]; if(o) v=o.l }
@@ -2996,9 +2999,9 @@ function buildBriefOut(){
   $('#briefOut').textContent = n? lines.join('\n') : '';
   $('#briefCount').textContent = n? '지금까지 채운 '+n+'개 항목이 담겼습니다. 다 채우지 않아도 보낼 수 있습니다.' : '';
   setSum('brief', n===0?'none':(n===total?'done':'part'),
-    n===0? '아직 비어 있습니다. <b>기본 정보</b>부터 채워 보세요.'
-         : (n===total? '<b>모든 항목</b>을 채웠습니다. 아래에서 복사해 업체에 보내세요.'
-                     : '전체 '+total+'개 항목 가운데 <b>'+n+'개</b>를 채웠습니다.'),
+    n===0? '아직 정한 것이 없습니다. <b>기본 정보</b>부터 하나씩 정해 보세요.'
+         : (n===total? '<b>스물여덟 가지</b>를 다 정했습니다. 아래에서 복사해 업체에 보내세요.'
+                     : '지금까지 <b>'+n+'가지</b>를 정했습니다. 남은 것은 업체와 이야기하며 채워도 됩니다.'),
     n+'/'+total);
 }
 
