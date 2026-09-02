@@ -11,7 +11,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2306090A'/%3E%3Cpath d='M6 20 L16 9 L26 20' fill='none' stroke='%2300E676' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M11 20v4h10v-4' fill='none' stroke='%2300E676' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<style>:root{color-scheme:dark}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{color-scheme:dark}html{background:#0A0D0F}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <title>갈 것인가 수라의 길로</title>
@@ -48,6 +48,7 @@
 }
 
 *{box-sizing:border-box}
+html{background:var(--paper)}
 body{
   margin:0;color:var(--ink);
   background:
@@ -317,7 +318,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 /* ── 대문 (스크롤 인트로) ─────────── */
 .main.home-mode{padding:0}
 .home{max-width:none}
-.hsec{position:relative;padding:0 44px;overflow:hidden}
+.hsec{position:relative;padding-inline:44px;overflow:hidden}
 .hin{width:100%;max-width:1280px;margin:0 auto;position:relative;z-index:2}
 
 /* 모서리 크로스 마커 */
@@ -513,7 +514,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 @media (min-width:861px) and (max-width:1180px){
   .vband{padding:76px 28px 0}
   .vbody{padding:36px 28px 0}
-  .hsec{padding:0 28px}
+  .hsec{padding-inline:28px}
   .v-head h1{max-width:18em}
   .figs{grid-template-columns:repeat(2,1fr)}
   .hcard{grid-template-columns:40px 1fr 22px;gap:16px}
@@ -521,7 +522,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
   .dockbtn{left:16px;top:16px}
 }
 @media (max-width:860px){
-  .hsec{padding:0 18px}
+  .hsec{padding-inline:18px}
   .h1sec{padding-top:76px}
   .h1sec{min-height:92svh}
   .sprog{left:0}
@@ -730,7 +731,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 @media (min-width:861px) and (max-width:1180px){
   .vband{padding:76px 28px 0}
   .vbody{padding:36px 28px 0}
-  .hsec{padding:0 28px}
+  .hsec{padding-inline:28px}
   .v-head h1{max-width:18em}
   .figs{grid-template-columns:repeat(2,1fr)}
   .hcard{grid-template-columns:40px 1fr 22px;gap:16px}
@@ -978,7 +979,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
 @media (min-width:861px) and (max-width:1180px){
   .vband{padding:76px 28px 0}
   .vbody{padding:36px 28px 0}
-  .hsec{padding:0 28px}
+  .hsec{padding-inline:28px}
   .v-head h1{max-width:18em}
   .figs{grid-template-columns:repeat(2,1fr)}
   .hcard{grid-template-columns:40px 1fr 22px;gap:16px}
@@ -995,7 +996,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-3);opacity:.75}
   .size-sw .ss-lab{grid-column:1/-1;margin:0 0 2px}
   .rail{width:min(80vw,290px)}
   .dockbtn{left:14px;top:12px;padding:7px 11px 7px 9px}
-  .hsec{padding:0 18px}
+  .hsec{padding-inline:18px}
   .h1sec{padding-top:76px}
   .vband{padding:76px 18px 0}
   .v-head h1{max-width:none}
