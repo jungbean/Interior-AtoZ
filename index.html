@@ -1268,7 +1268,7 @@ textarea.doc:focus{border-color:var(--accent-line)}
   <!-- 4. 화면 -->
   <div class="hsec h4sec">
     <div class="hin">
-      <div class="micro rv">여섯 개의 화면</div>
+      <div class="micro rv">열 개의 화면</div>
       <div class="home-cards" id="homeCards"></div>
     </div>
   </div>
@@ -1280,7 +1280,7 @@ textarea.doc:focus{border-color:var(--accent-line)}
       <p class="sig rv">고난이 대수랴, 기꺼이 걸어가리.<br><b>수라의 길!</b></p>
         <p class="jpfoot rv d1">苦難上等 好むものなり修羅の道</p>
       
-      <div class="rv d2"><button class="btn" id="startBtn">일정 화면부터 시작하기
+      <div class="rv d2"><button class="btn" id="startBtn">집 정보부터 시작하기
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>
       </button></div>
       <div class="h5note rv d3">
@@ -1439,6 +1439,7 @@ textarea.doc:focus{border-color:var(--accent-line)}
     </div>
     <div id="planSummary" style="font-size:13.5px;color:var(--ink-2);line-height:1.6;padding-top:10px"></div>
   </div>
+  <div class="sticky-act"><button class="btn" data-goto="pick">고르기 시작 →</button></div>
 
   <div id="nowBox"></div>
 
@@ -2540,6 +2541,11 @@ function resumeNote(){
   if(!n) return '';
   return '<p class="resume">이어서 하고 계십니다. 지금까지 <b>'+n+'개</b>를 고르셨습니다.</p>';
 }
+/* 일정 화면 버튼은 원본 HTML 에 있어 렌더 때마다 다시 묶이지 않는다. 문서에 한 번만 건다. */
+document.addEventListener('click', function(e){
+  var b = e.target && e.target.closest && e.target.closest('[data-goto]');
+  if(b){ go(b.dataset.goto); window.scrollTo({top:0}) }
+});
 function isOn(id,v){ var s=S.picks[id]; return Array.isArray(s)? s.indexOf(v)>-1 : s===v }
 function pickVal(id){ var s=S.picks[id]; return Array.isArray(s)? s.join(' + ') : s }
 function countOpen(){ return allLive().length }
@@ -2548,6 +2554,13 @@ function countOpen(){ return allLive().length }
 function docStale(){ if(S.doc!==null && S.doc!==undefined) S.docStale=true; }
 
 /* ── 집 정보 ── */
+/* 준비 단계는 순서가 있는데 이어 갈 버튼이 고르기 화면에만 있었다. */
+function nextBtn(to, label, ready){
+  return '<div class="sticky-act">'+
+    '<button class="btn'+(ready?'':' ghost')+'" data-goto="'+to+'">'+label+' →</button>'+
+    (ready?'':'<span class="muted mini">고르지 않고 넘어가도 나중에 돌아올 수 있습니다.</span>')+
+  '</div>';
+}
 function renderApt(){
   var w=$('#aptBody');
   if(aptFailed){
@@ -2562,7 +2575,8 @@ function renderApt(){
     loadApt().then(function(){ renderApt() });
     return;
   }
-  w.innerHTML = S.apt ? pickedAptHtml() : searchAptHtml();
+  w.innerHTML = (S.apt ? pickedAptHtml() : searchAptHtml())
+    + nextBtn('scope','범위 정하기', !!(S.apt||S.aptManual.region));
   bindApt();
   linkTerms($('#v-apt'));
 }
@@ -2627,6 +2641,8 @@ function renderScope(){
     (sc.all===true || (sc.all===false && sc.on.bath) ? bathHtml() : '')+
     (sc.all!==null ? stayHtml() : '')+
     (sc.all!==null && sc.stay!==null ? '<div class="why"><p>지금은 <b>'+countOpen()+'판</b>입니다. 예순네 판 가운데 이 집에 필요한 것만 나오고, 고르는 내용에 따라 몇 판이 더 열립니다.</p></div>' : '');
+  $('#scopeBody').insertAdjacentHTML('beforeend',
+    nextBtn('tone','컨셉 고르기', sc.all!==null && sc.stay!==null));
   bindScope();
   linkTerms($('#v-scope'));
 }
@@ -2695,6 +2711,8 @@ function renderTone(){
     (done? '<div class="why"><p><b>요청서에 이렇게 실립니다</b>'+toneText()+'</p></div>' : '');
   $$('[data-tk]').forEach(function(b){ b.addEventListener('click', function(){
     S.tone[b.dataset.tk]=b.dataset.tv; docStale(); persist(); renderTone(); renderNav() }) });
+  $('#toneBody').insertAdjacentHTML('beforeend', nextBtn('plan','일정 잡기', done));
+ 
   linkTerms($('#v-tone'));
   $$('[data-want]').forEach(function(b){ b.addEventListener('click', function(){
     var w=b.dataset.want; if(S.wants[w]) delete S.wants[w]; else S.wants[w]=1; docStale(); persist(); renderTone() }) });
@@ -4113,7 +4131,7 @@ var glQ=$('#glQ'); if(glQ) glQ.addEventListener('input',renderGlossary);
 var matQ=$('#matQ'); if(matQ) matQ.addEventListener('input',renderMaterial);
 window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',onScroll);
-document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#startBtn')) go('plan') });
+document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#startBtn')) go('apt') });
 $('#resetAll').addEventListener('click',function(){
   var keepView=S.view, keepSize=S.size;
   S={view:keepView,size:keepSize,apt:null,aptPy:null,aptManual:{},
