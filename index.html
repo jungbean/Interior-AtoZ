@@ -2824,7 +2824,7 @@ function renderScope(){
     (sc.all===false ? spaceHtml()+partWarn() : '')+
     (sc.all===true || (sc.all===false && sc.on.bath) ? bathHtml() : '')+
     (sc.all!==null ? stayHtml() : '')+
-    (sc.all!==null && sc.stay!==null ? '<div class="why"><p>지금 <b>'+countOpen()+'판</b>이 열려 있고, 고르는 내용에 따라 <b>'+countMax()+'판</b>까지 늘어납니다. 예순여섯 판 가운데 이 집에 필요한 것만 나옵니다.</p></div>' : '');
+    '';
   $('#scopeBody').insertAdjacentHTML('beforeend',
     nextBtn('tone','컨셉 고르기', sc.all!==null && sc.stay!==null && (sc.all===true || Object.keys(sc.on||{}).length>0)));
   bindScope();
