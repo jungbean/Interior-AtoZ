@@ -1190,6 +1190,8 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
   /* 손가락으로 누르는 화면에서는 버튼이 폭을 다 쓴다 */
   .sticky-act .btn{flex:1 1 auto;justify-content:center;min-height:48px}
   .sticky-act .muted{display:none}
+  /* 왜 눌리지 않는지 알려 주는 한 줄까지 감추면 화면에서 막힌다. 버튼 아래 한 줄로 내린다. */
+  .sticky-act .muted.mini{display:block;flex:1 0 100%;margin-top:7px;text-align:center}
 }
 /* 아직 고를 것이 남았으면 눌리지 않는다 */
 /* 초록을 옅게만 하면 「누를 수 있는데 색만 다른 것」으로 읽힌다. 초록 자체를 걷어 낸다. */
@@ -3414,13 +3416,15 @@ function scopeSchedule(){
     scp:  full?'all':'part',
     stay: sc.stay||'',
     /* 「그대로 둡니다」를 고르면 바닥 공정을 빼야 한다. 안 골랐으면 집 전체일 때만 덧방으로 본다. */
-    flw:  (P['floor-demo']==='그대로 둡니다') ? 'keep'
+    /* 범위에서 뺀 공간의 공정이 앞서 고른 값 때문에 남아 있었다. bth·ktc 처럼 공간을 먼저 본다. */
+    flw:  !(full||on.room) ? 'keep'
+          : (P['floor-demo']==='그대로 둡니다') ? 'keep'
           : (P['floor-demo']==='철거 후 재시공') ? 'redo'
           : (P['floor-demo'] ? 'over' : (full?'over':'')),
     bth:  (P['bath-demo']==='그대로 둡니다') ? '0' : ((full||on.bath)? String(Math.min(3, bathCount())) : '0'),
     ktc:  (full||on.kitchen)? (P['kitchen-door']?'all':'part') : 'keep',
-    exp:  (P['expand']==='확장')?'one':'no',
-    sash: (P['sash-system']? (full?'all':'part') : 'keep')
+    exp:  ((full||on.balcony) && P['expand']==='확장')?'one':'no',
+    sash: !(full||on.room) ? 'keep' : (P['sash-system']? (full?'all':'part') : 'keep')
   };
   var sz=S.size||'59';
   function push(kind,days,memo){ if(days>0) r.push({kind:kind,days:days,memo:memo||''}) }
@@ -3568,9 +3572,11 @@ function dateWarn(d){
     var earliest=new Date(cs.getTime()+(calDays(totalDays())+AFTER)*864e5);
     if(d<earliest){
       var sz2 = SIZES[S.size] || SIZES['59'];
-      var slow = sz2.hi ? new Date(cs.getTime()+(sz2.hi+12)*864e5) : null;
+      /* hi 는 작업일이라 달력으로 환산해야 earliest 와 같은 자로 잰 값이 된다. */
+      var slow = sz2.hi ? new Date(cs.getTime()+(calDays(sz2.hi)+AFTER)*864e5) : null;
+      var 뒤 = (slow && slow>earliest) ? ' 에서 '+fmt(slow)+' 사이가' : ' 이후가';
       return '잔금을 치르기 전에는 공사를 시작할 수 없어서 이 입주일은 맞추기 어렵습니다. 지금 공사 범위로는 '
-        + fmt(earliest) + (slow && slow>earliest ? ' 에서 '+fmt(slow) : '') + ' 사이가 현실적입니다.';
+        + fmt(earliest) + 뒤 + ' 현실적입니다.';
     }
   }
   if(diff<30) return '전체 공사 기준으로는 촉박합니다. 도배·바닥만 하는 부분 공사이거나 업체가 이미 정해진 경우가 아니라면 일정을 다시 보세요.';
@@ -3873,8 +3879,10 @@ function buildBriefOut(){
   var d=parseDate(S.moveIn);
   if(d) lines.push('· 입주 예정일 : '+d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일'+(S.moveInAuto?' (아직 확정 전입니다)':''));
   var cs=parseDate(S.canStart);
-  var _bn=(S.scope||{}).bathN;
-  if(_bn) lines.push('· 고칠 욕실 : '+_bn+'개');
+  /* 공정표가 잡는 개수와 문서에 적히는 개수가 어긋나면 견적이 갈린다. 같은 식을 쓴다. */
+  var _sc=S.scope||{}, _on=_sc.on||{};
+  if((_sc.all!==false || _on.bath) && S.picks['bath-demo']!=='그대로 둡니다')
+    lines.push('· 고칠 욕실 : '+bathCount()+'개');
   if(cs) lines.push('· 공사 가능일 : '+cs.getFullYear()+'년 '+(cs.getMonth()+1)+'월 '+cs.getDate()+'일부터 (잔금 다음 날)');
   /* 화면에서 짚어 준 잔금·입주일 모순이 문서에는 빠져, 앞뒤 안 맞는 두 날짜가 그대로 업체에 나갔다. */
   if(d && cs){
