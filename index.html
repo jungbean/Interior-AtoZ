@@ -1174,6 +1174,8 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
 .check{margin:-4px 0 18px;padding:11px 14px;border:1px solid var(--amber-line);
   background:var(--amber-soft);border-radius:9px;font-size:13px;line-height:1.7;color:var(--amber)}
 .check b{color:var(--ink);font-weight:600}
+.rng{display:block;margin-top:6px;color:var(--ink-3);font-size:12.5px}
+.rng b{color:var(--ink-2);font-weight:600}
 
 </style>
 
@@ -2421,10 +2423,11 @@ var TONE = {
     {k:'plain', n:'무늬 없이', c:null, d:'면으로 갑니다. 가구와 소품이 드러납니다.'},
     {k:'some',  n:'한두 곳만 무늬로', c:null, d:'상판이나 벽 한 면에 돌 무늬나 결을 넣습니다.'},
   ]},
-  metal: { sub:'금속 색 (수전·손잡이·조명)', note:'사진으로는 잘 안 잡히는데 집 안 금속을 한 색으로 맞추면 정돈돼 보입니다.', opts:[
-    {k:'chrome', n:'크롬·실버', c:['#C6CBCE'], d:'가장 흔하고 값이 낮습니다.'},
-    {k:'black',  n:'매트 블랙', c:['#2B2E30'], d:'또렷하게 드러납니다.'},
-    {k:'gold',   n:'골드·브론즈', c:['#B08D4F'], d:'따뜻하지만 제품 폭이 좁습니다.'},
+  metal: { sub:'금속 색 (수전·손잡이·조명)', note:'사진으로는 잘 안 잡히는데 집 안 금속을 한 색으로 맞추면 정돈돼 보입니다. 광택은 색마다 거의 정해져 있어 따로 묻지 않습니다.', opts:[
+    {k:'chrome', n:'크롬 (유광)', c:['#C6CBCE'], d:'가장 흔하고 값이 낮습니다. 반사가 강해 화사하지만 물방울과 지문이 도드라져 자주 닦게 됩니다.'},
+    {k:'nickel', n:'무광 니켈', c:['#AFAFA6'], d:'크롬보다 톤이 따뜻하고 표면 결이 빛을 흩어 지문이 덜 보입니다. 값이 조금 있고 제품 종류는 적습니다.'},
+    {k:'black',  n:'매트 블랙', c:['#2B2E30'], d:'또렷하게 드러납니다. 짙은 색이라 마른 물자국이 흰 얼룩으로 보일 수 있습니다.'},
+    {k:'gold',   n:'골드·브론즈', c:['#B08D4F'], d:'따뜻하지만 제품 폭이 좁습니다. 포인트로만 쓰라는 이야기가 많습니다.'},
     {k:'any',    n:'맞추지 않아도 됨', c:null, d:'자리마다 다른 색이어도 괜찮습니다.'},
   ]},
 };
@@ -2606,6 +2609,16 @@ function syncDateFill(){
 document.addEventListener('input', function(e){
   if(e.target && e.target.type === 'date') syncDateFill();
 });
+/* 공사 기간을 하루 단위로 딱 떨어뜨려 보여주면, 추정이라고 적어 두어도 그 숫자를
+   계획의 기준점으로 쓰게 된다. 업체들이 말하는 범위를 함께 적는다. */
+function daysRange(){
+  var s = SIZES[S.size] || SIZES['59'];
+  if(!s.lo) return '';
+  var sc = S.scope || {};
+  var 전체 = (sc.all === true);
+  return '<span class="rng">이 평형은 업체들이 보통 <b>'+s.lo+'~'+s.hi+'일</b>로 잡습니다'
+    + (전체 ? '' : ' (집 전체를 다 할 때 기준입니다)') + '.</span>';
+}
 function isOn(id,v){ var s=S.picks[id]; return Array.isArray(s)? s.indexOf(v)>-1 : s===v }
 function pickVal(id){ var s=S.picks[id]; return Array.isArray(s)? s.join(' + ') : s }
 /* 조건이 붙은 판까지 다 열렸을 때의 수. 「47판」이라 예고하고 끝에 59판이 되던 것을
@@ -3362,7 +3375,8 @@ function scopeSchedule(){
     for(var i=0;i<r.length;i++){ if(r[i].kind===kind){ r[i].days++; add--; hit=true; break } }
     if(!hit && g>order.length*2) break;
   }
-  /* 살면서 하면 짐을 옮겨 가며 해서 공정마다 여유가 붙는다 */
+  /* 살면서 하면 짐을 옮겨 가며 해서 공정마다 여유가 붙는다.
+     30퍼센트라는 값은 근거를 찾지 못했다. 힘들다는 후기만 있고 숫자로 말하는 자료가 없다. */
   if(b.stay==='stay') r.forEach(function(x){ x.days=Math.ceil(x.days*1.3) });
 
   push('인수인계',1);
@@ -3383,10 +3397,14 @@ function schedule(){
 function totalDays(){ var sc=schedule(); return sc.length? sc[sc.length-1].to : 0 }
 
 var SIZES={
-  '59':{l:'59㎡',sub:'24평형',add:0,  note:'실제로 진행한 기록입니다. 방 3, 욕실 2 기준입니다.'},
-  '74':{l:'74㎡',sub:'30평형',add:3,  note:'면적이 25% 늘어난 만큼 목공·타일·도배에 하루씩 더 잡았습니다. 추정치입니다.'},
-  '84':{l:'84㎡',sub:'34평형',add:5,  note:'방과 욕실이 늘어 목공·타일·도배·필름·가구에 하루씩 더 잡았습니다. 추정치입니다.'},
-  '99':{l:'99㎡+',sub:'40평 이상',add:8,note:'면적이 클수록 공정마다 늘어납니다. 실측 기록이 없어 넉넉히 잡은 추정치입니다.'}
+  '59':{l:'59㎡',sub:'24평형',add:0, lo:21,hi:28,
+        note:'실제로 진행한 기록입니다. 방 3, 욕실 2 기준입니다. 업체들이 말하는 20평대 3~4주의 하한과 맞습니다.'},
+  '74':{l:'74㎡',sub:'30평형',add:6, lo:28,hi:35,
+        note:'업체들이 30평대를 4~5주로 잡습니다. 같은 조건의 시공 일지를 못 찾아 하한에 두었습니다.'},
+  '84':{l:'84㎡',sub:'34평형',add:10, lo:28,hi:42,
+        note:'업체들은 4~6주로 잡고, 33평 32일·32평 30일 사례가 있습니다. 그 사례에 맞췄습니다.'},
+  '99':{l:'99㎡+',sub:'40평 이상',add:15, lo:35,hi:49,
+        note:'업체들은 5주 이상으로 잡고, 38평 35일 사례가 있습니다. 평형이 클수록 근거가 얇아집니다.'}
 };
 /* 평형이 커지면 손이 많이 가는 공정에 하루씩 붙는다 */
 
@@ -3424,7 +3442,12 @@ function dateWarn(d){
   var cs=parseDate(S.canStart);
   if(cs){
     var earliest=new Date(cs.getTime()+(totalDays()+12)*864e5);
-    if(d<earliest) return '잔금을 치르기 전에는 공사를 시작할 수 없어서 이 입주일은 맞추기 어렵습니다. 지금 공사 범위로는 '+fmt(earliest)+' 이후가 현실적입니다.';
+    if(d<earliest){
+      var sz2 = SIZES[S.size] || SIZES['59'];
+      var slow = sz2.hi ? new Date(cs.getTime()+(sz2.hi+12)*864e5) : null;
+      return '잔금을 치르기 전에는 공사를 시작할 수 없어서 이 입주일은 맞추기 어렵습니다. 지금 공사 범위로는 '
+        + fmt(earliest) + (slow && slow>earliest ? ' 에서 '+fmt(slow) : '') + ' 사이가 현실적입니다.';
+    }
   }
   if(diff<30) return '전체 공사 기준으로는 촉박합니다. 도배·바닥만 하는 부분 공사이거나 업체가 이미 정해진 경우가 아니라면 일정을 다시 보세요.';
   if(diff<70) return '전체 공사라면 빠듯합니다. 업체 상담 단계를 줄이거나 입주일을 미루는 쪽을 검토하세요.';
@@ -3962,8 +3985,8 @@ function renderPhases(){
   var doneN=sc.filter(function(r){return S.build[r.id]}).length;
 
   setSum('build', doneN===0?'none':(doneN>=sc.length?'done':'part'),
-    doneN===0? (start? '공사 시작일은 <b>'+fmt(start)+'</b>입니다. 아래는 예시 일정이니 <b>업체에게 받은 공정표대로</b> 고쳐서 쓰세요.'
-                     : '아래는 '+((SIZES[S.size]||SIZES['59']).sub)+' 기준으로 잡은 일정입니다. <b>업체 공정표를 받으면 그대로 고쳐</b> 넣으세요.')
+    doneN===0? (start? '공사 시작일은 <b>'+fmt(start)+'</b>이고 아래는 '+total+'일로 잡은 일정입니다. <b>업체에게 받은 공정표대로</b> 고쳐서 쓰세요.'+daysRange()
+                     : '아래는 '+((SIZES[S.size]||SIZES['59']).sub)+' 기준으로 잡은 '+total+'일 일정입니다. <b>업체 공정표를 받으면 그대로 고쳐</b> 넣으세요.'+daysRange())
              : (doneN>=sc.length? '<b>모든 공정</b>이 끝났습니다. 하자 점검으로 넘어가세요.'
                                 : '전체 '+sc.length+'개 공정 가운데 <b>'+doneN+'개</b>가 끝났습니다. 총 '+total+'일 일정입니다.'),
     doneN+'/'+sc.length);
