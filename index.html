@@ -2702,6 +2702,8 @@ function manualHtml(){
   return '<div class="fld2">'+
     '<label>지역</label><input data-ak="region" value="'+esc(v.region||'')+'" placeholder="예) 경기도 안양시 동안구">'+
     '<label>준공연도</label><input data-ak="year" value="'+esc(v.year||'')+'" placeholder="예) 2003">'+
+    '<label>전용면적</label><input data-ak="m2" type="number" value="'+esc(v.m2||'')+'" placeholder="예) 84">'+
+    '<p class="hint">공사 기간과 욕실 개수를 이 값으로 가늠합니다. 제곱미터로 적어 주세요.</p>'+
     '<label>평형</label><input data-ak="py" value="'+esc(v.py||'')+'" placeholder="예) 59타입 24평">'+
   '</div>';
 }
@@ -2739,7 +2741,11 @@ function bindApt(){
   var ag=$('#aptAgain'); if(ag) ag.addEventListener('click', function(){ S.apt=null; S.aptPy=null; persist(); renderApt(); renderNav() });
   $$('#aptBody .py').forEach(function(b){ b.addEventListener('click', function(){
     S.aptPy=+b.dataset.py; syncSize(); persist(); renderApt(); renderNav(); renderPlan(); renderPhases() }) });
-  $$('#aptBody .fld2 input').forEach(function(i){ i.addEventListener('input', function(){ S.aptManual[i.dataset.ak]=i.value; persist(); renderNav() }) });
+  $$('#aptBody .fld2 input').forEach(function(i){ i.addEventListener('input', function(){
+    S.aptManual[i.dataset.ak]=i.value;
+    /* 직접 입력한 전용면적도 공사 기간과 욕실 추정에 쓰인다. */
+    if(i.dataset.ak==='m2'){ syncSize(); renderPlan(); renderPhases() }
+    persist(); renderNav() }) });
 }
 
 /* ── 범위 ── */
@@ -3304,7 +3310,7 @@ function renderDict(view){
   var shown=Object.keys(byCat).reduce(function(a,c){return a+byCat[c].length},0);
   setSum(view, q? 'part':'none',
     q? '검색 결과 <b>'+shown+'개</b>'
-     : (isMat? '골라야 하는 것이 모두 <b>'+mine.length+'가지</b>입니다. 다른 화면에서 점선 낱말을 눌러도 같은 설명이 뜹니다.'
+     : (isMat? '고르는 자리에서 나오는 자재와 공법 <b>'+mine.length+'가지</b>를 모아 두었습니다. 다른 화면에서 점선 낱말을 눌러도 같은 설명이 뜹니다.'
              : '모두 <b>'+mine.length+'개</b>입니다. 다른 화면에서 점선 낱말을 눌러도 같은 설명이 뜹니다.'),
     mine.length+(isMat?'가지':'개'));
 }
@@ -4293,6 +4299,7 @@ $('#canStart').addEventListener('change',function(e){
 
 /* 입주일이 아직 없는 사람에게 일반적인 기간으로 잡은 날짜를 넣어 준다 */
 $('#moveInGuess').addEventListener('click',function(){
+  if(S.moveIn && !S.moveInAuto && !confirm('넣어 두신 입주일을 지우고 오늘부터 거꾸로 잡은 날짜로 바꿉니다. 계속할까요?')) return;
   var d=new Date(today0().getTime()+PLAN[0].d*864e5);
   var m=d.getMonth()+1, dd=d.getDate();
   S.moveIn=d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(dd<10?'0':'')+dd;
