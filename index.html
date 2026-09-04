@@ -2616,10 +2616,11 @@ document.addEventListener('input', function(e){
 function daysRange(){
   var s = SIZES[S.size] || SIZES['59'];
   if(!s.lo) return '';
-  var sc = S.scope || {};
-  var 전체 = (sc.all === true);
-  return '<span class="rng">이 평형은 업체들이 보통 <b>'+s.lo+'~'+s.hi+'일</b>로 잡습니다'
-    + (전체 ? '' : ' (집 전체를 다 할 때 기준입니다)') + '.</span>';
+  var 달력 = calDays(totalDays());
+  /* 업체가 말하는 「몇 주」는 달력이고 여기 일수는 작업일이라, 환산해서 나란히 놓는다.
+     인용한 업체들은 기간을 정하는 것이 평형이 아니라 공사 범위라고 말한다. */
+  return '<span class="rng">주말을 넣으면 <b>'+달력+'일</b>쯤 걸립니다. 비슷한 평형의 전체 공사를 업체들은 '
+    + '<b>'+s.lo+'~'+s.hi+'일</b>로 잡는데, 기간을 정하는 것은 평형보다 무엇을 어디까지 바꾸느냐입니다.</span>';
 }
 function isOn(id,v){ var s=S.picks[id]; return Array.isArray(s)? s.indexOf(v)>-1 : s===v }
 function pickVal(id){ var s=S.picks[id]; return Array.isArray(s)? s.join(' + ') : s }
@@ -3401,15 +3402,18 @@ function schedule(){
 }
 function totalDays(){ var sc=schedule(); return sc.length? sc[sc.length-1].to : 0 }
 
+/* 여기 적는 일수는 작업일이고 공정표도 주말을 쉬며 센다. 업체들이 말하는 「몇 주」는
+   달력이라 그대로 견주면 안 된다. lo·hi 는 달력 기준 범위이고, 화면에서는 앱의 작업일을
+   달력으로 환산해 함께 보여 준다(research/adversarial-2.md 2.2·2.3). */
 var SIZES={
   '59':{l:'59㎡',sub:'24평형',add:0, lo:21,hi:28,
-        note:'실제로 진행한 기록입니다. 방 3, 욕실 2 기준입니다. 업체들이 말하는 20평대 3~4주의 하한과 맞습니다.'},
-  '74':{l:'74㎡',sub:'30평형',add:6, lo:28,hi:35,
-        note:'업체들이 30평대를 4~5주로 잡습니다. 같은 조건의 시공 일지를 못 찾아 하한에 두었습니다.'},
-  '84':{l:'84㎡',sub:'34평형',add:10, lo:28,hi:42,
-        note:'업체들은 4~6주로 잡고, 33평 32일·32평 30일 사례가 있습니다. 그 사례에 맞췄습니다.'},
-  '99':{l:'99㎡+',sub:'40평 이상',add:15, lo:35,hi:49,
-        note:'업체들은 5주 이상으로 잡고, 38평 35일 사례가 있습니다. 평형이 클수록 근거가 얇아집니다.'}
+        note:'실제로 진행한 기록입니다. 방 3, 욕실 2 기준입니다.'},
+  '74':{l:'74㎡',sub:'30평형',add:3, lo:28,hi:35,
+        note:'같은 조건의 시공 일지를 못 찾아 앞뒤 평형 사이에 두었습니다.'},
+  '84':{l:'84㎡',sub:'34평형',add:5, lo:28,hi:42,
+        note:'업체 넷 가운데 셋이 4~5주, 한 곳이 5~6주로 잡습니다. 33평 32일·32평 30일 사례가 있습니다.'},
+  '99':{l:'99㎡+',sub:'40평 이상',add:8, lo:35,hi:49,
+        note:'업체들은 5주 이상으로 잡고 38평 35일 사례가 있습니다. 평형이 클수록 근거가 얇아집니다.'}
 };
 /* 평형이 커지면 손이 많이 가는 공정에 하루씩 붙는다 */
 
