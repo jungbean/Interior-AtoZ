@@ -1177,6 +1177,7 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
 .rng{display:block;margin-top:6px;color:var(--ink-3);font-size:12.5px}
 .rng b{color:var(--ink-2);font-weight:600}
 .plan-date.urgent{color:var(--amber)}
+.muted{color:var(--ink-3)}
 
 </style>
 
@@ -2738,7 +2739,7 @@ function renderScope(){
     (sc.all!==null ? stayHtml() : '')+
     (sc.all!==null && sc.stay!==null ? '<div class="why"><p>지금 <b>'+countOpen()+'판</b>이 열려 있고, 고르는 내용에 따라 <b>'+countMax()+'판</b>까지 늘어납니다. 예순다섯 판 가운데 이 집에 필요한 것만 나옵니다.</p></div>' : '');
   $('#scopeBody').insertAdjacentHTML('beforeend',
-    nextBtn('tone','컨셉 고르기', sc.all!==null && sc.stay!==null));
+    nextBtn('tone','컨셉 고르기', sc.all!==null && sc.stay!==null && (sc.all===true || Object.keys(sc.on||{}).length>0)));
   bindScope();
   linkTerms($('#v-scope'));
 }
@@ -2815,6 +2816,8 @@ function renderTone(){
 }
 /* 한글 음절은 유니코드로 받침을 셈하고, 숫자·영문으로 끝나면 그 글자를 한국어로 읽었을 때의 받침을 따른다. */
 function batchimClass(word){
+  /* 「크롬 (유광)」처럼 괄호로 끝나면 마지막 글자가 괄호라 받침을 잘못 센다. */
+  word = String(word||'').replace(/[)\]」』"'\s.·]+$/, '');
   var s=String(word||'').trim();
   if(!s) return 0;
   var ch=s.slice(-1), code=ch.charCodeAt(0);
@@ -3333,12 +3336,13 @@ var SAMPLE=[
 function scopeSchedule(){
   /* 범위가 S.scope 로 옮겨 갔다. 옛 S.brief 대신 그것과 고른 판을 읽는다. */
   var sc=S.scope||{}, on=sc.on||{}, P=S.picks||{}, r=[];
-  var full=(sc.all===true);
+  /* 아직 안 정했으면 집 전체로 본다. prepShift 도 그렇게 보고 있어 기준을 맞춘다. */
+  var full=(sc.all!==false);
   var b={
     scp:  full?'all':'part',
     stay: sc.stay||'',
-    flw:  (P['floor-demo']==='철거 후 재시공')?'redo':(P['floor-demo']?'over':''),
-    bth:  (full||on.bath)? (bathCount()>1?'2':'1') : '0',
+    flw:  (P['floor-demo']==='철거 후 재시공')?'redo':(P['floor-demo']? 'over' : (full?'over':'')),
+    bth:  (full||on.bath)? String(Math.min(3, bathCount())) : '0',
     ktc:  (full||on.kitchen)? (P['kitchen-door']?'all':'part') : 'keep',
     exp:  (P['expand']==='확장')?'one':'no',
     sash: (P['sash-system']? (full?'all':'part') : 'keep')
@@ -3350,19 +3354,19 @@ function scopeSchedule(){
 
   var demo=(full?2:0)
     + (b.flw==='redo'?1:0)
-    + (b.bth==='2'?2:(b.bth==='1'?1:0))
+    + (+b.bth || 0)
     + (b.ktc==='all'?1:0)
     + (b.exp==='multi'?2:(b.exp==='one'?1:0));
   push('철거', Math.min(demo,7));
 
-  if(b.flw==='redo'||b.bth==='1'||b.bth==='2') push('설비',1);
+  if(b.flw==='redo'||+b.bth>0) push('설비',1);
   push('샷시', b.sash==='all'?2:(b.sash==='part'?1:0), b.sash==='all'?'전체 교체':'');
   if(full||(b.exp&&b.exp!=='no')) push('전기',1,'배선');
   if(full) push('에어컨',1,'선배관');
   if(full) push('목공',3);
-  push('타일', (b.bth==='2'?3:(b.bth==='1'?2:0)) + ((b.ktc&&b.ktc!=='keep')?1:0));
+  push('타일', (+b.bth ? +b.bth+1 : 0) + ((b.ktc&&b.ktc!=='keep')?1:0));
   if(full) push('필름',1);
-  if(b.bth==='1'||b.bth==='2') push('설비',1,'기구 세팅');
+  if(+b.bth>0) push('설비',1,'기구 세팅');
   push('도배',2,'초배·정배');
   if(full) push('조명',1);
   if(b.flw&&b.flw!=='keep') push('바닥',1);
@@ -3453,7 +3457,7 @@ function baseStart(){
   var mv=parseDate(S.moveIn);
   if(!mv) return null;
   /* 준공 뒤 보수와 새집증후군 시공에 12일쯤 든다 */
-  var d=new Date(mv.getTime()-(totalDays()+12)*864e5);
+  var d=new Date(mv.getTime()-(totalDays()+AFTER)*864e5);
   /* 잔금 전에는 남의 집이라 역산 결과가 그보다 앞서면 공사 가능일로 민다 */
   var cs=parseDate(S.canStart);
   if(cs && d<cs) d=new Date(cs.getTime());
@@ -3476,7 +3480,7 @@ function dateWarn(d){
   if(diff<=0) return '입주 희망일은 오늘 이후로 넣어 주세요.';
   var cs=parseDate(S.canStart);
   if(cs){
-    var earliest=new Date(cs.getTime()+(totalDays()+12)*864e5);
+    var earliest=new Date(cs.getTime()+(totalDays()+AFTER)*864e5);
     if(d<earliest){
       var sz2 = SIZES[S.size] || SIZES['59'];
       var slow = sz2.hi ? new Date(cs.getTime()+(sz2.hi+12)*864e5) : null;
@@ -3532,7 +3536,9 @@ function renderPlanBefore(){
     }
     if(nowIdx===-1) nowIdx=PLAN.length-1;
     /* 준비할 날이 모자라 앞 단계가 통째로 밀린 것은 지나간 일이 아니라 서둘러야 할 일이다. */
-    if(nowIdx>0 && _dd[nowIdx-1] <= totalDays()+AFTER) nowIdx=0;
+    var _need = PREP_BASE + prepShift();
+    var _have = Math.round((base.getTime()-today0())/864e5) - (totalDays()+AFTER);
+    if(nowIdx>0 && _have < _need) nowIdx=0;
     nowName=PLAN[nowIdx].n;
   }
   if(base && nowIdx>0 && !S.showPast){
@@ -3593,7 +3599,7 @@ function renderPlanBefore(){
     sum.appendChild(b); sum.appendChild(document.createElement('br'));
     var tail;
     /* 준비는 잔금 전에도 하지만 공사는 잔금 뒤라, 남은 날이 많아도 공사 구간이 짧으면 못 맞춘다 */
-    var cs0=parseDate(S.canStart), need0=totalDays()+12;
+    var cs0=parseDate(S.canStart), need0=totalDays()+AFTER;
     var win0=cs0? Math.round((base-cs0)/864e5) : null;
     if(win0!=null && win0<=0) tail='입주 희망일이 잔금일보다 빠릅니다. 잔금을 치르기 전에는 공사를 시작할 수 없으니 두 날짜를 다시 보세요.';
     else if(win0!=null && win0<need0) tail='잔금이 '+fmt(cs0)+'이라 공사에 쓸 수 있는 기간은 '+win0+'일뿐입니다. 남은 날이 많아도 이 입주일은 맞추기 어렵습니다.';
@@ -3781,7 +3787,7 @@ function buildBriefOut(){
   if(cs) lines.push('· 공사 가능일 : '+cs.getFullYear()+'년 '+(cs.getMonth()+1)+'월 '+cs.getDate()+'일부터 (잔금 다음 날)');
   /* 화면에서 짚어 준 잔금·입주일 모순이 문서에는 빠져, 앞뒤 안 맞는 두 날짜가 그대로 업체에 나갔다. */
   if(d && cs){
-    var earliest=new Date(cs.getTime()+(totalDays()+12)*864e5);
+    var earliest=new Date(cs.getTime()+(totalDays()+AFTER)*864e5);
     if(d<earliest) lines.push('  ※ 공사 기간을 감안하면 '+fmt(earliest)+' 이후가 현실적이라고 들었습니다. 입주일은 다시 잡을 수 있습니다.');
   }
   lines.push('');
@@ -4256,7 +4262,7 @@ $('#moveInGuess').addEventListener('click',function(){
 $('#startDate').addEventListener('change',function(e){
   S.startDate=e.target.value; persist(); renderPhases(); renderPlan(); renderNav();
 });
-$('#copyBrief').addEventListener('click',function(){ copy($('#briefOut').textContent,'요청서를 복사했습니다') });
+$('#copyBrief').addEventListener('click',function(){ var b=$('#briefOut'); copy(b.value!==undefined? b.value : b.textContent,'요청서를 복사했습니다') });
 $('#addVend').addEventListener('click',function(){
   var i=$('#vendName'), n=i.value.trim();
   /* 등록 시점에는 채울 정보가 없어 접어 둔다. 다만 첫 곳은 안에 무엇이 있는지 한 번 보여준다 */
@@ -4406,7 +4412,10 @@ $('#keepFile').addEventListener('change',function(e){
 
 $('#keepApply').addEventListener('click',function(){
   var o=keepPending; if(!o) return;
-  var base={view:S.view,size:'59',sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',planOpen:{}};
+  var base={view:S.view,size:'59',apt:null,aptPy:null,aptManual:{},
+    scope:{all:null,on:{},bathN:null,stay:null},tone:{},wants:{},picks:{},pickStep:0,doc:null,docStale:false,
+    sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',
+    brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',planOpen:{}};
   for(var k in o.data){
     if(k==='view'||k==='__proto__'||k==='constructor'||k==='prototype') continue;
     if(!Object.prototype.hasOwnProperty.call(o.data,k)) continue;
