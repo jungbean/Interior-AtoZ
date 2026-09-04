@@ -3744,18 +3744,21 @@ function renderNow(){
   var today=today0();
     if(!parseDate(S.moveIn)) return;
     var base=parseDate(S.moveIn); if(!base) return;
-    var idx=-1, behind=(new Date(base.getTime()-110*864e5) < today);
-    for(var i=0;i<PLAN.length;i++){ if(new Date(base.getTime()-PLAN[i].d*864e5)>=today){ idx=i; break } }
+    var _d=planDDays();
+    var _need=PREP_BASE+prepShift();
+    var _have=Math.round((base.getTime()-today0())/864e5)-(calDays(totalDays())+AFTER);
+    var idx=-1, behind=(_have<_need);
+    for(var i=0;i<PLAN.length;i++){ if(new Date(base.getTime()-_d[i]*864e5)>=today){ idx=i; break } }
     if(idx===-1) idx=PLAN.length-1;
     if(behind) idx=0;
-    var p=PLAN[idx], due=new Date(base.getTime()-p.d*864e5);
+    var p=PLAN[idx], due=new Date(base.getTime()-_d[idx]*864e5);
     var left=Math.round((due-today)/864e5);
 
     var c=el('div','nowcard');
     c.appendChild(el('div','nc-lab','지금 해야 할 일'));
     c.appendChild(el('h3',null,p.n));
     c.appendChild(el('div','nc-when',
-      left>0? '앞으로 '+left+'일 안에' : left===0? '오늘 안에' : '이미 '+Math.abs(left)+'일 지났습니다'));
+      left>0? '앞으로 '+left+'일 안에' : left===0? '오늘 안에' : '지금 바로'));
     var ul=document.createElement('ul');
     (p.det||[]).forEach(function(d){ var li=document.createElement('li'); li.innerHTML=d; ul.appendChild(li) });
     c.appendChild(ul);
