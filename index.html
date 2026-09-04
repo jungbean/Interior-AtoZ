@@ -1151,6 +1151,11 @@ textarea.doc:focus{border-color:var(--accent-line)}
 #briefRedo.stale{color:var(--amber)}
 #briefRedo.stale .lnk{color:var(--amber)}
 
+.saved-note{color:var(--ink-3);font-size:12.5px;margin-top:6px}
+.resume{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:9px;
+  padding:10px 14px;margin:0 0 16px;font-size:13px;color:var(--accent-ink)}
+.resume b{font-weight:600}
+
 </style>
 
 <button class="dockbtn" id="dockBtn" type="button" aria-label="화면 목록 열기" aria-expanded="false">
@@ -1398,6 +1403,7 @@ textarea.doc:focus{border-color:var(--accent-line)}
   <div class="v-head">
     <h1 id="pickTitle">하나씩 골라 나갑니다</h1>
     <p>고른 것이 그대로 요청서가 됩니다. 모르겠으면 미정으로 두고 넘어가도 됩니다. 업체에 추천을 요청하는 문구가 들어갑니다.</p>
+    <p class="saved-note">고르신 것은 이 브라우저에 자동으로 저장됩니다. 창을 닫아도 이어서 하실 수 있습니다.</p>
   </div>
   <div class="vsum" id="sum-pick"></div>
   </div></header>
@@ -2508,6 +2514,32 @@ function allLive(){
   liveSteps().forEach(function(s){ s.rounds.forEach(function(r){ if(okCond(r.cond)&&needOk(r.need)) out.push(r) }) });
   return out;
 }
+/* 고칠 욕실이 몇 개인지. 공정표와 견적이 이 값으로 갈린다.
+   도면과 실제가 다른 집이 많다. 분양 옵션으로 안방 욕실을 드레스룸으로 바꾼 경우처럼
+   같은 타입이라도 세대마다 다르므로, 평형으로는 기본값만 잡고 사용자가 고치게 둔다. */
+function bathGuess(){
+  var m = 0;
+  if(S.apt && S.aptPy!==null && S.apt[3] && S.apt[3][S.aptPy]) m = S.apt[3][S.aptPy][0];
+  else if(S.aptManual && S.aptManual.m2) m = parseFloat(S.aptManual.m2)||0;
+  return m >= 84 ? 2 : 1;
+}
+function bathCount(){
+  var n = (S.scope||{}).bathN;
+  return (n===1||n===2||n===3) ? n : bathGuess();
+}
+/* 창을 닫았다 다시 열었을 때만 뜬다. 첫 렌더는 화면을 보여 주기 전에도 돌기 때문에,
+   사용자가 무언가 누르기 전까지만 「복귀 직후」로 본다. */
+var userActed = false;
+document.addEventListener('click', function(){ userActed = true }, true);
+function resumeNote(){
+  /* 로드 직후 여러 번 그려지므로 한 번 쓰고 끄면 정작 눈에 보이는 렌더에 없다.
+     아무것도 누르기 전까지 계속 두고, 첫 클릭에 사라지게 한다. */
+  if(userActed) return '';
+  var n = 0, P = S.picks || {};
+  for(var k in P) if(P[k]) n++;
+  if(!n) return '';
+  return '<p class="resume">이어서 하고 계십니다. 지금까지 <b>'+n+'개</b>를 고르셨습니다.</p>';
+}
 function isOn(id,v){ var s=S.picks[id]; return Array.isArray(s)? s.indexOf(v)>-1 : s===v }
 function pickVal(id){ var s=S.picks[id]; return Array.isArray(s)? s.join(' + ') : s }
 function countOpen(){ return allLive().length }
@@ -2592,6 +2624,7 @@ function renderScope(){
         return '<button class="opt'+(sc.all===x[0]?' on':'')+'" data-all="'+x[0]+'">'+
           '<span class="t">'+x[1]+'</span><span class="d">'+x[2]+'</span></button>' }).join('')+'</div>'+
     (sc.all===false ? spaceHtml()+partWarn() : '')+
+    (sc.all===true || (sc.all===false && sc.on.bath) ? bathHtml() : '')+
     (sc.all!==null ? stayHtml() : '')+
     (sc.all!==null && sc.stay!==null ? '<div class="why"><p>지금은 <b>'+countOpen()+'판</b>입니다. 예순네 판 가운데 이 집에 필요한 것만 나오고, 고르는 내용에 따라 몇 판이 더 열립니다.</p></div>' : '');
   bindScope();
@@ -2610,6 +2643,16 @@ function partWarn(){
     off.map(function(s){return s.n}).join(', ')+'은(는) 지금 상태로 남습니다. '+
     '새로 하는 곳만 밝게 가면 남는 곳이 낡아 보입니다. 바닥이 이어지는 자리와 문틀 색은 특히 눈에 띄니, 남는 곳의 색을 컨셉 화면에서 함께 고려해 주세요.</p></div>';
 }
+function bathHtml(){
+  var n = bathCount(), g = bathGuess();
+  return '<h2 class="sub">욕실을 몇 개 고치시나요</h2>'+
+    '<div class="opts">'+ [1,2,3].map(function(i){
+      return '<button class="opt'+(n===i?' on':'')+'" data-bn="'+i+'">'+
+        '<span class="t">'+i+'개</span></button>' }).join('') +'</div>'+
+    '<p class="hint">'+ (S.scope.bathN===null
+      ? '아직 안 고르셔서 '+g+'개로 잡아 두었습니다. 도면과 실제가 다른 집이 많으니 확인해 주세요.'
+      : '도면상 욕실이 있어도 드레스룸처럼 다른 용도로 쓰고 계시면 그만큼 빼고 세십시오.') +'</p>';
+}
 function stayHtml(){
   return '<h2 class="sub">공사 중에 사시나요</h2><div class="opts">'+
     [['empty','빈집','이사 전에 비워 두고 합니다. 공정을 몰아서 할 수 있어 기간이 짧습니다.'],
@@ -2622,6 +2665,8 @@ function bindScope(){
     S.scope.all=b.dataset.all==='true'; if(S.scope.all) S.scope.on={}; persist(); renderScope(); renderNav() }) });
   $$('[data-sp]').forEach(function(b){ b.addEventListener('click', function(){
     var k=b.dataset.sp; if(S.scope.on[k]) delete S.scope.on[k]; else S.scope.on[k]=1; persist(); renderScope(); renderNav() }) });
+  $$('[data-bn]').forEach(function(b){ b.addEventListener('click', function(){
+    S.scope.bathN=+b.dataset.bn; persist(); renderScope(); renderNav() }) });
   $$('[data-stay]').forEach(function(b){ b.addEventListener('click', function(){
     S.scope.stay=b.dataset.stay; persist(); renderScope(); renderNav() }) });
 }
@@ -2654,14 +2699,30 @@ function renderTone(){
   $$('[data-want]').forEach(function(b){ b.addEventListener('click', function(){
     var w=b.dataset.want; if(S.wants[w]) delete S.wants[w]; else S.wants[w]=1; docStale(); persist(); renderTone() }) });
 }
+/* 한글 음절은 유니코드로 받침을 셈하고, 숫자·영문으로 끝나면 그 글자를 한국어로 읽었을 때의 받침을 따른다. */
+function batchimClass(word){
+  var s=String(word||'').trim();
+  if(!s) return 0;
+  var ch=s.slice(-1), code=ch.charCodeAt(0);
+  if(code>=0xAC00 && code<=0xD7A3){
+    var f=(code-0xAC00)%28;
+    return f===0 ? 0 : (f===8 ? 1 : 2);
+  }
+  var key=(ch>='0'&&ch<='9') ? ch : ch.toUpperCase();
+  if('178LR'.indexOf(key)>-1) return 1;
+  if('036MN'.indexOf(key)>-1) return 2;
+  return 0;
+}
+/* 받침 없음과 ㄹ받침은 「로」, 그 밖의 받침은 「으로」. */
+function josaRo(word){ return batchimClass(word)===2 ? '으로' : '로' }
 function toneText(){
   function f(k){ return (TONE[k].opts.filter(function(x){return x.k===S.tone[k]})[0]||{}).n }
   if(!f('combo')) return '';
   var out=[];
-  out.push(f('combo')==='다른 조합으로' ? '색과 재질 조합은 따로 적겠습니다.' : f('combo')+' 로 가고 싶습니다.');
+  out.push(f('combo')==='다른 조합으로' ? '색과 재질 조합은 따로 적겠습니다.' : f('combo')+josaRo(f('combo'))+' 가고 싶습니다.');
   if(S.tone.tone2)   out.push('전체는 '+f('tone2')+' 가 주세요.');
   if(S.tone.pattern) out.push(S.tone.pattern==='plain' ? '무늬는 넣지 않습니다.' : '무늬는 한두 곳에만 넣습니다.');
-  if(S.tone.metal && S.tone.metal!=='any') out.push('수전과 손잡이와 조명 같은 금속은 '+f('metal')+'으로 맞춰 주세요.');
+  if(S.tone.metal && S.tone.metal!=='any') out.push('수전과 손잡이와 조명 같은 금속은 '+f('metal')+josaRo(f('metal'))+' 맞춰 주세요.');
   var w=Object.keys(S.wants);
   if(w.length) out.push('따로 바라는 것은 '+w.join(', ')+' 입니다.');
   out.push('참고 사진은 따로 보내 드리겠습니다.');
@@ -2687,7 +2748,7 @@ function renderPick(){
   }).join('');
   var rest=s.rounds.filter(function(r){ return okCond(r.cond)&&needOk(r.need)&&!(r.id in S.picks) }).length;
   var ttl=$('#pickTitle'); if(ttl) ttl.textContent=s.title;
-  $('#pickBody').innerHTML=blocks+
+  $('#pickBody').innerHTML=resumeNote()+blocks+
     '<div class="sticky-act">'+
       '<button class="btn ghost" id="pickBack">'+(S.pickStep===0?'앞 화면':'← 앞')+'</button>'+
       '<button class="btn" id="pickNext">'+(rest? '남은 '+rest+'개는 미정으로 두고 다음 →' : (S.pickStep===ls.length-1?'요청서 보기 →':'다음 →'))+'</button>'+
@@ -2759,13 +2820,14 @@ var TERM_KEYS=Object.keys(TERMS).sort(function(a,b){return b.length-a.length});
 
 /* ─────────── 상태 ─────────── */
 var KEY='interior-board-v2';
-var S={view:'home',size:'59',apt:null,aptPy:null,aptManual:{},scope:{all:null,on:{},stay:null},tone:{},wants:{},picks:{},pickStep:0,doc:null,docStale:false,sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',planOpen:{}};
+var S={view:'home',size:'59',apt:null,aptPy:null,aptManual:{},scope:{all:null,on:{},bathN:null,stay:null},tone:{},wants:{},picks:{},pickStep:0,doc:null,docStale:false,sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',planOpen:{}};
 try{ var raw=localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw); if(p&&typeof p==='object') for(var k in p) S[k]=p[k]; } }catch(e){}
 /* 병합 전 저장본에는 새 필드가 없다. 빠진 것만 기본값으로 채운다. */
 if(!S.scope||typeof S.scope!=='object') S.scope={all:null,on:{},stay:null};
 if(!S.scope.on||typeof S.scope.on!=='object') S.scope.on={};
 if(S.scope.all===undefined) S.scope.all=null;
 if(S.scope.stay===undefined) S.scope.stay=null;
+if(S.scope.bathN===undefined) S.scope.bathN=null;
 if(!S.aptManual||typeof S.aptManual!=='object') S.aptManual={};
 if(!S.tone||typeof S.tone!=='object') S.tone={};
 if(!S.wants||typeof S.wants!=='object') S.wants={};
@@ -3161,7 +3223,7 @@ function scopeSchedule(){
     scp:  full?'all':'part',
     stay: sc.stay||'',
     flw:  (P['floor-demo']==='철거 후 재시공')?'redo':(P['floor-demo']?'over':''),
-    bth:  (full||on.bath)? (S.bathN>1?'2':'1') : '0',
+    bth:  (full||on.bath)? (bathCount()>1?'2':'1') : '0',
     ktc:  (full||on.kitchen)? (P['kitchen-door']?'all':'part') : 'keep',
     exp:  (P['expand']==='확장')?'one':'no',
     sash: (P['sash-system']? (full?'all':'part') : 'keep')
@@ -3551,7 +3613,12 @@ function buildBriefOut(){
       var v=pickVal(r.id);
       if(!v){ undecided.push(dupSub[r.sub] ? g+' '+r.sub : r.sub); return }
       if(!byGroup[g]){ byGroup[g]=[]; order.push(g) }
-      byGroup[g].push('· '+r.sub+' : '+v);
+      /* 고르는 화면에서는 「중문」·「중문 없음」이 무엇을 고르는지 보여 주지만,
+         문서에서는 항목 이름과 겹친다. 여기서만 값을 줄인다. */
+      var nm = dupSub[r.sub] ? g+' '+r.sub : r.sub;
+      if(r.id==='door-middle') v = (v==='중문 없음') ? '없음' : '있음';
+      /* 고를 수 있는 값이 하나뿐인 판은 이름이 곧 답이라 값을 적지 않는다. */
+      byGroup[g].push(r.options.length===1 ? '· '+nm : '· '+nm+' : '+v);
     });
   });
   order.forEach(function(g){
@@ -4050,7 +4117,7 @@ document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.
 $('#resetAll').addEventListener('click',function(){
   var keepView=S.view, keepSize=S.size;
   S={view:keepView,size:keepSize,apt:null,aptPy:null,aptManual:{},
-     scope:{all:null,on:{},stay:null},tone:{},wants:{},picks:{},pickStep:0,doc:null,docStale:false,
+     scope:{all:null,on:{},bathN:null,stay:null},tone:{},wants:{},picks:{},pickStep:0,doc:null,docStale:false,
      sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',
      brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],
      room:'거실',qt:'q0',planOpen:{}};
@@ -4259,6 +4326,7 @@ function renderAll(){
   try{ $('#rail').inert=true }catch(e){}
   document.querySelector('.main').classList.toggle('home-mode', S.view==='home');
   renderNav(); renderHome(); renderPlan(); renderBrief(); renderVendors(); renderFlagRef(); renderMaterial();
+  renderApt(); renderScope(); renderTone(); renderPick();
   renderQuote(); renderPhases(); renderPunch(); renderGlossary();
   Object.keys(VIEWS).forEach(function(v){ $('#v-'+v).hidden=(v!==S.view) });
   var sp=$('#sprog'); if(sp) sp.style.display=(S.view==='home')?'block':'none';
