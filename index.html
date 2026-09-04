@@ -1326,7 +1326,7 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
   </div></header>
   <div class="vbody">
     <div class="gl-search">
-      <input type="text" id="glQ" placeholder="용어 검색 — 젠다이, 문선, 졸리컷…">
+      <input type="text" id="glQ" placeholder="용어 검색 — 턴키, 예비비, 지체상금…">
     </div>
     <div id="glList"></div>
   </div>
@@ -1545,6 +1545,7 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
   </div>
 
   <div id="vendList"></div>
+  <div class="sticky-act"><button class="btn" data-goto="quote">견적과 계약 →</button></div>
 
   <h2 class="sub">거를 만한 신호</h2>
   <div class="panel" style="padding:14px 18px"><div id="flagRef"></div></div>
@@ -2843,7 +2844,7 @@ function toneText(){
   if(S.tone.metal && S.tone.metal!=='any') out.push('수전과 손잡이와 조명 같은 금속은 '+f('metal')+josaRo(f('metal'))+' 맞춰 주세요.');
   var w=Object.keys(S.wants);
   if(w.length) out.push('따로 바라는 것은 '+w.join(', ')+' 입니다.');
-  out.push('참고 사진은 따로 보내 드리겠습니다.');
+  /* 사용자가 말한 적 없는 약속을 문서에 넣지 않는다. 사진을 보낼지는 사용자가 정할 일이다. */
   return out.join(' ');
 }
 
@@ -2918,9 +2919,10 @@ function bindPick(s, ls){
       S.picks[r.id]= cur.indexOf(v)>-1 ? cur.filter(function(x){return x!==v}) : cur.concat([v]);
       if(!S.picks[r.id].length) delete S.picks[r.id];
     } else {
-      if(S.picks[r.id]===v) return;
-      S.picks[r.id]=v;
       var idx=s.rounds.indexOf(r);
+      /* 설명을 읽으려고 눌렀다가 골라지는 일이 있다. 같은 것을 다시 누르면 물린다. */
+      if(S.picks[r.id]===v) delete S.picks[r.id];
+      else S.picks[r.id]=v;
       s.rounds.slice(idx+1).forEach(function(x){ delete S.picks[x.id] });
     }
     docStale(); persist(); renderPick(); renderNav();
@@ -3254,7 +3256,21 @@ function renderDict(view){
     if(!byCat[t.c]){ byCat[t.c]=[]; cats.push(t.c) }
     byCat[t.c].push(k);
   });
-  if(!cats.length){ wrap.appendChild(el('div','gl-empty','찾는 말이 없습니다. 다른 낱말로 검색해 보세요.')); return }
+  if(!cats.length){
+    /* 사전은 하나인데 화면이 둘로 갈려 있다. 반대쪽에 있으면 그리로 안내한다. */
+    var 반대 = q ? TERM_KEYS.filter(function(k){
+      var t2=TERMS[k];
+      if(order.indexOf(t2.c)>=0) return false;
+      return k.toLowerCase().indexOf(q)>=0 || (t2.a && t2.a.toLowerCase().indexOf(q)>=0);
+    }) : [];
+    var box = el('div','gl-empty');
+    box.innerHTML = 반대.length
+      ? '이 화면에는 없고 <b>'+(isMat?'용어':'정할 것')+'</b> 화면에 있습니다 — '+반대.slice(0,4).join(', ')
+      : '찾는 말이 없습니다. 다른 낱말로 검색해 보세요.';
+    wrap.appendChild(box);
+    setSum(view, 'none', '검색 결과 <b>0개</b>', '0'+(isMat?'가지':'개'));
+    return;
+  }
   cats.sort(function(a,b){ return order.indexOf(a)-order.indexOf(b) });
   cats.forEach(function(c){
     var g=el('div','gl-group');
@@ -3791,6 +3807,8 @@ function buildBriefOut(){
   var d=parseDate(S.moveIn);
   if(d) lines.push('· 입주 예정일 : '+d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일'+(S.moveInAuto?' (아직 확정 전입니다)':''));
   var cs=parseDate(S.canStart);
+  var _bn=(S.scope||{}).bathN;
+  if(_bn) lines.push('· 고칠 욕실 : '+_bn+'개');
   if(cs) lines.push('· 공사 가능일 : '+cs.getFullYear()+'년 '+(cs.getMonth()+1)+'월 '+cs.getDate()+'일부터 (잔금 다음 날)');
   /* 화면에서 짚어 준 잔금·입주일 모순이 문서에는 빠져, 앞뒤 안 맞는 두 날짜가 그대로 업체에 나갔다. */
   if(d && cs){
