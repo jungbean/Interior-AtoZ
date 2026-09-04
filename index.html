@@ -3616,9 +3616,9 @@ function renderPlanBefore(){
       if(new Date(base.getTime()-_dd[i]*864e5)>=today){ nowIdx=i; break }
     }
     if(nowIdx===-1) nowIdx=PLAN.length-1;
-    /* 준비할 날이 모자라 앞 단계가 통째로 밀린 것은 지나간 일이 아니라 서둘러야 할 일이다. */
+    /* 준비할 날이 모자라 앞 단계가 밀린 것은 지나간 일이 아니라 서둘러야 할 일이다. */
     var _need = PREP_BASE + prepShift();
-    var _have = Math.round((base.getTime()-today0())/864e5) - (totalDays()+AFTER);
+    var _have = Math.round((base.getTime()-today0())/864e5) - (calDays(totalDays())+AFTER);
     if(nowIdx>0 && _have < _need) nowIdx=0;
     nowName=PLAN[nowIdx].n;
   }
