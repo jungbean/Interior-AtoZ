@@ -1176,6 +1176,7 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
 .check b{color:var(--ink);font-weight:600}
 .rng{display:block;margin-top:6px;color:var(--ink-3);font-size:12.5px}
 .rng b{color:var(--ink-2);font-weight:600}
+.plan-date.urgent{color:var(--amber)}
 
 </style>
 
@@ -3530,6 +3531,8 @@ function renderPlanBefore(){
       if(new Date(base.getTime()-_dd[i]*864e5)>=today){ nowIdx=i; break }
     }
     if(nowIdx===-1) nowIdx=PLAN.length-1;
+    /* 준비할 날이 모자라 앞 단계가 통째로 밀린 것은 지나간 일이 아니라 서둘러야 할 일이다. */
+    if(nowIdx>0 && _dd[nowIdx-1] <= totalDays()+AFTER) nowIdx=0;
     nowName=PLAN[nowIdx].n;
   }
   if(base && nowIdx>0 && !S.showPast){
@@ -3560,7 +3563,9 @@ function renderPlanBefore(){
 
     var gut=el('div','plan-gut');
     gut.appendChild(el('div','plan-dday', dd===0?'입주일':'D-'+dd));
-    if(dt) gut.appendChild(el('div','plan-date', fmt(dt)));
+    /* 날짜가 오늘보다 앞서면 이미 지난 일이 아니라 서둘러야 할 일이다. */
+    if(dt) gut.appendChild(el('div','plan-date'+(dt<today0()?' urgent':''),
+                             dt<today0()? '지금 바로' : fmt(dt)));
     row.appendChild(gut);
 
     var sp=el('div','plan-spine'); sp.appendChild(el('div','plan-dot')); row.appendChild(sp);
