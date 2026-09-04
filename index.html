@@ -3514,7 +3514,8 @@ function renderBrief(){
   wrap.innerHTML='<h2 class="sub">그 밖에 전할 것</h2>'+
     '<textarea id="briefEtc" rows="2" placeholder="예) 반려동물 있음, 층간소음 민감, 특정 요일 공사 불가"></textarea>';
   var ta=$('#briefEtc'); ta.value=S.brief.etc||'';
-  ta.addEventListener('input', function(){ S.brief.etc=ta.value; S.doc=null; persist(); buildBriefOut() });
+  /* 손으로 고쳐 둔 요청서를 여기 한 글자 쳤다고 지우면 안 된다. 낡았다고만 표시한다. */
+  ta.addEventListener('input', function(){ S.brief.etc=ta.value; docStale(); persist(); buildBriefOut() });
   var rb=$('#briefRedoBtn');
   if(rb) rb.addEventListener('click', function(){ S.doc=null; persist(); buildBriefOut() });
   buildBriefOut();
@@ -4047,7 +4048,12 @@ window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',onScroll);
 document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#startBtn')) go('plan') });
 $('#resetAll').addEventListener('click',function(){
-  S={view:S.view,size:S.size,sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',planOpen:{}};
+  var keepView=S.view, keepSize=S.size;
+  S={view:keepView,size:keepSize,apt:null,aptPy:null,aptManual:{},
+     scope:{all:null,on:{},stay:null},tone:{},wants:{},picks:{},pickStep:0,doc:null,docStale:false,
+     sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',
+     brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],
+     room:'거실',qt:'q0',planOpen:{}};
   persist(); $('#moveIn').value=''; renderAll(); toast('기록을 모두 지웠습니다');
 });
 
