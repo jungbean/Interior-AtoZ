@@ -1192,7 +1192,10 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
   .sticky-act .muted{display:none}
 }
 /* 아직 고를 것이 남았으면 눌리지 않는다 */
-.btn[disabled]{opacity:.4;cursor:not-allowed;pointer-events:none}
+/* 초록을 옅게만 하면 「누를 수 있는데 색만 다른 것」으로 읽힌다. 초록 자체를 걷어 낸다. */
+.btn[disabled]{background:none;border:1px dashed var(--rule);color:var(--ink-3);
+  box-shadow:none;opacity:1;cursor:not-allowed;pointer-events:none;font-weight:500}
+.btn[disabled]:hover{filter:none;box-shadow:none}
 
 /* 대문은 스크롤이 길어 손으로 넘기는 화면에서는 시작 버튼을 아래에 붙인다. */
 @media (max-width:640px){
