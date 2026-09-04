@@ -1156,6 +1156,13 @@ textarea.doc:focus{border-color:var(--accent-line)}
   padding:10px 14px;margin:0 0 16px;font-size:13px;color:var(--accent-ink)}
 .resume b{font-weight:600}
 
+/* 손가락으로 누르는 화면에서 22px 짜리 아이콘 버튼은 겨냥하기 어렵다.
+   보이는 크기는 두고 눌리는 영역만 넓힌다. */
+@media (pointer: coarse){
+  .icon-btn{position:relative}
+  .icon-btn::after{content:'';position:absolute;inset:-11px}
+}
+
 </style>
 
 <button class="dockbtn" id="dockBtn" type="button" aria-label="화면 목록 열기" aria-expanded="false">
