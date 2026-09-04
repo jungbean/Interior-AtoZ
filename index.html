@@ -2617,6 +2617,10 @@ function checkNote(rid){
    가리는 판과 가려지는 판이 다른 화면에 있으면 「빠졌습니다」라고 말해 놓고
    요청서에는 그대로 실린다. 화면 경계와 무관하게 지운다. */
 function pruneDropped(){
+  /* 조건이 닫혀 화면에서 사라진 판의 답부터 지운다. 남겨 두면 요청서로 샌다. */
+  var live={};
+  allLive().forEach(function(r){ live[r.id]=1 });
+  Object.keys(S.picks).forEach(function(k){ if(!live[k]) delete S.picks[k] });
   allLive().forEach(function(r){
     var v=S.picks[r.id];
     if(v===null||v===undefined) return;
@@ -2915,7 +2919,7 @@ function renderTone(){
   var done=ks.every(function(k){ return k in S.tone });
   $('#toneBody').innerHTML = blocks +
     (done? '<h2 class="sub">해당되는 것이 있나요</h2>'+
-      '<p class="muted mini" style="margin:-6px 0 10px">뒤에서 고를 것들이 이 답에 따라 달라집니다. 없으면 넘어가도 됩니다.</p>'+
+      '<p class="muted mini" style="margin:-6px 0 10px">요청서에 함께 적어 업체가 미리 알고 오게 합니다. 없으면 넘어가도 됩니다.</p>'+
       '<div class="opts tight multi">'+ HOMECOND.map(function(x){
         return '<button class="opt'+(S.wants[x]?' on':'')+'" data-want="'+x+'"><span class="t">'+x+'</span></button>' }).join('')+'</div>' : '')+
     (done? '<div class="why"><p><b>요청서에 이렇게 실립니다</b>'+toneText()+'</p></div>' : '');
@@ -2924,7 +2928,7 @@ function renderTone(){
   $('#toneBody').insertAdjacentHTML('beforeend', nextBtn('pick','고르기 시작', done));
  
   linkTerms($('#v-tone'));
-  $$('[data-want]').forEach(function(b){ b.addEventListener('click', function(){
+  $$('#toneBody [data-want]').forEach(function(b){ b.addEventListener('click', function(){
     var w=b.dataset.want; if(S.wants[w]) delete S.wants[w]; else S.wants[w]=1; docStale(); persist(); renderTone() }) });
 }
 /* 한글 음절은 유니코드로 받침을 셈하고, 숫자·영문으로 끝나면 그 글자를 한국어로 읽었을 때의 받침을 따른다. */
@@ -3036,7 +3040,7 @@ function bindPick(s, ls){
       /* 설명을 읽으려고 눌렀다가 골라지는 일이 있다. 같은 것을 다시 누르면 물린다. */
       if(S.picks[r.id]===v) delete S.picks[r.id];
       else S.picks[r.id]=v;
-      s.rounds.slice(idx+1).forEach(function(x){ delete S.picks[x.id] });
+      /* 뒤 판을 무턱대고 지우지 않는다. 앞 답에 딸린 것은 pruneDropped 가 조건으로 가려낸다. */
     }
     pruneDropped();
     docStale(); persist(); renderPick(); renderNav();
@@ -3057,6 +3061,29 @@ var TERM_KEYS=Object.keys(TERMS).sort(function(a,b){return b.length-a.length});
 var KEY='interior-board-v2';
 var S={view:'home',size:'59',apt:null,aptPy:null,aptManual:{},scope:{all:null,on:{},bathN:null,stay:null},tone:{},wants:{},picks:{},pickStep:0,doc:null,docStale:false,sched:null,showPast:0,moveIn:'',moveInAuto:0,canStart:'',startDate:'',brief:{},briefPrev:{},vendors:[],checks:{},build:{},punch:[],room:'거실',qt:'q0',planOpen:{}};
 try{ var raw=localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw); if(p&&typeof p==='object') for(var k in p) S[k]=p[k]; } }catch(e){}
+/* 판을 다시 짜면 저장해 둔 답이 지금 목록에 없는 값으로 남는다. 화면에는 켜진 것이 없는데
+   요청서에는 그 이름이 실리고, 조건 판정도 옛 이름과 어긋나 뒤 판이 영영 안 열린다. */
+(function(){
+  var live={};
+  STEPS.forEach(function(s){ s.rounds.forEach(function(r){
+    live[r.id]=r.options.map(function(o){ return o.t });
+  }) });
+  Object.keys(S.picks||{}).forEach(function(k){
+    if(!live[k]){ delete S.picks[k]; return }
+    var v=S.picks[k]; if(v===null||v===undefined) return;
+    if(Array.isArray(v)){
+      var keep=v.filter(function(x){ return live[k].indexOf(x)>-1 });
+      if(keep.length) S.picks[k]=keep; else delete S.picks[k];
+    } else if(live[k].indexOf(v)<0) delete S.picks[k];
+  });
+  var ok={};
+  HOMECOND.forEach(function(x){ ok[x]=1 });
+  WANTS.forEach(function(g){ g.v.forEach(function(x){ ok[x]=1 }) });
+  Object.keys(S.wants||{}).forEach(function(k){ if(!ok[k]) delete S.wants[k] });
+  /* 지운 것을 저장까지 해 두지 않으면 열 때마다 같은 정리를 되풀이한다. */
+  try{ localStorage.setItem(KEY, JSON.stringify(S)) }catch(e){}
+})();
+
 /* 병합 전 저장본에는 새 필드가 없다. 빠진 것만 기본값으로 채운다. */
 if(!S.scope||typeof S.scope!=='object') S.scope={all:null,on:{},stay:null};
 if(!S.scope.on||typeof S.scope.on!=='object') S.scope.on={};
