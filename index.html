@@ -2590,6 +2590,19 @@ function checkNote(rid){
     return '강화유리는 부딪힌 적이 없어도 <b>스스로 깨지는 자파</b>가 드물게 생기고 두께로는 막히지 않습니다. 비산방지 안전필름을 함께 붙일지 업체와 이야기해 두세요.';
   return '';
 }
+/* 앞 답을 바꾸면 화면에서는 선택지가 사라지는데 고른 값은 남아 있었다.
+   가리는 판과 가려지는 판이 다른 화면에 있으면 「빠졌습니다」라고 말해 놓고
+   요청서에는 그대로 실린다. 화면 경계와 무관하게 지운다. */
+function pruneDropped(){
+  allLive().forEach(function(r){
+    var v=S.picks[r.id];
+    if(v===null||v===undefined) return;
+    if(Array.isArray(v)){
+      var keep=v.filter(function(x){ return !dropped(r.id,x) });
+      if(keep.length!==v.length){ if(keep.length) S.picks[r.id]=keep; else delete S.picks[r.id] }
+    } else if(dropped(r.id,v)) delete S.picks[r.id];
+  });
+}
 function tipNote(rid){
   /* 앞에서 고른 색과 재질이 색온도와 맞물린다. 정해 주지 않고 관계만 알려 준다. */
   if(rid==='color_temp'){
@@ -2997,6 +3010,7 @@ function bindPick(s, ls){
       else S.picks[r.id]=v;
       s.rounds.slice(idx+1).forEach(function(x){ delete S.picks[x.id] });
     }
+    pruneDropped();
     docStale(); persist(); renderPick(); renderNav();
   }) });
   $('#pickBack').addEventListener('click', function(){
@@ -3457,14 +3471,14 @@ function scopeSchedule(){
 
   if(b.flw==='redo'||+b.bth>0) push('설비',1);
   push('샷시', b.sash==='all'?2:(b.sash==='part'?1:0), b.sash==='all'?'전체 교체':'');
-  if(full||(b.exp&&b.exp!=='no')) push('전기',1,'배선');
-  if(full && P['aircon-type']!=='에어컨 그대로') push('에어컨',1,'선배관');
-  if(full) push('목공',3);
+  if(full||on.room||(b.exp&&b.exp!=='no')) push('전기',1,'배선');
+  if((full||on.room) && P['aircon-type']!=='에어컨 그대로') push('에어컨',1,'선배관');
+  if(full||on.room) push('목공',3);
   push('타일', (+b.bth ? +b.bth+1 : 0) + ((b.ktc&&b.ktc!=='keep')?1:0));
-  if(full) push('필름',1);
+  if(full||on.room) push('필름',1);
   if(+b.bth>0) push('설비',1,'기구 세팅');
   push('도배',2,'초배·정배');
-  if(full) push('조명',1);
+  if(full||on.room) push('조명',1);
   if(b.flw&&b.flw!=='keep') push('바닥',1);
   if(full||b.ktc==='all') push('가구',2);
   push('줄눈·청소',1,'본마감');
@@ -3589,8 +3603,8 @@ function dateWarn(d){
     var earliest=new Date(cs.getTime()+(calDays(totalDays())+AFTER)*864e5);
     if(d<earliest){
       var sz2 = SIZES[S.size] || SIZES['59'];
-      /* hi 는 작업일이라 달력으로 환산해야 earliest 와 같은 자로 잰 값이 된다. */
-      var slow = sz2.hi ? new Date(cs.getTime()+(calDays(sz2.hi)+AFTER)*864e5) : null;
+      /* SIZES 의 lo·hi 는 업체가 말하는 주 단위, 곧 이미 달력이다. 환산하지 않는다. */
+      var slow = sz2.hi ? new Date(cs.getTime()+(sz2.hi+AFTER)*864e5) : null;
       var 뒤 = (slow && slow>earliest) ? ' 에서 '+fmt(slow)+' 사이가' : ' 이후가';
       return '잔금을 치르기 전에는 공사를 시작할 수 없어서 이 입주일은 맞추기 어렵습니다. 지금 공사 범위로는 '
         + fmt(earliest) + 뒤 + ' 현실적입니다.';
@@ -3712,11 +3726,16 @@ function renderPlanBefore(){
     var win0=cs0? Math.round((base-cs0)/864e5) : null;
     if(win0!=null && win0<=0) tail='입주 희망일이 잔금일보다 빠릅니다. 잔금을 치르기 전에는 공사를 시작할 수 없으니 두 날짜를 다시 보세요.';
     else if(win0!=null && win0<need0) tail='잔금이 '+fmt(cs0)+'이라 공사에 쓸 수 있는 기간은 '+win0+'일뿐입니다. 남은 날이 많아도 이 입주일은 맞추기 어렵습니다.';
-    else if(dtoMove>=150) tail='업체를 여러 곳 만나 비교하고 요청서를 다듬을 시간까지 있습니다. 서두를 것은 없지만 요청서부터 손에 잡으세요.';
-    else if(dtoMove>=100) tail='전체 공사를 무리 없이 넣을 수 있는 기간입니다. 요청서를 쓰고 업체 접촉을 시작하세요.';
-    else if(dtoMove>=70) tail='업체 접촉과 상담을 동시에 돌리면 맞출 수 있습니다. 요청서를 오늘 쓰고 내일 보내세요.';
-    else if(dtoMove>=35) tail='전체 공사는 빠듯합니다. 공사 범위를 줄이거나, 일정이 이미 비어 있는 업체를 먼저 찾으세요.';
-    else tail='전체 공사는 어렵습니다. 도배·바닥 같은 부분 공사로 줄이거나 입주일을 미루는 쪽을 검토하세요.';
+    else {
+      /* 남은 날에서 공사와 준공 뒤 기간을 뺀 것이 준비에 쓸 수 있는 날이다.
+         목록 위 경고가 쓰는 값과 같은 자로 재야 두 문장이 어긋나지 않는다. */
+      var need1=PREP_BASE+prepShift(), have1=dtoMove-need0;
+      if(have1>=need1*1.5) tail='업체를 여러 곳 만나 비교하고 요청서를 다듬을 시간까지 있습니다. 서두를 것은 없지만 요청서부터 손에 잡으세요.';
+      else if(have1>=need1) tail='전체 공사를 무리 없이 넣을 수 있는 기간입니다. 요청서를 쓰고 업체 접촉을 시작하세요.';
+      else if(have1>=need1*0.6) tail='업체 접촉과 상담을 동시에 돌리면 맞출 수 있습니다. 요청서를 오늘 쓰고 내일 보내세요.';
+      else if(have1>0) tail='전체 공사는 빠듯합니다. 공사 범위를 줄이거나, 일정이 이미 비어 있는 업체를 먼저 찾으세요.';
+      else tail='전체 공사는 어렵습니다. 도배·바닥 같은 부분 공사로 줄이거나 입주일을 미루는 쪽을 검토하세요.';
+    }
     sum.appendChild(document.createTextNode(tail));
   } else {
     sum.textContent='입주하고 싶은 날을 넣으면 남은 기간으로 무엇까지 할 수 있는지 알려 드립니다.';
@@ -4370,7 +4389,8 @@ $('#canStart').addEventListener('change',function(e){
 /* 입주일이 아직 없는 사람에게 일반적인 기간으로 잡은 날짜를 넣어 준다 */
 $('#moveInGuess').addEventListener('click',function(){
   if(S.moveIn && !S.moveInAuto && !confirm('넣어 두신 입주일을 지우고 오늘부터 거꾸로 잡은 날짜로 바꿉니다. 계속할까요?')) return;
-  var d=new Date(today0().getTime()+PLAN[0].d*864e5);
+  /* 첫 단계의 D-day 는 공사 범위에 따라 달라진다. 옛 고정값을 쓰면 넣자마자 지났다고 나온다. */
+  var d=new Date(today0().getTime()+planDDays()[0]*864e5);
   var m=d.getMonth()+1, dd=d.getDate();
   S.moveIn=d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(dd<10?'0':'')+dd;
   S.moveInAuto=1; persist(); renderPlan(); renderPhases(); renderNav();
