@@ -2557,8 +2557,32 @@ document.addEventListener('click', function(e){
   var b = e.target && e.target.closest && e.target.closest('[data-goto]');
   if(b){ go(b.dataset.goto); window.scrollTo({top:0}) }
 });
+/* 하자 점검이 손대지 않는 방까지 보여 주고 있었다. 범위에서 고른 곳만 남긴다.
+   거실과 방은 방이 여럿이라 셋으로 갈리고, 범위를 안 정했으면 전부 보여 준다. */
+var ROOM_OF = {'거실':'room','안방':'room','드레스룸':'room','작은방':'room',
+               '욕실':'bath','주방':'kitchen','현관':'entrance','발코니·세탁실':'balcony'};
+function punchRooms(){
+  var all = Object.keys(ROOMS), sc = S.scope || {};
+  if(sc.all !== false) return all;
+  var on = sc.on || {};
+  var out = all.filter(function(r){ return on[ROOM_OF[r]] });
+  if(!out.length) return all;
+  /* 범위를 바꿔 지금 보던 방이 목록에서 빠지면 빈 화면이 남는다. */
+  if(out.indexOf(S.room) < 0) S.room = out[0];
+  return out;
+}
 function isOn(id,v){ var s=S.picks[id]; return Array.isArray(s)? s.indexOf(v)>-1 : s===v }
 function pickVal(id){ var s=S.picks[id]; return Array.isArray(s)? s.join(' + ') : s }
+/* 조건이 붙은 판까지 다 열렸을 때의 수. 「47판」이라 예고하고 끝에 59판이 되던 것을
+   범위로 알려 주려고 센다. 공간 조건은 그대로 보고 앞 답에 따라 열리는 조건만 무시한다. */
+function countMax(){
+  var n=0;
+  STEPS.forEach(function(s){
+    if(!needOk(s.need)) return;
+    s.rounds.forEach(function(r){ if(needOk(r.need)) n++ });
+  });
+  return n;
+}
 function countOpen(){ return allLive().length }
 /* 요청서를 손으로 고쳐 둔 채로 고른 것을 바꾸면, 쓴 내용을 조용히 지우지 않고
    낡았다고만 표시한다. 다시 만들지는 사용자가 요청서 화면에서 고른다. */
@@ -2663,7 +2687,7 @@ function renderScope(){
     (sc.all===false ? spaceHtml()+partWarn() : '')+
     (sc.all===true || (sc.all===false && sc.on.bath) ? bathHtml() : '')+
     (sc.all!==null ? stayHtml() : '')+
-    (sc.all!==null && sc.stay!==null ? '<div class="why"><p>지금은 <b>'+countOpen()+'판</b>입니다. 예순네 판 가운데 이 집에 필요한 것만 나오고, 고르는 내용에 따라 몇 판이 더 열립니다.</p></div>' : '');
+    (sc.all!==null && sc.stay!==null ? '<div class="why"><p>지금 <b>'+countOpen()+'판</b>이 열려 있고, 고르는 내용에 따라 <b>'+countMax()+'판</b>까지 늘어납니다. 예순다섯 판 가운데 이 집에 필요한 것만 나옵니다.</p></div>' : '');
   $('#scopeBody').insertAdjacentHTML('beforeend',
     nextBtn('tone','컨셉 고르기', sc.all!==null && sc.stay!==null));
   bindScope();
@@ -3614,8 +3638,13 @@ function renderBrief(){
   /* 요청서는 채우는 화면이 아니라 고른 것으로 조립되는 산출물이다.
      남은 입력은 「그 밖에 전할 것」 하나뿐이다. */
   var wrap=$('#briefForm');
-  wrap.innerHTML='<h2 class="sub">그 밖에 전할 것</h2>'+
+  wrap.innerHTML='<h2 class="sub">생각하시는 예산</h2>'+
+    '<input id="briefBudget" type="text" placeholder="예) 4천만원 안팎, 3500~4500만원">'+
+    '<p class="hint">범위를 밝혀야 업체가 같은 조건에서 제안합니다. 비워 두셔도 됩니다.</p>'+
+    '<h2 class="sub">그 밖에 전할 것</h2>'+
     '<textarea id="briefEtc" rows="2" placeholder="예) 반려동물 있음, 층간소음 민감, 특정 요일 공사 불가"></textarea>';
+  var bg=$('#briefBudget'); bg.value=S.brief.budget||'';
+  bg.addEventListener('input', function(){ S.brief.budget=bg.value; docStale(); persist(); buildBriefOut() });
   var ta=$('#briefEtc'); ta.value=S.brief.etc||'';
   /* 손으로 고쳐 둔 요청서를 여기 한 글자 쳤다고 지우면 안 된다. 낡았다고만 표시한다. */
   ta.addEventListener('input', function(){ S.brief.etc=ta.value; docStale(); persist(); buildBriefOut() });
@@ -3667,6 +3696,9 @@ function buildBriefOut(){
     byGroup[g].forEach(function(x){ lines.push(x) });
     lines.push('');
   });
+  var bud=(S.brief.budget||'').trim();
+  if(bud){ lines.push('[예산]'); lines.push('· '+bud);
+           lines.push('  이 범위에서 무엇까지 되는지 함께 알려 주시면 좋겠습니다.'); lines.push('') }
   var etc=(S.brief.etc||'').trim();
   if(etc){ lines.push('[그 밖에 전할 것]'); lines.push('· '+etc); lines.push('') }
   if(undecided.length){
@@ -4018,7 +4050,7 @@ function renderPunch(){
     S.punch.length? '전체 '+S.punch.length+'건':'');
 
   var tabs=$('#roomTabs'); tabs.innerHTML='';
-  Object.keys(ROOMS).forEach(function(r){
+  punchRooms().forEach(function(r){
     var n=S.punch.filter(function(p){return p.room===r}).length;
     var b=el('button','room-tab'+(S.room===r?' on':'')); b.type='button';
     b.appendChild(document.createTextNode(r));
