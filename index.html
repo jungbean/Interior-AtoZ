@@ -3423,8 +3423,9 @@ function fmt(dt){ return (dt.getMonth()+1)+'월 '+dt.getDate()+'일 ('+['일','�
 var PREP_W = [14,10,14,10,14];   /* 요청서·발송·상담·비교·계약 사이의 기본 간격 */
 var PREP_BASE = 62, AFTER = 17;  /* 준비 62일, 준공에서 입주까지 17일 */
 
-/* 업체들은 공사 유형별로 언제부터 알아보라고 말한다. 부분 2개월, 반수리 3개월,
-   올수리 4~5개월, 구조 변경까지면 5~6개월이다(research/timeline.md). */
+/* 공사 범위가 클수록 정할 것이 많아 준비가 길어진다. 다만 「몇 개월 전부터」를
+   유형별로 말한 자료는 확인하지 못했다. 앞서 근거로 삼았던 출처 둘은 그 내용을
+   담고 있지 않았다(research/adversarial-2.md). 지금 값은 근거 없는 가늠이다. */
 function prepShift(){
   var sc = S.scope || {}, P = S.picks || {};
   if(sc.all === false){
@@ -3434,7 +3435,7 @@ function prepShift(){
   return (P['expand'] === '확장') ? 38 : 18;
 }
 function planDDays(){
-  var 착공 = totalDays() + AFTER;
+  var 착공 = calDays(totalDays()) + AFTER;
   var mv = parseDate(S.moveIn), 준비 = PREP_BASE + prepShift();
   if(mv){
     var 남음 = Math.round((mv - today0()) / 864e5) - 착공;
@@ -3451,13 +3452,15 @@ function planDDays(){
   return out.concat([착공, AFTER, 7, 0]);
 }
 function planShift(){ return Math.max(0, totalDays() - 22) + prepShift() }
+/* 공정표가 주말을 쉬므로 달력으로는 그만큼 더 걸린다. 22일이면 달력으로 30일쯤이다. */
+function calDays(n){ return n + Math.floor(Math.max(0, n-1) / 5) * 2 }
 function baseStart(){
   var st=parseDate(S.startDate);
   if(st) return st;
   var mv=parseDate(S.moveIn);
   if(!mv) return null;
   /* 준공 뒤 보수와 새집증후군 시공에 12일쯤 든다 */
-  var d=new Date(mv.getTime()-(totalDays()+AFTER)*864e5);
+  var d=new Date(mv.getTime()-(calDays(totalDays())+AFTER)*864e5);
   /* 잔금 전에는 남의 집이라 역산 결과가 그보다 앞서면 공사 가능일로 민다 */
   var cs=parseDate(S.canStart);
   if(cs && d<cs) d=new Date(cs.getTime());
@@ -3480,7 +3483,7 @@ function dateWarn(d){
   if(diff<=0) return '입주 희망일은 오늘 이후로 넣어 주세요.';
   var cs=parseDate(S.canStart);
   if(cs){
-    var earliest=new Date(cs.getTime()+(totalDays()+AFTER)*864e5);
+    var earliest=new Date(cs.getTime()+(calDays(totalDays())+AFTER)*864e5);
     if(d<earliest){
       var sz2 = SIZES[S.size] || SIZES['59'];
       var slow = sz2.hi ? new Date(cs.getTime()+(sz2.hi+12)*864e5) : null;
@@ -3555,7 +3558,7 @@ function renderPlanBefore(){
       var w0=el('p','check');
       w0.innerHTML = _have<=0
         ? '남은 기간으로는 이 순서를 밟을 수 없습니다. 공사와 마무리에만 <b>'+(totalDays()+AFTER)+'일</b>이 듭니다. 범위를 줄이거나 입주일을 미루셔야 합니다.'
-        : '업체들은 이 정도 공사면 준비에 <b>'+_need+'일</b>쯤 두라고 합니다. 지금 남은 것은 <b>'+_have+'일</b>이라 아래 일정은 그만큼 눌러 놓은 것입니다.';
+        : '업체를 고르고 계약하기까지 남은 것은 <b>'+_have+'일</b>입니다. 아래 일정은 그 안에 넣어 눌러 놓은 것이라 각 단계가 빠듯합니다.';
       list.appendChild(w0);
     }
   }
@@ -3599,7 +3602,7 @@ function renderPlanBefore(){
     sum.appendChild(b); sum.appendChild(document.createElement('br'));
     var tail;
     /* 준비는 잔금 전에도 하지만 공사는 잔금 뒤라, 남은 날이 많아도 공사 구간이 짧으면 못 맞춘다 */
-    var cs0=parseDate(S.canStart), need0=totalDays()+AFTER;
+    var cs0=parseDate(S.canStart), need0=calDays(totalDays())+AFTER;
     var win0=cs0? Math.round((base-cs0)/864e5) : null;
     if(win0!=null && win0<=0) tail='입주 희망일이 잔금일보다 빠릅니다. 잔금을 치르기 전에는 공사를 시작할 수 없으니 두 날짜를 다시 보세요.';
     else if(win0!=null && win0<need0) tail='잔금이 '+fmt(cs0)+'이라 공사에 쓸 수 있는 기간은 '+win0+'일뿐입니다. 남은 날이 많아도 이 입주일은 맞추기 어렵습니다.';
@@ -3787,7 +3790,7 @@ function buildBriefOut(){
   if(cs) lines.push('· 공사 가능일 : '+cs.getFullYear()+'년 '+(cs.getMonth()+1)+'월 '+cs.getDate()+'일부터 (잔금 다음 날)');
   /* 화면에서 짚어 준 잔금·입주일 모순이 문서에는 빠져, 앞뒤 안 맞는 두 날짜가 그대로 업체에 나갔다. */
   if(d && cs){
-    var earliest=new Date(cs.getTime()+(totalDays()+AFTER)*864e5);
+    var earliest=new Date(cs.getTime()+(calDays(totalDays())+AFTER)*864e5);
     if(d<earliest) lines.push('  ※ 공사 기간을 감안하면 '+fmt(earliest)+' 이후가 현실적이라고 들었습니다. 입주일은 다시 잡을 수 있습니다.');
   }
   lines.push('');
