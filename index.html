@@ -1194,6 +1194,22 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
 /* 아직 고를 것이 남았으면 눌리지 않는다 */
 .btn[disabled]{opacity:.4;cursor:not-allowed;pointer-events:none}
 
+/* 대문은 스크롤이 길어 손으로 넘기는 화면에서는 시작 버튼을 아래에 붙인다. */
+@media (max-width:640px){
+  /* 대문은 스크롤이 길어 sticky 로는 부모를 벗어나면 사라진다. 화면에 붙여 둔다. */
+  .start-wrap{position:fixed;left:0;right:0;bottom:0;z-index:40;margin:0;
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+    background:rgba(6,9,10,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-top:1px solid var(--rule-soft)}
+  .start-wrap .btn{width:100%;justify-content:center;min-height:48px}
+  /* rv 는 화면에 들어올 때 나타나는 장치인데, 고정해 두면 그 판정이 안 걸려 투명한 채로 남는다 */
+  .start-wrap.rv{opacity:1;transform:none}
+  /* 그만큼 아래를 비워 마지막 줄이 가리지 않게 한다 */
+  .home-mode .vbody, #v-home{padding-bottom:96px}
+  /* 닫힌 레일이 화면 왼쪽 밖에 있어 세로로 넘길 때 가로로 흔들렸다 */
+  html,body{overflow-x:clip;overscroll-behavior-x:none}
+}
+
 </style>
 
 <button class="dockbtn" id="dockBtn" type="button" aria-label="화면 목록 열기" aria-expanded="false">
@@ -1318,7 +1334,7 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
       <p class="sig rv">고난이 대수랴, 기꺼이 걸어가리.<br><b>수라의 길!</b></p>
         <p class="jpfoot rv d1">苦難上等 好むものなり修羅の道</p>
       
-      <div class="rv d2"><button class="btn" id="startBtn">집 정보부터 시작하기
+      <div class="rv d2 start-wrap"><button class="btn" id="startBtn">수라의 길을 걷기로
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>
       </button></div>
       <div class="h5note rv d3">
