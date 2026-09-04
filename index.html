@@ -3411,7 +3411,41 @@ var SIZES={
 function fmt(dt){ return (dt.getMonth()+1)+'월 '+dt.getDate()+'일 ('+['일','월','화','수','목','금','토'][dt.getDay()]+')' }
 /* 이 일정표의 뼈대는 59㎡ 전체 공사 한 건이고 그때 공사가 22일이었다.
    지금 조건의 공사 기간이 그보다 길면 착공과 그 앞 단계를 그만큼 앞당긴다. */
-function planShift(){ return Math.max(0, totalDays() - 22) }
+/* 일정을 입주일에서 이상적인 110일로만 역산하면, 오늘 이 화면을 여는 사람에게
+   이미 지나간 날짜를 알려 주게 된다. 9월에 열어 10월 입주를 넣었는데 7월에
+   요청서를 쓰라고 하는 식이다. 공사와 준공 뒤 기간은 줄일 수 없으니 그것을 먼저 빼고,
+   남은 날을 준비 단계에 나눠 담는다. */
+var PREP_W = [14,10,14,10,14];   /* 요청서·발송·상담·비교·계약 사이의 기본 간격 */
+var PREP_BASE = 62, AFTER = 17;  /* 준비 62일, 준공에서 입주까지 17일 */
+
+/* 업체들은 공사 유형별로 언제부터 알아보라고 말한다. 부분 2개월, 반수리 3개월,
+   올수리 4~5개월, 구조 변경까지면 5~6개월이다(research/timeline.md). */
+function prepShift(){
+  var sc = S.scope || {}, P = S.picks || {};
+  if(sc.all === false){
+    var n = Object.keys(sc.on || {}).length;
+    return (n && n <= 2) ? -17 : 0;
+  }
+  return (P['expand'] === '확장') ? 38 : 18;
+}
+function planDDays(){
+  var 착공 = totalDays() + AFTER;
+  var mv = parseDate(S.moveIn), 준비 = PREP_BASE + prepShift();
+  if(mv){
+    var 남음 = Math.round((mv - today0()) / 864e5) - 착공;
+    if(남음 < 준비) 준비 = Math.max(0, 남음);
+  }
+  var w = 0, i;
+  for(i = 0; i < PREP_W.length; i++) w += PREP_W[i];
+  var out = [], acc = 착공;
+  for(i = PREP_W.length - 1; i >= 0; i--){
+    /* 남은 날이 모자라도 단계가 같은 날로 뭉치면 순서를 읽을 수 없다. 하루씩은 벌린다. */
+    acc += Math.max(1, Math.round(준비 * PREP_W[i] / w));
+    out.unshift(acc);
+  }
+  return out.concat([착공, AFTER, 7, 0]);
+}
+function planShift(){ return Math.max(0, totalDays() - 22) + prepShift() }
 function baseStart(){
   var st=parseDate(S.startDate);
   if(st) return st;
@@ -3491,11 +3525,11 @@ function renderPlanBefore(){
   var today=today0();
   var nowIdx=-1, nowName='';
   if(base){
+    var _dd=planDDays();
     for(var i=0;i<PLAN.length;i++){
-      if(new Date(base.getTime()-PLAN[i].d*864e5)>=today){ nowIdx=i; break }
+      if(new Date(base.getTime()-_dd[i]*864e5)>=today){ nowIdx=i; break }
     }
     if(nowIdx===-1) nowIdx=PLAN.length-1;
-    if(new Date(base.getTime()-110*864e5) < today) nowIdx=0;
     nowName=PLAN[nowIdx].n;
   }
   if(base && nowIdx>0 && !S.showPast){
@@ -3505,11 +3539,22 @@ function renderPlanBefore(){
     fold.addEventListener('click',function(){ S.showPast=1; persist(); renderPlan() });
     list.appendChild(fold);
   }
+  if(base){
+    var _need = PREP_BASE + prepShift();
+    var _have = Math.round((base.getTime()-today0())/864e5) - (totalDays()+AFTER);
+    if(_have < _need){
+      var w0=el('p','check');
+      w0.innerHTML = _have<=0
+        ? '남은 기간으로는 이 순서를 밟을 수 없습니다. 공사와 마무리에만 <b>'+(totalDays()+AFTER)+'일</b>이 듭니다. 범위를 줄이거나 입주일을 미루셔야 합니다.'
+        : '업체들은 이 정도 공사면 준비에 <b>'+_need+'일</b>쯤 두라고 합니다. 지금 남은 것은 <b>'+_have+'일</b>이라 아래 일정은 그만큼 눌러 놓은 것입니다.';
+      list.appendChild(w0);
+    }
+  }
   PLAN.forEach(function(p,i){
     if(base && !S.showPast && i<nowIdx) return;
     var open=!!S.planOpen[p.k];
     var row=el('div','plan-item'+(open?' open':''));
-    var dd = p.d + (p.d >= 48 ? planShift() : 0);
+    var dd = (planDDays()[i] !== undefined) ? planDDays()[i] : p.d;
     var dt = base? new Date(base.getTime()-dd*864e5) : null;
     row.setAttribute('data-st', base? (i<nowIdx?'past':(i===nowIdx?'now':'next')) : 'next');
 
