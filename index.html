@@ -1179,6 +1179,21 @@ input[type="date"].is-empty{opacity:.42;border-style:dashed}
 .plan-date.urgent{color:var(--amber)}
 .muted{color:var(--ink-3)}
 
+/* 다음으로 가는 바는 화면 아래에 붙어 좌우 끝까지 간다. 본문 여백만큼 음수 마진으로 빼낸다.
+   여백 값이 화면 폭마다 달라 세 구간을 따로 잡는다. */
+.sticky-act{max-width:none;margin-left:-40px;margin-right:-40px;padding:14px 40px calc(14px + env(safe-area-inset-bottom));
+  background:rgba(6,9,10,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-top:1px solid var(--rule-soft)}
+@media (max-width:1100px){ .sticky-act{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px} }
+@media (max-width:640px){
+  .sticky-act{margin-left:-18px;margin-right:-18px;padding-left:18px;padding-right:18px}
+  /* 손가락으로 누르는 화면에서는 버튼이 폭을 다 쓴다 */
+  .sticky-act .btn{flex:1 1 auto;justify-content:center;min-height:48px}
+  .sticky-act .muted{display:none}
+}
+/* 아직 고를 것이 남았으면 눌리지 않는다 */
+.btn[disabled]{opacity:.4;cursor:not-allowed;pointer-events:none}
+
 </style>
 
 <button class="dockbtn" id="dockBtn" type="button" aria-label="화면 목록 열기" aria-expanded="false">
@@ -2644,8 +2659,8 @@ function docStale(){ if(S.doc!==null && S.doc!==undefined) S.docStale=true; }
 /* 준비 단계는 순서가 있는데 이어 갈 버튼이 고르기 화면에만 있었다. */
 function nextBtn(to, label, ready){
   return '<div class="sticky-act">'+
-    '<button class="btn'+(ready?'':' ghost')+'" data-goto="'+to+'">'+label+' →</button>'+
-    (ready?'':'<span class="muted mini">고르지 않고 넘어가도 나중에 돌아올 수 있습니다.</span>')+
+    '<button class="btn" data-goto="'+to+'"'+(ready?'':' disabled')+'>'+label+' →</button>'+
+    (ready?'':'<span class="muted mini">위를 먼저 골라 주세요.</span>')+
   '</div>';
 }
 /* 공정표 일수와 예산 기준이 S.size 를 읽는데 집 정보에서 고른 평형과 이어져 있지 않았다.
